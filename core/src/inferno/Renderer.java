@@ -3,6 +3,7 @@ package inferno;
 import inferno.entity.Entity;
 import inferno.graphics.Layer;
 import inferno.graphics.LayerBatch;
+import inferno.world.Tile;
 import io.anuke.arc.ApplicationListener;
 import io.anuke.arc.Core;
 import io.anuke.arc.function.IntPositionConsumer;
@@ -30,7 +31,7 @@ public class Renderer implements ApplicationListener{
     public void update(){
         Layer.sort(true);
 
-        Core.camera.position.set((int)player.x, (int)player.y);
+        Core.camera.position.set((int)(player.x + 0.001f), (int)(player.y + 0.001f));
         Core.camera.update();
 
         Draw.proj(Core.camera.projection());
@@ -65,17 +66,18 @@ public class Renderer implements ApplicationListener{
         //do not sort base layer for efficiency
         Layer.sort(false);
         cull((x, y) -> {
-            if(!world.solid(x, y)){
-                Draw.rect(world.floorRegion(x, y), x * tilesize, y * tilesize);
+            Tile tile = world.tile(x, y);
+            if(!world.solid(x, y) && tile.floor != null){
+                Draw.rect(tile.floor, x * tilesize, y * tilesize);
             }
         });
         Layer.sort(true);
 
         cull((x, y) -> {
             Layer.z(y * tilesize - tilesize / 2f);
-            TextureRegion region = world.wallRegion(x, y);
-            if(Core.atlas.isFound(region)){
-                Draw.rect(world.wallRegion(x, y), x * tilesize, y * tilesize - tilesize / 2f + region.getHeight() / 2f);
+            Tile tile = world.tile(x, y);
+            if(tile.wall != null){
+                Draw.rect(tile.wall, x * tilesize, y * tilesize - tilesize / 2f + tile.wall.getHeight() / 2f);
             }
         });
     }

@@ -20,7 +20,7 @@ public class Control implements ApplicationListener{
     public void init(){
         boss = new Boss();
         player = new Player();
-        player.set(30, 30);
+        player.set(40, 40);
 
         boss.add();
         player.add();

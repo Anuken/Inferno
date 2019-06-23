@@ -11,7 +11,7 @@ import io.anuke.arc.util.Time;
 
 public class Player extends Char{
     private Vector2 movement = new Vector2();
-    private float speed = 4f;
+    private float speed = 5f;
 
     @Override
     public void draw(){
