@@ -20,7 +20,7 @@ public class Control implements ApplicationListener{
     public void init(){
         boss = new Boss();
         player = new Player();
-        player.set(40, 40);
+        player.set(world.width() * tilesize/2f, world.height() * tilesize/2f);
 
         boss.add();
         player.add();

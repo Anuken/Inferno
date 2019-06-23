@@ -17,7 +17,7 @@ public class Inferno extends ApplicationCore {
     public static UI ui;
     public static Renderer renderer;
     public static Control control;
-    public static World world = new World();
+    public static World world;
 	
 	@Override
 	public void setup(){
@@ -25,8 +25,8 @@ public class Inferno extends ApplicationCore {
 		charGroup = new EntityGroup<>(true);
 
 		add(control = new Control());
-		add(world = new World());
 		add(renderer = new Renderer());
+		add(world = new World());
 		add(ui = new UI());
 	}
 	

@@ -16,8 +16,7 @@ public class World implements ApplicationListener{
     TiledMapTileLayer floorLayer, wallLayer;
     MapLayer objectLayer;
 
-    @Override
-    public void init(){
+    public World(){
         map = new MapLoader().load("maps/map.tmx");
 
         floorLayer = (TiledMapTileLayer) map.getLayers().get("floor");
