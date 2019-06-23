@@ -1,0 +1,53 @@
+buildscript{
+    repositories{
+        mavenLocal()
+        mavenCentral()
+        google()
+        maven{ url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        jcenter()
+    }
+
+    dependencies{
+        
+        classpath "com.badlogicgames.gdx:gdx-tools:1.9.9"
+    }
+}
+
+allprojects{
+
+    version = '1.0'
+    ext{
+        appName = "Inferno"
+        gdxVersion = '1.9.9'
+        
+        arcModule = { String name -> return project(":Arc:$name") }
+    }
+
+    repositories{
+        mavenLocal()
+        mavenCentral()
+        google()
+        jcenter()
+        maven{ url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven{ url "https://oss.sonatype.org/content/repositories/releases/" }
+        maven{ url 'https://jitpack.io' }
+    }
+}
+
+project(":core"){
+    apply plugin: "java"
+
+    dependencies{
+        compile arcModule("arc-core")
+    }
+}
+
+project(":desktop"){
+    apply plugin: "java"
+
+    dependencies{
+        compile project(":core")
+		compile arcModule("backends:backend-lwjgl3")
+		compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+    }
+}

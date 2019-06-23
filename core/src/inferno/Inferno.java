@@ -1,0 +1,33 @@
+package inferno;
+
+import inferno.entity.EntityGroup;
+import inferno.type.*;
+import io.anuke.arc.ApplicationCore;
+
+public class Inferno extends ApplicationCore {
+	public static final int scale = 4;
+	public static final int tilesize = 16;
+
+	public static EntityGroup<Bullet> bulletGroup;
+	public static EntityGroup<Char> charGroup;
+
+	public static Player player;
+	public static Boss boss;
+
+    public static UI ui;
+    public static Renderer renderer;
+    public static Control control;
+    public static World world = new World();
+	
+	@Override
+	public void setup(){
+		bulletGroup = new EntityGroup<>(true);
+		charGroup = new EntityGroup<>(true);
+
+		add(control = new Control());
+		add(world = new World());
+		add(renderer = new Renderer());
+		add(ui = new UI());
+	}
+	
+}
