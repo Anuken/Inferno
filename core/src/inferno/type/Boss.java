@@ -11,6 +11,7 @@ public class Boss extends Char{
     public void draw(){
         Draw.color(Color.RED);
         Fill.square(x, y + 3f, 3f);
+        Draw.color();
     }
 
     @Override

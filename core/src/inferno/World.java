@@ -8,6 +8,8 @@ import io.anuke.arc.maps.MapLayer;
 import io.anuke.arc.maps.tiled.TiledMap;
 import io.anuke.arc.maps.tiled.TiledMapTileLayer;
 import io.anuke.arc.math.Mathf;
+import io.anuke.arc.math.geom.Geometry;
+import io.anuke.arc.math.geom.Point2;
 import io.anuke.arc.util.Structs;
 
 public class World implements ApplicationListener{
@@ -33,6 +35,21 @@ public class World implements ApplicationListener{
                 );
 
                 tiles[x][y].solid = wallLayer.getCell(x, y) != null && wallLayer.getCell(x, y).getTile().getProperties().containsKey("solid");
+            }
+        }
+
+        for(int x = 0; x < width(); x++){
+            for(int y = 0; y < height(); y++){
+                Tile tile = tiles[x][y];
+
+                if(tile.solid){
+                    for(Point2 near : Geometry.d4){
+                        if(!tile(x + near.x, y + near.y).solid){
+                            tile.shadowed = true;
+                            break;
+                        }
+                    }
+                }
             }
         }
     }

@@ -20,7 +20,8 @@ public class Control implements ApplicationListener{
     public void init(){
         boss = new Boss();
         player = new Player();
-        player.set(world.width() * tilesize/2f, world.height() * tilesize/2f);
+        player.set(world.width() * tilesize/2f + 0.5f, world.height() * tilesize/2f + 0.5f);
+        Core.camera.position.set(player);
 
         boss.add();
         player.add();
@@ -34,6 +35,7 @@ public class Control implements ApplicationListener{
 
         charGroup.update();
         bulletGroup.update();
+        effectGroup.update();
 
         bulletGroup.collide(charGroup);
     }

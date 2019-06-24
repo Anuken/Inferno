@@ -6,7 +6,7 @@ public class Tile{
     /** May be null.*/
     public final TextureRegion floor, wall;
 
-    public boolean solid;
+    public boolean solid, shadowed;
 
     public Tile(TextureRegion floor, TextureRegion wall){
         this.floor = floor;

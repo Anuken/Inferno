@@ -10,6 +10,7 @@ public class Inferno extends ApplicationCore {
 
 	public static EntityGroup<Bullet> bulletGroup;
 	public static EntityGroup<Char> charGroup;
+	public static EntityGroup<EffectEntity> effectGroup;
 
 	public static Player player;
 	public static Boss boss;
@@ -23,6 +24,7 @@ public class Inferno extends ApplicationCore {
 	public void setup(){
 		bulletGroup = new EntityGroup<>(true);
 		charGroup = new EntityGroup<>(true);
+		effectGroup = new EntityGroup<>(false);
 
 		add(control = new Control());
 		add(renderer = new Renderer());

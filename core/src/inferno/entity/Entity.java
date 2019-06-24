@@ -4,9 +4,9 @@ import io.anuke.arc.math.geom.Position;
 
 @SuppressWarnings("unchecked")
 public abstract class Entity implements Position{
-    private static int lastID = 0;
+    protected static int lastID = 0;
 
-    public final int id;
+    public int id;
     public EntityGroup group;
     public float x, y;
 
