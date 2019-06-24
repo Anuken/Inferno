@@ -29,6 +29,11 @@ public class Bullet extends SolidEntity{
     }
 
     @Override
+    public void drawLight(){
+        type.drawLight(this);
+    }
+
+    @Override
     public void update(){
         super.update();
 

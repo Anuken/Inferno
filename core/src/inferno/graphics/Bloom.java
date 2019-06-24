@@ -16,7 +16,7 @@ public class Bloom{
 
     /**
      * To use implement bloom more like a glow. Texture alpha channel can be
-     * used as mask which part are glowing and whic are not. see more info at:
+     * used as mask which part are glowing and which are not. see more info at:
      * http://www.gamasutra.com/view/feature/2107/realtime_glow.php
      * <p>
      * NOTE: need to be set before bloom instance is created. After that this
@@ -44,7 +44,7 @@ public class Bloom{
 
     private float bloomIntensity;
     private float originalIntensity;
-    private float treshold;
+    private float threshold;
     private int w;
     private int h;
     private boolean blending = false;
@@ -67,7 +67,7 @@ public class Bloom{
         bloomShader.end();
 
         setSize(w, h);
-        setTreshold(treshold);
+        setThreshold(threshold);
         setBloomIntesity(bloomIntensity);
         setOriginalIntesity(originalIntensity);
 
@@ -173,7 +173,7 @@ public class Bloom{
         if(useAlphaChannelAsMask){
             tresholdShader = createShader("screenspace", "maskedtreshold");
         }else{
-            tresholdShader = createShader("screenspace", alpha + "treshold");
+            tresholdShader = createShader("screenspace", alpha + "threshold");
         }
 
         blurShader = createShader("blurspace", alpha + "gaussian");
@@ -181,7 +181,7 @@ public class Bloom{
         setSize(FBO_W, FBO_H);
         setBloomIntesity(2.5f);
         setOriginalIntesity(0.8f);
-        setTreshold(0.5f);
+        setThreshold(0.5f);
 
         bloomShader.begin();
         {
@@ -214,7 +214,7 @@ public class Bloom{
             capturing = true;
             frameBuffer.begin();
             Core.gl.glClearColor(r, g, b, a);
-            Core.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+            Core.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         }
     }
@@ -320,7 +320,7 @@ public class Bloom{
 
     /**
      * set intensity for bloom. higher mean more brightening for spots that are
-     * over treshold
+     * over threshold
      *
      * @param intensity multiplier for blurred texture in combining phase. must be
      * positive.
@@ -351,16 +351,16 @@ public class Bloom{
     }
 
     /**
-     * Treshold for bright parts. everything under treshold is clamped to 0
+     * Treshold for bright parts. everything under threshold is clamped to 0
      *
-     * @param treshold must be in range 0..1
+     * @param threshold must be in range 0..1
      */
-    public void setTreshold(float treshold){
-        this.treshold = treshold;
+    public void setThreshold(float threshold){
+        this.threshold = threshold;
         tresholdShader.begin();
         {
-            tresholdShader.setUniformf("treshold", treshold,
-                    1f / (1 - treshold));
+            tresholdShader.setUniformf("threshold", threshold,
+                    1f / (1 - threshold));
         }
         tresholdShader.end();
     }
@@ -391,33 +391,8 @@ public class Bloom{
 
     }
 
-    private Mesh createFullScreenQuad(){
-        float[] verts = new float[16];// VERT_SIZE
-        int i = 0;
-        verts[i++] = -1; // x1
-        verts[i++] = -1; // y1
-
-        verts[i++] = 0f; // u1
-        verts[i++] = 0f; // v1
-
-        verts[i++] = 1f; // x2
-        verts[i++] = -1; // y2
-
-        verts[i++] = 1f; // u2
-        verts[i++] = 0f; // v2
-
-        verts[i++] = 1f; // x3
-        verts[i++] = 1f; // y2
-
-        verts[i++] = 1f; // u3
-        verts[i++] = 1f; // v3
-
-        verts[i++] = -1; // x4
-        verts[i++] = 1f; // y4
-
-        verts[i++] = 0f; // u4
-        verts[i++] = 1f; // v4
-
+    private static Mesh createFullScreenQuad(){
+        float[] verts = {-1, -1, 0, 0, 1, -1, 1, 0, 1, 1, 1, 1, -1, 1, 0, 1};
         Mesh tmpMesh = new Mesh(true, 4, 0, new VertexAttribute(
                 Usage.Position, 2, "a_position"), new VertexAttribute(
                 Usage.TextureCoordinates, 2, "a_texCoord0"));
@@ -427,7 +402,7 @@ public class Bloom{
 
     }
 
-    static Shader createShader(String vertexName, String fragmentName){
+    private static Shader createShader(String vertexName, String fragmentName){
         String vertexShader = Core.files.internal("bloomshaders/" + vertexName + ".vertex.glsl").readString();
         String fragmentShader = Core.files.internal("bloomshaders/" + fragmentName + ".fragment.glsl").readString();
         return new Shader(vertexShader, fragmentShader);

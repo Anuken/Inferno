@@ -1,6 +1,7 @@
 package inferno.type;
 
 import inferno.Binding;
+import inferno.graphics.Layer;
 import io.anuke.arc.Core;
 import io.anuke.arc.graphics.g2d.*;
 import io.anuke.arc.math.*;
@@ -34,6 +35,11 @@ public class Player extends Char{
             x = px;
             y = py;
         }
+    }
+
+    @Override
+    public void drawLight(){
+        Layer.light(x, y, 150f);
     }
 
     @Override

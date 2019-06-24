@@ -22,7 +22,7 @@
 #endif
 
 uniform PRECISION sampler2D u_texture0;
-uniform float treshold;
+uniform float threshold;
 uniform float tresholdInvTx;
 varying vec2 v_texCoords;
 
@@ -35,11 +35,11 @@ void main()
 	// threshold, scaling back up to preserve full color range
 
 	// threshold
-	//gl_FragColor.rgb = (tex.rgb-treshold) * tresholdInvTx;
+	//gl_FragColor.rgb = (tex.rgb-threshold) * tresholdInvTx;
 
 	// masked threshold (use texture's alpha channel)
-	//gl_FragColor = vec4((tex.rgb-treshold) * tresholdInvTx * tex.a, tex.a);
+	//gl_FragColor = vec4((tex.rgb-threshold) * tresholdInvTx * tex.a, tex.a);
 
 	// alpha threshold
-	gl_FragColor = (tex-treshold) * tresholdInvTx;
+	gl_FragColor = (tex-threshold) * tresholdInvTx;
 }

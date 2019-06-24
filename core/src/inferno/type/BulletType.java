@@ -1,11 +1,15 @@
 package inferno.type;
 
 import inferno.graphics.Effects.Effect;
-import io.anuke.arc.graphics.g2d.Fill;
+import inferno.graphics.Layer;
+import io.anuke.arc.graphics.Color;
+import io.anuke.arc.graphics.g2d.*;
 
 public class BulletType{
     public float size = 4f;
     public float speed = 2f;
+    public float light = 30f;
+    public Color lightColor = new Color(1f, 1f, 1f, 0.5f);
 
     public Effect hit = Fx.spark;
 
@@ -15,6 +19,14 @@ public class BulletType{
 
     public void update(Bullet bullet){
 
+    }
+
+    public void drawLight(Bullet bullet){
+        if(light <= 0) return;
+
+        Draw.color(lightColor);
+        Layer.light(bullet.x, bullet.y, light);
+        Draw.color();
     }
 
     public void hit(Bullet bullet){

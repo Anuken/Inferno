@@ -65,9 +65,9 @@ public class Renderer implements ApplicationListener{
 
         lights.beginDraw(Color.CLEAR);
 
-        Draw.color(Color.RED, 1f);
-        float rad = 300f;
-        Draw.rect("light", player.x, player.y, rad, rad);
+        charGroup.draw(Entity::drawLight);
+        bulletGroup.draw(Entity::drawLight);
+        effectGroup.draw(Entity::drawLight);
 
         lights.endDraw();
 
