@@ -14,11 +14,15 @@ public abstract class Char extends SolidEntity{
     }
 
     public void shoot(BulletType type, float rot){
-        Bullet.shoot(type, this, x, y, rot);
+        Bullet.shoot(type, this, x, y + height(), rot);
     }
 
     public float maxHealth(){
         return 100f;
+    }
+
+    public float height(){
+        return 10f;
     }
 
     @Override

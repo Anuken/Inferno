@@ -8,5 +8,6 @@ def use = { String name, String path ->
 use(':Arc', '../Arc')
 use(':Arc:arc-core', '../Arc/arc-core')
 use(':Arc:extensions', '../Arc/extensions')
+use(':Arc:extensions:postprocessing', '../Arc/extensions/postprocessing')
 use(':Arc:backends', '../Arc/backends')
 use(':Arc:backends:backend-lwjgl3', '../Arc/backends/backend-lwjgl3')

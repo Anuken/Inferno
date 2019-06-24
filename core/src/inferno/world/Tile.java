@@ -4,12 +4,15 @@ import io.anuke.arc.graphics.g2d.TextureRegion;
 
 public class Tile{
     /** May be null.*/
-    public final TextureRegion floor, wall;
+    public Block floor, wall;
+    public boolean shadowed;
 
-    public boolean solid, shadowed;
-
-    public Tile(TextureRegion floor, TextureRegion wall){
+    public Tile(Block floor, Block wall){
         this.floor = floor;
         this.wall = wall;
+    }
+
+    public boolean solid(){
+        return wall != null && wall.solid;
     }
 }

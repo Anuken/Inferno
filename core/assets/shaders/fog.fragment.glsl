@@ -11,7 +11,7 @@ varying vec4 v_color;
 varying vec2 v_texCoord;
 
 float toint(float f){
-    return float(int(f * 70 * 16.0));
+    return float(int(f * 70.0 * 16.0));
 }
 
 void main(){

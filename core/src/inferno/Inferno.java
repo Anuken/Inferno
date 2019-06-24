@@ -5,7 +5,7 @@ import inferno.type.*;
 import io.anuke.arc.ApplicationCore;
 
 public class Inferno extends ApplicationCore {
-	public static final int scale = 4;
+	public static final int scale = 3;
 	public static final int tilesize = 16;
 
 	public static EntityGroup<Bullet> bulletGroup;

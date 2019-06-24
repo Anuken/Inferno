@@ -8,7 +8,7 @@ import static inferno.Inferno.tilesize;
 import static inferno.Inferno.world;
 
 @SuppressWarnings("unchecked")
-class EntityCollisions{
+public class EntityCollisions{
     //range for tile collision scanning
     private static final int r = 1;
     //move in 1-unit chunks
@@ -80,6 +80,29 @@ class EntityCollisions{
 
         entity.x = (entity.x + rect.x - r2.x);
         entity.y = (entity.y + rect.y - r2.y);
+    }
+
+    public static boolean overlapsTile(Rectangle rect){
+        rect.getCenter(vector);
+        int r = 1;
+
+        //assumes tiles are centered
+        int tilex = Math.round(vector.x / tilesize);
+        int tiley = Math.round(vector.y / tilesize);
+
+        for(int dx = -r; dx <= r; dx++){
+            for(int dy = -r; dy <= r; dy++){
+                int wx = dx + tilex, wy = dy + tiley;
+                if(solid(wx, wy)){
+                    r2.setSize(tilesize).setCenter(wx * tilesize, wy * tilesize);
+
+                    if(r2.overlaps(rect)){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     public static <T extends Entity> void updatePhysics(EntityGroup<T> group){

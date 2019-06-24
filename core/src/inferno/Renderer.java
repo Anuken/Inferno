@@ -62,7 +62,8 @@ public class Renderer implements ApplicationListener{
         lights.beginDraw(Color.CLEAR);
 
         Draw.color(Color.RED, 1f);
-        Fill.circle(player.x, player.y, 70f);
+        float rad = 300f;
+        Draw.rect("light", player.x, player.y, rad, rad);
 
         lights.endDraw();
 
@@ -80,7 +81,7 @@ public class Renderer implements ApplicationListener{
         cull((x, y) -> {
             Layer.z(y * tilesize - tilesize / 2f);
             Tile tile = world.tile(x, y);
-            if(tile.wall != null && tile.wall == Core.atlas.find("wall")){
+            if(tile.wall != null && tile.wall.id == 1){
                 int i = 0;
                 for(Point2 p : Geometry.d4){
                     if(world.tile(x + p.x, y + p.y).wall != tile.wall){
@@ -137,7 +138,7 @@ public class Renderer implements ApplicationListener{
         cull((x, y) -> {
             Tile tile = world.tile(x, y);
             if(!world.solid(x, y) && tile.floor != null){
-                Draw.rect(tile.floor, x * tilesize, y * tilesize);
+                Draw.rect(tile.floor.region, x * tilesize, y * tilesize);
             }
         });
 
@@ -151,7 +152,7 @@ public class Renderer implements ApplicationListener{
             Layer.z(y * tilesize - tilesize / 2f);
             Tile tile = world.tile(x, y);
             if(tile.wall != null){
-                Draw.rect(tile.wall, x * tilesize, y * tilesize - tilesize / 2f + tile.wall.getHeight() / 2f);
+                Draw.rect(tile.wall.region, x * tilesize, y * tilesize - tilesize / 2f + tile.wall.region.getHeight() / 2f);
             }
         });
     }
@@ -178,11 +179,11 @@ public class Renderer implements ApplicationListener{
         byte[][] dark = new byte[world.width()][world.height()];
         byte[][] writeBuffer = new byte[world.width()][world.height()];
 
-        byte darkIterations = 3;
+        byte darkIterations = 1;
         for(int x = 0; x < world.width(); x++){
             for(int y = 0; y < world.height(); y++){
                 Tile tile = world.tile(x, y);
-                if(tile.solid){
+                if(tile.solid()){
                     dark[x][y] = darkIterations;
                 }
             }

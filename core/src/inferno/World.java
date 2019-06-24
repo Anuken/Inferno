@@ -1,12 +1,11 @@
 package inferno;
 
-import inferno.world.MapLoader;
-import inferno.world.Tile;
+import inferno.world.*;
 import io.anuke.arc.ApplicationListener;
 import io.anuke.arc.Core;
+import io.anuke.arc.collection.ObjectMap;
 import io.anuke.arc.maps.MapLayer;
-import io.anuke.arc.maps.tiled.TiledMap;
-import io.anuke.arc.maps.tiled.TiledMapTileLayer;
+import io.anuke.arc.maps.tiled.*;
 import io.anuke.arc.math.Mathf;
 import io.anuke.arc.math.geom.Geometry;
 import io.anuke.arc.math.geom.Point2;
@@ -14,6 +13,7 @@ import io.anuke.arc.util.Structs;
 
 public class World implements ApplicationListener{
     Tile[][] tiles;
+    ObjectMap<TiledMapTile, Block> blocks = new ObjectMap<>();
     TiledMap map;
     TiledMapTileLayer floorLayer, wallLayer;
     MapLayer objectLayer;
@@ -27,14 +27,20 @@ public class World implements ApplicationListener{
 
         tiles = new Tile[floorLayer.getWidth()][floorLayer.getHeight()];
 
+        for(TiledMapTile tile : map.getTileSets().getTileSet(0)){
+            if(!Core.atlas.isFound(tile.getTextureRegion())) continue;
+
+            blocks.put(tile, new Block(tile.getTextureRegion()){{
+                solid = tile.getProperties().containsKey("solid");
+            }});
+        }
+
         for(int x = 0; x < width(); x++){
             for(int y = 0; y < height(); y++){
-                tiles[x][y] = new Tile(
-                    floorLayer.getCell(x, y) == null ? null : Core.atlas.isFound(floorLayer.getCell(x, y).getTile().getTextureRegion()) ? floorLayer.getCell(x, y).getTile().getTextureRegion() : null,
-                    wallLayer.getCell(x, y) == null ? null : Core.atlas.isFound(wallLayer.getCell(x, y).getTile().getTextureRegion()) ? wallLayer.getCell(x, y).getTile().getTextureRegion() : null
-                );
+                Block floor = floorLayer.getCell(x, y) == null ?  null : blocks.get(floorLayer.getCell(x, y).getTile());
+                Block wall = wallLayer.getCell(x, y) == null ?  null : blocks.get(wallLayer.getCell(x, y).getTile());
 
-                tiles[x][y].solid = wallLayer.getCell(x, y) != null && wallLayer.getCell(x, y).getTile().getProperties().containsKey("solid");
+                tiles[x][y] = new Tile(floor, wall);
             }
         }
 
@@ -42,9 +48,9 @@ public class World implements ApplicationListener{
             for(int y = 0; y < height(); y++){
                 Tile tile = tiles[x][y];
 
-                if(tile.solid){
+                if(tile.solid()){
                     for(Point2 near : Geometry.d4){
-                        if(!tile(x + near.x, y + near.y).solid){
+                        if(!tile(x + near.x, y + near.y).solid()){
                             tile.shadowed = true;
                             break;
                         }
@@ -63,7 +69,7 @@ public class World implements ApplicationListener{
     }
 
     public boolean solid(int x, int y){
-        return tileOpt(x, y) == null || tile(x, y).solid;
+        return tileOpt(x, y) == null || tile(x, y).solid();
     }
 
     public Tile tile(int x, int y){
