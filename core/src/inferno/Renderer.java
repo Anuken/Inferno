@@ -1,8 +1,7 @@
 package inferno;
 
 import inferno.entity.Entity;
-import inferno.graphics.Layer;
-import inferno.graphics.LayerBatch;
+import inferno.graphics.*;
 import inferno.world.Tile;
 import io.anuke.arc.ApplicationListener;
 import io.anuke.arc.Core;
@@ -15,6 +14,8 @@ import io.anuke.arc.graphics.glutils.Shader;
 import io.anuke.arc.math.Mathf;
 import io.anuke.arc.math.geom.Geometry;
 import io.anuke.arc.math.geom.Point2;
+import io.anuke.arc.postprocessing.PostProcessor;
+import io.anuke.arc.postprocessing.filters.*;
 import io.anuke.arc.util.Structs;
 
 import static inferno.Inferno.*;
@@ -28,15 +29,18 @@ public class Renderer implements ApplicationListener{
     private FrameBuffer fogs;
     private float lim = 10f;
 
-    private Shader fog = new Shader(Core.files.local("shaders/default.vertex.glsl"), Core.files.local("shaders/fog.fragment.glsl"));
-    private Shader light = new Shader(Core.files.local("shaders/default.vertex.glsl"), Core.files.local("shaders/light.fragment.glsl"));
+    private Shader fog = new Shader(Core.files.local("dshaders/default.vertex.glsl"), Core.files.local("dshaders/fog.fragment.glsl"));
+    private Shader light = new Shader(Core.files.local("dshaders/default.vertex.glsl"), Core.files.local("dshaders/light.fragment.glsl"));
+
+    private Bloom bloom;
 
     public Renderer(){
         Core.atlas = new TextureAtlas(Core.files.internal("sprites/sprites.atlas"));
         Core.batch = lbatch = new LayerBatch();
         Core.camera = new Camera();
 
-        buffer.getTexture().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+        buffer.getTexture().setFilter(TextureFilter.Nearest);
+        bloom = new Bloom();
     }
 
     @Override
@@ -66,7 +70,6 @@ public class Renderer implements ApplicationListener{
         Draw.rect("light", player.x, player.y, rad, rad);
 
         lights.endDraw();
-
 
         buffer.beginDraw(Color.BLACK);
 
@@ -105,10 +108,12 @@ public class Renderer implements ApplicationListener{
 
         buffer.endDraw();
 
+        bloom.capture();
         Draw.color();
         Draw.blend(Blending.disabled);
         Draw.rect(Draw.wrap(buffer.getTexture()), Core.camera.position.x, Core.camera.position.y, Core.camera.width, -Core.camera.height);
         Draw.blend();
+        bloom.render();
 
         Core.camera.position.set(px, py);
     }

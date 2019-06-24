@@ -9,6 +9,7 @@ import io.anuke.arc.input.KeyCode;
 import static inferno.Inferno.*;
 
 public class Control implements ApplicationListener{
+    public boolean paused = false;
 
     public Control(){
         Core.keybinds.setDefaults(Binding.values());
@@ -33,10 +34,16 @@ public class Control implements ApplicationListener{
             Core.app.exit();
         }
 
-        charGroup.update();
-        bulletGroup.update();
-        effectGroup.update();
+        if(Core.input.keyTap(KeyCode.SPACE)){
+            paused = !paused;
+        }
 
-        bulletGroup.collide(charGroup);
+        if(!paused){
+            charGroup.update();
+            bulletGroup.update();
+            effectGroup.update();
+
+            bulletGroup.collide(charGroup);
+        }
     }
 }
