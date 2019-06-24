@@ -24,10 +24,12 @@ public class Renderer implements ApplicationListener{
 
     private FrameBuffer buffer = new FrameBuffer(2, 2);
     private FrameBuffer shadow = new FrameBuffer(2, 2);
+    private FrameBuffer lights = new FrameBuffer(2, 2);
     private FrameBuffer fogs;
     private float lim = 10f;
 
     private Shader fog = new Shader(Core.files.local("shaders/default.vertex.glsl"), Core.files.local("shaders/fog.fragment.glsl"));
+    private Shader light = new Shader(Core.files.local("shaders/default.vertex.glsl"), Core.files.local("shaders/light.fragment.glsl"));
 
     public Renderer(){
         Core.atlas = new TextureAtlas(Core.files.internal("sprites/sprites.atlas"));
@@ -53,18 +55,15 @@ public class Renderer implements ApplicationListener{
 
         Draw.proj(Core.camera.projection());
 
-        Draw.flush();
-        shadow.begin();
-        Core.graphics.clear(Color.CLEAR);
-
+        shadow.beginDraw(Color.CLEAR);
         drawShadows();
+        shadow.endDraw();
 
-        Draw.flush();
-        shadow.end();
+        lights.beginDraw(Color.BLACK);
+        lights.endDraw();
 
-        Draw.flush();
-        buffer.begin();
-        Core.graphics.clear(Color.BLACK);
+
+        buffer.beginDraw(Color.BLACK);
 
         drawWorld();
 
@@ -72,6 +71,7 @@ public class Renderer implements ApplicationListener{
         bulletGroup.draw(this::draw);
         effectGroup.draw(this::draw);
 
+        //top wall edges
         Draw.color();
         cull((x, y) -> {
             Layer.z(y * tilesize - tilesize / 2f);
@@ -93,8 +93,11 @@ public class Renderer implements ApplicationListener{
         Draw.fbo(fogs.getTexture(), world.width(), world.height(), tilesize);
         Draw.shader();
 
-        Draw.flush();
-        buffer.end();
+        Draw.shader(light);
+        Draw.fbo(lights.getTexture(), world.width(), world.height(), tilesize);
+        Draw.shader();
+
+        buffer.endDraw();
 
         Draw.color();
         Draw.blend(Blending.disabled);
@@ -108,6 +111,7 @@ public class Renderer implements ApplicationListener{
     public void resize(int width, int height){
         buffer.resize(width / scale, height / scale);
         shadow.resize(width / scale, height / scale);
+        lights.resize(width / scale, height / scale);
         Core.camera.resize(width / scale, height / scale);
     }
 
@@ -199,11 +203,9 @@ public class Renderer implements ApplicationListener{
             }
         }
 
-        Draw.flush();
-        //shadow.getTexture().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-        fogs.begin();
         Draw.proj().setOrtho(0, 0, fogs.getWidth(), fogs.getHeight());
-        Core.graphics.clear(Color.WHITE);
+
+        fogs.beginDraw(Color.WHITE);
 
         for(int x = 0; x < world.width(); x++){
             for(int y = 0; y < world.height(); y++){
@@ -214,9 +216,9 @@ public class Renderer implements ApplicationListener{
             }
         }
 
-        Draw.flush();
+        fogs.endDraw();
+
         Draw.color();
-        fogs.end();
     }
 
     private void draw(Entity entity){
