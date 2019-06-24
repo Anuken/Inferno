@@ -59,7 +59,11 @@ public class Renderer implements ApplicationListener{
         drawShadows();
         shadow.endDraw();
 
-        lights.beginDraw(Color.BLACK);
+        lights.beginDraw(Color.CLEAR);
+
+        Draw.color(Color.RED, 1f);
+        Fill.circle(player.x, player.y, 70f);
+
         lights.endDraw();
 
 
@@ -93,8 +97,9 @@ public class Renderer implements ApplicationListener{
         Draw.fbo(fogs.getTexture(), world.width(), world.height(), tilesize);
         Draw.shader();
 
+        Draw.color();
         Draw.shader(light);
-        Draw.fbo(lights.getTexture(), world.width(), world.height(), tilesize);
+        Draw.rect(Draw.wrap(lights.getTexture()), Core.camera.position.x, Core.camera.position.y, Core.camera.width, -Core.camera.height);
         Draw.shader();
 
         buffer.endDraw();

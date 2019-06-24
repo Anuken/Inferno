@@ -3,7 +3,8 @@ precision mediump float;
 precision mediump int;
 #endif
 
-#define ambient vec3(0.5)
+#define ambient vec4(0.0, 0.0, 0.0, 0.8)
+#define steprad 0.1
 
 uniform sampler2D u_texture;
 
@@ -13,5 +14,6 @@ varying vec2 v_texCoord;
 
 void main(){
 	vec4 color = texture2D(u_texture, v_texCoord.xy);
-	gl_FragColor = clamp(ambient + color, 0.0, 1.0);
+	float rounded = color.a;
+	gl_FragColor = clamp(vec4(lerp(ambient.rgb, color.rgb, rounded), ambient.a - rounded), 0.0, 1.0);
 }
