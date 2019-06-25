@@ -14,14 +14,14 @@ import io.anuke.arc.graphics.glutils.Shader;
 import io.anuke.arc.math.Mathf;
 import io.anuke.arc.math.geom.Geometry;
 import io.anuke.arc.math.geom.Point2;
-import io.anuke.arc.postprocessing.PostProcessor;
-import io.anuke.arc.postprocessing.filters.*;
+import io.anuke.arc.util.ScreenRecorder;
 import io.anuke.arc.util.Structs;
 
 import static inferno.Inferno.*;
 
 public class Renderer implements ApplicationListener{
-    public LayerBatch lbatch;
+    public LayerBatch zbatch;
+    public QueueBatch lbatch;
 
     private FrameBuffer buffer = new FrameBuffer(2, 2);
     private FrameBuffer shadow = new FrameBuffer(2, 2);
@@ -36,8 +36,10 @@ public class Renderer implements ApplicationListener{
 
     public Renderer(){
         Core.atlas = new TextureAtlas(Core.files.internal("sprites/sprites.atlas"));
-        Core.batch = lbatch = new LayerBatch();
+        Core.batch = zbatch = new LayerBatch();
         Core.camera = new Camera();
+
+        lbatch = new QueueBatch();
 
         buffer.getTexture().setFilter(TextureFilter.Nearest);
         bloom = new Bloom();
@@ -57,19 +59,14 @@ public class Renderer implements ApplicationListener{
         Core.camera.position.snap();
         Core.camera.update();
 
+        Core.batch = lbatch;
+        Draw.proj(Core.camera.projection());
+        Core.batch = zbatch;
         Draw.proj(Core.camera.projection());
 
         shadow.beginDraw(Color.CLEAR);
         drawShadows();
         shadow.endDraw();
-
-        lights.beginDraw(Color.CLEAR);
-
-        charGroup.draw(Entity::drawLight);
-        bulletGroup.draw(Entity::drawLight);
-        effectGroup.draw(Entity::drawLight);
-
-        lights.endDraw();
 
         buffer.beginDraw(Color.BLACK);
 
@@ -84,7 +81,7 @@ public class Renderer implements ApplicationListener{
         cull((x, y) -> {
             Layer.z(y * tilesize - tilesize / 2f);
             Tile tile = world.tile(x, y);
-            if(tile.wall != null && tile.wall.id == 1){
+            if(tile.wall != null && tile.wall.id == 2){
                 int i = 0;
                 for(Point2 p : Geometry.d4){
                     if(world.tile(x + p.x, y + p.y).wall != tile.wall){
@@ -101,6 +98,14 @@ public class Renderer implements ApplicationListener{
         Draw.fbo(fogs.getTexture(), world.width(), world.height(), tilesize);
         Draw.shader();
 
+        buffer.endDraw();
+
+        lights.beginDraw(Color.CLEAR);
+        lbatch.flush();
+        lights.endDraw();
+
+        buffer.begin();
+
         Draw.color();
         Draw.shader(light);
         Draw.rect(Draw.wrap(lights.getTexture()), Core.camera.position.x, Core.camera.position.y, Core.camera.width, -Core.camera.height);
@@ -108,14 +113,16 @@ public class Renderer implements ApplicationListener{
 
         buffer.endDraw();
 
-        bloom.capture();
+        if(dobloom) bloom.capture();
         Draw.color();
         Draw.blend(Blending.disabled);
         Draw.rect(Draw.wrap(buffer.getTexture()), Core.camera.position.x, Core.camera.position.y, Core.camera.width, -Core.camera.height);
         Draw.blend();
-        bloom.render();
+        if(dobloom) bloom.render();
 
         Core.camera.position.set(px, py);
+
+        ScreenRecorder.record();
     }
 
     @Override
@@ -123,6 +130,8 @@ public class Renderer implements ApplicationListener{
         buffer.resize(width / scale, height / scale);
         shadow.resize(width / scale, height / scale);
         lights.resize(width / scale, height / scale);
+        bloom.dispose();
+        bloom = new Bloom();
         Core.camera.resize(width / scale, height / scale);
     }
 
@@ -133,6 +142,8 @@ public class Renderer implements ApplicationListener{
                 Draw.rect("shadow", x * tilesize, y * tilesize);
             }
         });
+
+        charGroup.draw(Entity::drawShadow);
     }
 
     void drawWorld(){
@@ -157,14 +168,14 @@ public class Renderer implements ApplicationListener{
             Layer.z(y * tilesize - tilesize / 2f);
             Tile tile = world.tile(x, y);
             if(tile.wall != null){
-                Draw.rect(tile.wall.region, x * tilesize, y * tilesize - tilesize / 2f + tile.wall.region.getHeight() / 2f);
+                tile.wall.draw(x, y);
             }
         });
     }
 
     void cull(IntPositionConsumer cons){
         int xrange = (int)(Core.camera.width / tilesize / 2 + 2);
-        int yrange = (int)(Core.camera.width / tilesize / 2 + 2);
+        int yrange = (int)(Core.camera.height / tilesize / 2 + 2);
         int wx = (int)(Core.camera.position.x / tilesize);
         int wy = (int)(Core.camera.position.y / tilesize);
 

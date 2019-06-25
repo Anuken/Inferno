@@ -24,9 +24,7 @@ public class BulletType{
     public void drawLight(Bullet bullet){
         if(light <= 0) return;
 
-        Draw.color(lightColor);
-        Layer.light(bullet.x, bullet.y, light);
-        Draw.color();
+        Layer.light(bullet.x, bullet.y, light, lightColor);
     }
 
     public void hit(Bullet bullet){

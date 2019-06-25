@@ -39,7 +39,7 @@ project(":core"){
 
     dependencies{
         compile arcModule("arc-core")
-        compile arcModule("extensions:postprocessing")
+        compile arcModule("extensions:recorder")
     }
 }
 

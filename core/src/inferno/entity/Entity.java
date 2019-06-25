@@ -18,7 +18,7 @@ public abstract class Entity implements Position{
     public void removed(){}
     public void added(){}
     public void draw(){}
-    public void drawLight(){}
+    public void drawShadow(){}
     public abstract EntityGroup targetGroup();
 
     public float drawSize(){

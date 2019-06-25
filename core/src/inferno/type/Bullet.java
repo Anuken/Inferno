@@ -19,18 +19,13 @@ public class Bullet extends SolidEntity{
         bullet.x = x;
         bullet.y = y;
         bullet.type = type;
-        bullet.velocity.set(-type.speed, 0).rotate(rotation);
+        bullet.velocity.set(type.speed, 0).rotate(rotation);
         bullet.shooter = shooter;
         bullet.add();
     }
 
     private Bullet(){
 
-    }
-
-    @Override
-    public void drawLight(){
-        type.drawLight(this);
     }
 
     @Override
@@ -51,6 +46,7 @@ public class Bullet extends SolidEntity{
     public void draw(){
         Layer.z(y - 8f);
         type.draw(this);
+        type.drawLight(this);
     }
 
     @Override

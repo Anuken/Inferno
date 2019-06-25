@@ -4,6 +4,7 @@ import inferno.world.*;
 import io.anuke.arc.ApplicationListener;
 import io.anuke.arc.Core;
 import io.anuke.arc.collection.ObjectMap;
+import io.anuke.arc.graphics.g2d.TextureAtlas.AtlasRegion;
 import io.anuke.arc.maps.MapLayer;
 import io.anuke.arc.maps.tiled.*;
 import io.anuke.arc.math.Mathf;
@@ -30,9 +31,17 @@ public class World implements ApplicationListener{
         for(TiledMapTile tile : map.getTileSets().getTileSet(0)){
             if(!Core.atlas.isFound(tile.getTextureRegion())) continue;
 
-            blocks.put(tile, new Block(tile.getTextureRegion()){{
-                solid = tile.getProperties().containsKey("solid");
-            }});
+            String name = ((AtlasRegion)tile.getTextureRegion()).name;
+            Block destination = Blocks.blocks.find(b -> b.name.equalsIgnoreCase(name));
+            if(destination == null){
+                destination = new Block(name);
+            }
+
+            destination.solid = tile.getProperties().containsKey("solid");
+            destination.id = tile.getId();
+            destination.region = tile.getTextureRegion();
+
+            blocks.put(tile, destination);
         }
 
         for(int x = 0; x < width(); x++){

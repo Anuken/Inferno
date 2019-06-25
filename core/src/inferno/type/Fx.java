@@ -1,6 +1,7 @@
 package inferno.type;
 
 import inferno.graphics.Effects.Effect;
+import inferno.graphics.Layer;
 import io.anuke.arc.graphics.Color;
 import io.anuke.arc.graphics.g2d.Draw;
 import io.anuke.arc.graphics.g2d.Fill;
@@ -9,10 +10,11 @@ import io.anuke.arc.math.Angles;
 public class Fx{
     public static final Effect
 
-    spark = new Effect(15, e -> {
-        Draw.color(Color.RED, Color.BLUE, e.fout());
-        Angles.randLenVectors(e.id, 10, 10f * e.fin(), (x, y) -> {
-            Fill.circle(e.x + x, e.y + y, e.fout() * 3f);
+    spark = new Effect(20, e -> {
+        Draw.color(Color.WHITE, Color.CYAN, e.fout());
+        Angles.randLenVectors(e.id, 10, 30f * e.fin(), (x, y) -> {
+            Fill.circle(e.x + x, e.y + y, e.fout() * 4f);
+            Layer.light(e.x + x, e.y + y, 18f * e.fout(), Color.CYAN);
         });
         Draw.color();
     });
