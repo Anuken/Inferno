@@ -3,6 +3,7 @@ package inferno.type;
 import inferno.Binding;
 import inferno.graphics.Layer;
 import io.anuke.arc.Core;
+import io.anuke.arc.collection.Array;
 import io.anuke.arc.graphics.Color;
 import io.anuke.arc.graphics.g2d.*;
 import io.anuke.arc.math.*;
@@ -13,11 +14,13 @@ import io.anuke.arc.util.Tmp;
 
 public class Player extends Char{
     private static final boolean snap = true;
+    private final static float speed = 5f;
     private static final Color hand = Color.valueOf("58adb6");
 
     private Vector2 movement = new Vector2();
     private Direction direction = Direction.right;
-    private float speed = 5f;
+
+    private Array<Vector2> slashes = new Array<>();
 
     private float px, py;
 
