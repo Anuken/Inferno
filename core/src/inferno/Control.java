@@ -5,6 +5,7 @@ import inferno.type.Player;
 import io.anuke.arc.ApplicationListener;
 import io.anuke.arc.Core;
 import io.anuke.arc.input.KeyCode;
+import io.anuke.arc.util.*;
 
 import static inferno.Inferno.*;
 
@@ -39,6 +40,8 @@ public class Control implements ApplicationListener{
         }
 
         if(!paused){
+            Time.update();
+
             charGroup.update();
             bulletGroup.update();
             effectGroup.update();

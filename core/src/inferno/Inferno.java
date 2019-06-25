@@ -7,7 +7,7 @@ import io.anuke.arc.ApplicationCore;
 public class Inferno extends ApplicationCore {
 	public static final int scale = 4;
 	public static final int tilesize = 16;
-	public static final boolean dobloom = false;
+	public static final boolean dobloom = true;
 
 	public static EntityGroup<Bullet> bulletGroup;
 	public static EntityGroup<Char> charGroup;

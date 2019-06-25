@@ -18,4 +18,8 @@ public class Block{
     public void draw(int x, int y){
         Draw.rect(region, x * tilesize, y * tilesize - tilesize / 2f + region.getHeight() / 2f);
     }
+
+    public void drawShadow(int x, int y){
+        Draw.rect("shadow", x * tilesize, y * tilesize);
+    }
 }

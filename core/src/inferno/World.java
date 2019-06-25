@@ -64,6 +64,8 @@ public class World implements ApplicationListener{
                             break;
                         }
                     }
+                }else if(tile.wall != null){
+                    tile.shadowed = true;
                 }
             }
         }

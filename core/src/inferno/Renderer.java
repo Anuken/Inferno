@@ -100,6 +100,7 @@ public class Renderer implements ApplicationListener{
 
         buffer.endDraw();
 
+        Draw.color();
         lights.beginDraw(Color.CLEAR);
         lbatch.flush();
         lights.endDraw();
@@ -139,7 +140,7 @@ public class Renderer implements ApplicationListener{
         cull((x, y) -> {
             Tile tile = world.tile(x, y);
             if(tile.shadowed){
-                Draw.rect("shadow", x * tilesize, y * tilesize);
+                tile.wall.drawShadow(x, y);
             }
         });
 

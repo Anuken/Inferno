@@ -24,7 +24,6 @@ public class UI implements ApplicationListener{
     @Override
     public void update(){
         Layer.sort(false);
-        Time.update();
 
         Core.scene.act();
         Core.scene.draw();

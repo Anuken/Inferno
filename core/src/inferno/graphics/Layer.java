@@ -13,8 +13,12 @@ public class Layer{
     }
 
     public static void light(float x, float y, float rad, Color color){
+        light(x, y, rad, color, 1f);
+    }
+
+    public static void light(float x, float y, float rad, Color color, float alpha){
         Core.batch = renderer.lbatch;
-        Draw.color(color);
+        Draw.color(color, alpha);
         Draw.rect("light", x, y, rad*2, rad*2);
         Draw.color();
         Core.batch = renderer.zbatch;
