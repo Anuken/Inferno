@@ -11,11 +11,12 @@ import io.anuke.arc.graphics.Texture.TextureFilter;
 import io.anuke.arc.graphics.g2d.*;
 import io.anuke.arc.graphics.glutils.FrameBuffer;
 import io.anuke.arc.graphics.glutils.Shader;
+import io.anuke.arc.maps.MapObject;
+import io.anuke.arc.maps.objects.TextureMapObject;
 import io.anuke.arc.math.Mathf;
 import io.anuke.arc.math.geom.Geometry;
 import io.anuke.arc.math.geom.Point2;
-import io.anuke.arc.util.ScreenRecorder;
-import io.anuke.arc.util.Structs;
+import io.anuke.arc.util.*;
 
 import static inferno.Inferno.*;
 
@@ -187,7 +188,7 @@ public class Renderer implements ApplicationListener{
     }
 
     void makeFloor(){
-        cache = new SpriteCache(world.width() * world.height(), false);
+        cache = new SpriteCache(world.width() * world.height() + world.getObjects().size*2, false);
         CacheBatch batch = new CacheBatch(cache);
         Core.batch = batch;
 
@@ -197,9 +198,16 @@ public class Renderer implements ApplicationListener{
             for(int y = 0; y < world.height(); y++){
                 Tile tile = world.tile(x, y);
                 if(!world.solid(x, y) && tile.floor != null){
-                    Draw.rect(tile.floor.region, x * tilesize, y * tilesize, tile.rotation);
+                    int rand = Mathf.randomSeed(x + y * world.width(), 1, 3);
+                    Draw.rect(rand == 1 ? tile.floor.region : rand == 2 ? tile.floor.region2 : tile.floor.region3,
+                            x * tilesize, y * tilesize, tile.rotation);
                 }
             }
+        }
+
+        for(MapObject object : world.getObjects()){
+            TextureMapObject tex = (TextureMapObject)object;
+            Draw.rect(tex.textureRegion, tex.x + tex.textureRegion.getWidth()/2f, tex.y + tex.textureRegion.getHeight()/2f);
         }
 
         batch.endCache();

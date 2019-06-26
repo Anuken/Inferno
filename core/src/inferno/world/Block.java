@@ -5,6 +5,7 @@ import io.anuke.arc.Core;
 import io.anuke.arc.graphics.Color;
 import io.anuke.arc.graphics.g2d.Draw;
 import io.anuke.arc.graphics.g2d.TextureRegion;
+import io.anuke.arc.math.Mathf;
 import io.anuke.arc.math.geom.Geometry;
 import io.anuke.arc.math.geom.Point2;
 
@@ -14,7 +15,7 @@ import static inferno.Inferno.world;
 public class Block{
     public int id;
     public String name;
-    public TextureRegion region, edge;
+    public TextureRegion region, region2, region3, edge;
     public boolean solid;
 
     protected float shadowSize = 8f;
@@ -25,13 +26,25 @@ public class Block{
         if(Core.atlas.has(name + "-edge")){
             edge = Core.atlas.find(name + "-edge");
         }
+
+        if(Core.atlas.has(name + "2")){
+            region2 = Core.atlas.find(name + "2");
+        }
+
+        if(Core.atlas.has(name + "3")){
+            region3 = Core.atlas.find(name + "3");
+        }
     }
 
     public void draw(int x, int y){
         if(y == 0) Draw.color(Color.BLACK);
 
         if(solid){
-            Draw.rect(region, x * tilesize, y * tilesize - tilesize / 2f + region.getHeight() / 2f);
+            if(region2 == null){
+                Draw.rect(region, x * tilesize, y * tilesize - tilesize / 2f + region.getHeight() / 2f);
+            }else{
+                Draw.rect(rand(x, y, 2) == 1 ? region : region2, x * tilesize, y * tilesize - tilesize / 2f + region.getHeight() / 2f);
+            }
 
             if(edge != null){
                 Layer.z(y * tilesize - tilesize / 2f - 0.0001f);
@@ -57,4 +70,13 @@ public class Block{
             Draw.rect("circle", x * tilesize, y * tilesize, shadowSize, shadowSize/2f);
         }
     }
+
+    static int rand(int x, int y, int max){
+        return rand(x, y, 0, max);
+    }
+
+    static int rand(int x, int y, int offset, int max){
+        return Mathf.randomSeed(x + y *tilesize + offset, 1, max);
+    }
+
 }

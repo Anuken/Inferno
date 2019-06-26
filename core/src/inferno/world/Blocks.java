@@ -3,8 +3,7 @@ package inferno.world;
 import inferno.graphics.Layer;
 import io.anuke.arc.collection.Array;
 import io.anuke.arc.graphics.Color;
-import io.anuke.arc.graphics.g2d.Draw;
-import io.anuke.arc.graphics.g2d.Fill;
+import io.anuke.arc.graphics.g2d.*;
 import io.anuke.arc.math.Mathf;
 import io.anuke.arc.util.Time;
 
@@ -98,11 +97,19 @@ public class Blocks{
                 Draw.rect(region, x * tilesize, y * tilesize, world.tile(x, y).rotation);
             }
 
+        },
+        new Block("rubble"){
+
+            @Override
+            public void draw(int x, int y){
+                TextureRegion d = rand(x, y, 2) == 1 ? region : region2;
+                Draw.color(0f, 0f, 0f, 0.3f);
+                Draw.rect(d, x * tilesize, y * tilesize + tilesize/2f - 1);
+                Draw.color();
+                Draw.rect(d, x * tilesize, y * tilesize + tilesize/2f);
+            }
         }
 
     );
 
-    static int rand(int x, int y, int offset, int max){
-        return Mathf.randomSeed(x + y *tilesize + offset, 1, max);
-    }
 }

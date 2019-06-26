@@ -2,7 +2,7 @@ package inferno;
 
 import inferno.world.*;
 import io.anuke.arc.ApplicationListener;
-import io.anuke.arc.collection.ObjectMap;
+import io.anuke.arc.collection.*;
 import io.anuke.arc.graphics.g2d.TextureAtlas.AtlasRegion;
 import io.anuke.arc.maps.*;
 import io.anuke.arc.math.Mathf;
@@ -23,7 +23,7 @@ public class World implements ApplicationListener{
         floorLayer = map.getLayer("floor");
         wallLayer = map.getLayer("walls");
         overLayer = map.getLayer("overlay");
-        objectLayer = map.getLayer("objects");
+        objectLayer = map.getLayer("images");
 
         tiles = new Tile[floorLayer.width][floorLayer.height];
 
@@ -75,6 +75,10 @@ public class World implements ApplicationListener{
                 }
             }
         }
+    }
+
+    public Array<MapObject> getObjects(){
+        return objectLayer.objects;
     }
 
     public int width(){
