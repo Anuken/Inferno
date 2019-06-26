@@ -431,35 +431,28 @@ light
   orig: 512, 512
   offset: 0, 0
   index: -1
-candle
+book
   rotate: false
   xy: 234, 451
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-carpet
+candle
   rotate: false
   xy: 230, 433
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
+carpet
+  rotate: false
+  xy: 1, 164
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
 carpet-trim
-  rotate: false
-  xy: 1, 164
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1
-carpet-trim-l
-  rotate: false
-  xy: 1, 164
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1
-carpet-trim-r
   rotate: false
   xy: 260, 471
   size: 16, 16

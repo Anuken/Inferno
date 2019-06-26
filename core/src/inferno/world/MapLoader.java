@@ -3,10 +3,10 @@ package inferno.world;
 import io.anuke.arc.Core;
 import io.anuke.arc.collection.Array;
 import io.anuke.arc.files.FileHandle;
-import io.anuke.arc.graphics.g2d.TextureRegion;
-import io.anuke.arc.maps.ImageResolver;
-import io.anuke.arc.maps.MapProperties;
-import io.anuke.arc.maps.tiled.*;
+import io.anuke.arc.graphics.g2d.TextureAtlas.AtlasRegion;
+import io.anuke.arc.maps.*;
+import io.anuke.arc.maps.loaders.ImageResolver;
+import io.anuke.arc.maps.loaders.TmxMapLoader;
 import io.anuke.arc.util.ArcRuntimeException;
 import io.anuke.arc.util.serialization.SerializationException;
 import io.anuke.arc.util.serialization.XmlReader.Element;
@@ -166,9 +166,13 @@ public class MapLoader extends TmxMapLoader{
                     }
                 }
 
-                MapTile tile = new MapTile((TextureRegion)null);
-                tile.region = (Core.atlas.find(imageSource.substring(1 + imageSource.lastIndexOf("/")).replace(".png", "")));
-                tile.id = (firstgid + tileElement.getIntAttribute("id"));
+                String regionName = imageSource.substring(1 + imageSource.lastIndexOf("/")).replace(".png", "");
+
+
+
+                MapTile tile = new MapTile(null);
+                tile.region = Core.atlas.has(regionName) ? Core.atlas.find(regionName) : new AtlasRegion(Core.atlas.find("error")){{ name = regionName; }};
+                tile.id = firstgid + tileElement.getIntAttribute("id");
                 tile.offsetX = (offsetX);
                 tile.offsetY = (flipY ? -offsetY : offsetY);
                 tileset.put(tile.id, tile);

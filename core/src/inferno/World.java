@@ -2,11 +2,9 @@ package inferno;
 
 import inferno.world.*;
 import io.anuke.arc.ApplicationListener;
-import io.anuke.arc.Core;
 import io.anuke.arc.collection.ObjectMap;
 import io.anuke.arc.graphics.g2d.TextureAtlas.AtlasRegion;
 import io.anuke.arc.maps.*;
-import io.anuke.arc.maps.tiled.*;
 import io.anuke.arc.math.Mathf;
 import io.anuke.arc.math.geom.Geometry;
 import io.anuke.arc.math.geom.Point2;
@@ -27,10 +25,10 @@ public class World implements ApplicationListener{
         overLayer = map.getLayer("overlay");
         objectLayer = map.getLayer("objects");
 
-        tiles = new Tile[floorLayer.getWidth()][floorLayer.getHeight()];
+        tiles = new Tile[floorLayer.width][floorLayer.height];
 
         for(MapTile tile : map.tilesets.getTileSet(0)){
-            if(!Core.atlas.isFound(tile.region)) continue;
+            //if(!Core.atlas.isFound(tile.region)) continue;
 
             String name = ((AtlasRegion)tile.region).name;
             Block destination = Blocks.blocks.find(b -> b.name.equalsIgnoreCase(name));
@@ -47,13 +45,16 @@ public class World implements ApplicationListener{
 
         for(int x = 0; x < width(); x++){
             for(int y = 0; y < height(); y++){
-                Block floor = floorLayer.getCell(x, y) == null ?  null : blocks.get(floorLayer.getCell(x, y).tile);
-                Block wall = wallLayer.getCell(x, y) == null ?  null : blocks.get(wallLayer.getCell(x, y).tile);
+                Block floor = blocks.getNull(floorLayer.getTile(x, y));
+                Block overlay = blocks.getNull(overLayer.getTile(x, y));
+                Block wall = blocks.getNull(wallLayer.getTile(x, y));
 
-                tiles[x][y] = new Tile(floor, wall);
-                if(overLayer.getCell(x, y) != null){
-                    tiles[x][y].floor = blocks.get(overLayer.getCell(x, y).tile);
+                if(overlay != null && overLayer.getTile(x, y).getProperties().containsKey("floor")){
+                    floor = overlay;
+                    overlay = null;
                 }
+
+                tiles[x][y] = new Tile(floor, overlay, wall);
                 tiles[x][y].rotation = overLayer.getCell(x, y) == null ? 0 : overLayer.getCell(x, y).rotation * 90;
             }
         }
@@ -77,11 +78,11 @@ public class World implements ApplicationListener{
     }
 
     public int width(){
-        return wallLayer.getWidth();
+        return wallLayer.width;
     }
 
     public int height(){
-        return wallLayer.getHeight();
+        return wallLayer.height;
     }
 
     public boolean solid(int x, int y){

@@ -38,7 +38,56 @@ public class Blocks{
                 Fill.circle(x * tilesize, y * tilesize + offset, rad * 0.5f);
 
             }
+        },
+
+        new Block("book"){
+            Color[] colors = {Color.valueOf("4c5f3e"), Color.valueOf("7b6844"), Color.valueOf("445e6d"), Color.valueOf("704533"), Color.valueOf("8f875f")};
+            Color temp = new Color();
+            int w = 4, h = 5;
+
+            @Override
+            public void draw(int x, int y){
+                Layer.z(y * tilesize + tilesize/2f);
+                int spread = tilesize;
+
+                int amount = rand(x, y, -1, 3);
+
+                for(int i = 0; i < amount; i ++){
+
+                    int dx = rand(x, y, i*2, spread);
+                    int dy = rand(x, y, i*2 + 1, spread);
+                    int rot = rand(x, y, i*2 + 2, 360);
+                    int color = rand(x, y, i * 2 + 3, colors.length);
+                    float mul = 1f + (rand(x, y, i*2 + 3, 255)/255f-0.5f)/6f;
+
+                    drawBook(w, h,
+                    x * tilesize + dx-spread/2,
+                    y * tilesize + dy - spread/2,
+                    rot, colors[color - 1], mul);
+                }
+
+            }
+
+            void drawBook(int w, int h, float x, float y, float rot, Color color, float mul){
+
+                temp.set(color).mul(mul, mul, mul, 1f);
+
+                Draw.color(0f, 0f, 0f, 0.25f);
+                Fill.rect(x, y - 2f, w, h, rot);
+
+                Draw.colorMul(temp, 0.7f);
+                Fill.rect(x, y - 0.7f, w, h, rot);
+
+                Draw.colorMul(color, mul);
+                Fill.rect(x, y, w, h, rot);
+
+                Draw.color();
+            }
         }
 
     );
+
+    static int rand(int x, int y, int offset, int max){
+        return Mathf.randomSeed(x + y *tilesize + offset, 1, max);
+    }
 }

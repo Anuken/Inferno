@@ -152,6 +152,11 @@ public class Renderer implements ApplicationListener{
         cull((x, y) -> {
             Layer.z(y * tilesize - tilesize / 2f);
             Tile tile = world.tile(x, y);
+
+            if(!world.solid(x, y) && tile.overlay != null){
+                tile.overlay.draw(x, y);
+            }
+
             if(tile.wall != null){
                 tile.wall.draw(x, y);
             }
