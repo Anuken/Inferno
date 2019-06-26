@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.2" tiledversion="1.2.4" name="default" tilewidth="16" tileheight="32" tilecount="9" columns="0">
+<tileset version="1.2" tiledversion="1.2.4" name="default" tilewidth="16" tileheight="32" tilecount="10" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="0">
   <properties>
@@ -39,5 +39,8 @@
  </tile>
  <tile id="12">
   <image width="16" height="32" source="../../assets-raw/sprites/tiles/rubble.png"/>
+ </tile>
+ <tile id="13">
+  <image width="16" height="16" source="../../assets-raw/sprites/tiles/floorsquare.png"/>
  </tile>
 </tileset>

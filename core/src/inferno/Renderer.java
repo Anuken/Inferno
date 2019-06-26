@@ -199,7 +199,7 @@ public class Renderer implements ApplicationListener{
                 Tile tile = world.tile(x, y);
                 if(!world.solid(x, y) && tile.floor != null){
                     int rand = Mathf.randomSeed(x + y * world.width(), 1, 3);
-                    Draw.rect(rand == 1 ? tile.floor.region : rand == 2 ? tile.floor.region2 : tile.floor.region3,
+                    Draw.rect(tile.floor.region2 == null ? tile.floor.region : rand == 1 ? tile.floor.region : rand == 2 ? tile.floor.region2 : tile.floor.region3,
                             x * tilesize, y * tilesize, tile.rotation);
                 }
             }
