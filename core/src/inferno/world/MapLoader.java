@@ -2,16 +2,12 @@ package inferno.world;
 
 import io.anuke.arc.Core;
 import io.anuke.arc.collection.Array;
-import io.anuke.arc.collection.IntArray;
 import io.anuke.arc.files.FileHandle;
 import io.anuke.arc.graphics.g2d.TextureRegion;
 import io.anuke.arc.maps.ImageResolver;
 import io.anuke.arc.maps.MapProperties;
 import io.anuke.arc.maps.tiled.*;
-import io.anuke.arc.maps.tiled.tiles.AnimatedTiledMapTile;
-import io.anuke.arc.maps.tiled.tiles.StaticTiledMapTile;
 import io.anuke.arc.util.ArcRuntimeException;
-import io.anuke.arc.util.Log;
 import io.anuke.arc.util.serialization.SerializationException;
 import io.anuke.arc.util.serialization.XmlReader.Element;
 
@@ -41,7 +37,7 @@ public class MapLoader extends TmxMapLoader{
         String staggerIndex = root.getAttribute("staggerindex", null);
         String mapBackgroundColor = root.getAttribute("backgroundcolor", null);
 
-        MapProperties mapProperties = map.getProperties();
+        MapProperties mapProperties = map.properties;
         if(mapOrientation != null){
             mapProperties.put("orientation", mapOrientation);
         }
@@ -75,7 +71,7 @@ public class MapLoader extends TmxMapLoader{
 
         Element properties = root.getChildByName("properties");
         if(properties != null){
-            loadProperties(map.getProperties(), properties);
+            loadProperties(map.properties, properties);
         }
         Array<Element> tilesets = root.getChildrenByName("tileset");
         for(Element element : tilesets){
@@ -86,9 +82,9 @@ public class MapLoader extends TmxMapLoader{
             Element element = root.getChild(i);
             String name = element.getName();
             if(name.equals("layer")){
-                loadTileLayer(map, map.getLayers(), element);
+                loadTileLayer(map, map.layers, element);
             }else if(name.equals("objectgroup")){
-                loadObjectGroup(map, map.getLayers(), element);
+                loadObjectGroup(map, map.layers, element);
             }
         }
         return map;
@@ -151,8 +147,8 @@ public class MapLoader extends TmxMapLoader{
                 }
             }
 
-            TiledMapTileSet tileset = new TiledMapTileSet();
-            tileset.setName(name);
+            TileSet tileset = new TileSet();
+            tileset.name = name;
             tileset.getProperties().put("firstgid", firstgid);
 
             Array<Element> tileElements = element.getChildrenByName("tile");
@@ -170,37 +166,18 @@ public class MapLoader extends TmxMapLoader{
                     }
                 }
 
-                TiledMapTile tile = new StaticTiledMapTile((TextureRegion)null);
-                tile.setTextureRegion(Core.atlas.find(imageSource.substring(1 + imageSource.lastIndexOf("/")).replace(".png", "")));
-                tile.setId(firstgid + tileElement.getIntAttribute("id"));
-                tile.setOffsetX(offsetX);
-                tile.setOffsetY(flipY ? -offsetY : offsetY);
-                tileset.putTile(tile.getId(), tile);
+                MapTile tile = new MapTile((TextureRegion)null);
+                tile.region = (Core.atlas.find(imageSource.substring(1 + imageSource.lastIndexOf("/")).replace(".png", "")));
+                tile.id = (firstgid + tileElement.getIntAttribute("id"));
+                tile.offsetX = (offsetX);
+                tile.offsetY = (flipY ? -offsetY : offsetY);
+                tileset.put(tile.id, tile);
             }
-
-
-            Array<AnimatedTiledMapTile> animatedTiles = new Array<>();
 
             for(Element tileElement : tileElements){
                 int localtid = tileElement.getIntAttribute("id", 0);
-                TiledMapTile tile = tileset.getTile(firstgid + localtid);
+                MapTile tile = tileset.get(firstgid + localtid);
                 if(tile != null){
-                    Element animationElement = tileElement.getChildByName("animation");
-                    if(animationElement != null){
-
-                        Array<StaticTiledMapTile> staticTiles = new Array<>();
-                        IntArray intervals = new IntArray();
-                        for(Element frameElement : animationElement.getChildrenByName("frame")){
-                            staticTiles.add((StaticTiledMapTile)tileset.getTile(firstgid + frameElement.getIntAttribute("tileid")));
-                            intervals.add(frameElement.getIntAttribute("duration"));
-                        }
-
-                        AnimatedTiledMapTile animatedTile = new AnimatedTiledMapTile(intervals, staticTiles);
-                        animatedTile.setId(tile.getId());
-                        animatedTiles.add(animatedTile);
-                        tile = animatedTile;
-                    }
-
                     Element objectgroupElement = tileElement.getChildByName("objectgroup");
                     if(objectgroupElement != null){
 
@@ -224,15 +201,11 @@ public class MapLoader extends TmxMapLoader{
                 }
             }
 
-            for(AnimatedTiledMapTile tile : animatedTiles){
-                tileset.putTile(tile.getId(), tile);
-            }
-
             Element properties = element.getChildByName("properties");
             if(properties != null){
                 loadProperties(tileset.getProperties(), properties);
             }
-            map.getTileSets().addTileSet(tileset);
+            map.tilesets.addTileSet(tileset);
         }
     }
 }

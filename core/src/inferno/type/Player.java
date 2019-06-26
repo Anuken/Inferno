@@ -51,7 +51,7 @@ public class Player extends Char{
 
         Draw.color();
 
-        Layer.light(x, y + 10f, 150f, Color.ORANGE, 0.75f);
+        Layer.light(x, y + 10f, 150f, Color.CYAN, 0.75f);
 
         if(snap){
             x = px;

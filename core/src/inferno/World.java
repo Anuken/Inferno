@@ -5,7 +5,7 @@ import io.anuke.arc.ApplicationListener;
 import io.anuke.arc.Core;
 import io.anuke.arc.collection.ObjectMap;
 import io.anuke.arc.graphics.g2d.TextureAtlas.AtlasRegion;
-import io.anuke.arc.maps.MapLayer;
+import io.anuke.arc.maps.*;
 import io.anuke.arc.maps.tiled.*;
 import io.anuke.arc.math.Mathf;
 import io.anuke.arc.math.geom.Geometry;
@@ -14,42 +14,47 @@ import io.anuke.arc.util.Structs;
 
 public class World implements ApplicationListener{
     Tile[][] tiles;
-    ObjectMap<TiledMapTile, Block> blocks = new ObjectMap<>();
+    ObjectMap<MapTile, Block> blocks = new ObjectMap<>();
     TiledMap map;
-    TiledMapTileLayer floorLayer, wallLayer;
+    TileLayer floorLayer, wallLayer, overLayer;
     MapLayer objectLayer;
 
     public World(){
         map = new MapLoader().load("maps/map.tmx");
 
-        floorLayer = (TiledMapTileLayer) map.getLayers().get("floor");
-        wallLayer = (TiledMapTileLayer) map.getLayers().get("walls");
-        objectLayer = map.getLayers().get("objects");
+        floorLayer = map.getLayer("floor");
+        wallLayer = map.getLayer("walls");
+        overLayer = map.getLayer("overlay");
+        objectLayer = map.getLayer("objects");
 
         tiles = new Tile[floorLayer.getWidth()][floorLayer.getHeight()];
 
-        for(TiledMapTile tile : map.getTileSets().getTileSet(0)){
-            if(!Core.atlas.isFound(tile.getTextureRegion())) continue;
+        for(MapTile tile : map.tilesets.getTileSet(0)){
+            if(!Core.atlas.isFound(tile.region)) continue;
 
-            String name = ((AtlasRegion)tile.getTextureRegion()).name;
+            String name = ((AtlasRegion)tile.region).name;
             Block destination = Blocks.blocks.find(b -> b.name.equalsIgnoreCase(name));
             if(destination == null){
                 destination = new Block(name);
             }
 
             destination.solid = tile.getProperties().containsKey("solid");
-            destination.id = tile.getId();
-            destination.region = tile.getTextureRegion();
+            destination.id = tile.id;
+            destination.region = tile.region;
 
             blocks.put(tile, destination);
         }
 
         for(int x = 0; x < width(); x++){
             for(int y = 0; y < height(); y++){
-                Block floor = floorLayer.getCell(x, y) == null ?  null : blocks.get(floorLayer.getCell(x, y).getTile());
-                Block wall = wallLayer.getCell(x, y) == null ?  null : blocks.get(wallLayer.getCell(x, y).getTile());
+                Block floor = floorLayer.getCell(x, y) == null ?  null : blocks.get(floorLayer.getCell(x, y).tile);
+                Block wall = wallLayer.getCell(x, y) == null ?  null : blocks.get(wallLayer.getCell(x, y).tile);
 
                 tiles[x][y] = new Tile(floor, wall);
+                if(overLayer.getCell(x, y) != null){
+                    tiles[x][y].floor = blocks.get(overLayer.getCell(x, y).tile);
+                }
+                tiles[x][y].rotation = overLayer.getCell(x, y) == null ? 0 : overLayer.getCell(x, y).rotation * 90;
             }
         }
 

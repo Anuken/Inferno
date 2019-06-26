@@ -76,22 +76,6 @@ public class Renderer implements ApplicationListener{
         bulletGroup.draw(this::draw);
         effectGroup.draw(this::draw);
 
-        //top wall edges
-        Draw.color();
-        cull((x, y) -> {
-            Layer.z(y * tilesize - tilesize / 2f);
-            Tile tile = world.tile(x, y);
-            if(tile.wall != null && tile.wall.id == 2){
-                int i = 0;
-                for(Point2 p : Geometry.d4){
-                    if(world.tile(x + p.x, y + p.y).wall != tile.wall){
-                        Draw.rect("wall-edge", x * tilesize, y * tilesize + tilesize, i*90);
-                    }
-                    i++;
-                }
-            }
-        });
-
         Layer.sort(false);
 
         Draw.shader(fog);
@@ -155,7 +139,7 @@ public class Renderer implements ApplicationListener{
         cull((x, y) -> {
             Tile tile = world.tile(x, y);
             if(!world.solid(x, y) && tile.floor != null){
-                Draw.rect(tile.floor.region, x * tilesize, y * tilesize);
+                Draw.rect(tile.floor.region, x * tilesize, y * tilesize, tile.rotation);
             }
         });
 

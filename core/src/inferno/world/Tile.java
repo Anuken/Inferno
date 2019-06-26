@@ -1,11 +1,10 @@
 package inferno.world;
 
-import io.anuke.arc.graphics.g2d.TextureRegion;
-
 public class Tile{
     /** May be null.*/
     public Block floor, wall;
     public boolean shadowed;
+    public int rotation;
 
     public Tile(Block floor, Block wall){
         this.floor = floor;

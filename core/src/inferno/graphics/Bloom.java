@@ -181,7 +181,7 @@ public class Bloom{
         setSize(FBO_W, FBO_H);
         setBloomIntesity(2.5f);
         setOriginalIntesity(0.8f);
-        setThreshold(0.5f);
+        setThreshold(0.7f);
 
         bloomShader.begin();
         {

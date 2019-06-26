@@ -3,7 +3,7 @@ precision mediump float;
 precision mediump int;
 #endif
 
-#define ambient vec4(0.1, 0.03, 0.01, 0.9)
+#define ambient vec4(vec3(0.1, 0.03, 0.01) * 2.0, 0.5)
 #define steprad 0.13
 
 uniform sampler2D u_texture;
