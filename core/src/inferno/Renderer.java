@@ -17,6 +17,7 @@ import io.anuke.arc.math.Mathf;
 import io.anuke.arc.math.geom.Geometry;
 import io.anuke.arc.math.geom.Point2;
 import io.anuke.arc.util.*;
+import io.anuke.arc.util.noise.Noise;
 
 import static inferno.Inferno.*;
 
@@ -188,11 +189,13 @@ public class Renderer implements ApplicationListener{
     }
 
     void makeFloor(){
-        cache = new SpriteCache(world.width() * world.height() + world.getObjects().size*2, false);
+        cache = new SpriteCache(world.width() * world.height() + world.getObjects().size*2 + 200, true);
         CacheBatch batch = new CacheBatch(cache);
         Core.batch = batch;
 
         batch.beginCache();
+
+        Draw.color();
 
         for(int x = 0; x < world.width(); x++){
             for(int y = 0; y < world.height(); y++){
@@ -205,7 +208,12 @@ public class Renderer implements ApplicationListener{
             }
         }
 
-        Lines.circle(world.width() * tilesize / 2f, world.height() * tilesize/2f, 100f);
+        Draw.colorl(0.188f);
+        Lines.stroke(2f);
+        circle(world.width() * tilesize / 2f, world.height() * tilesize/2f, 290f);
+        circle(world.width() * tilesize / 2f, world.height() * tilesize/2f, 370f);
+        circle(world.width() * tilesize / 2f, world.height() * tilesize/2f, 450f);
+        Draw.color();
 
         for(MapObject object : world.getObjects()){
             TextureMapObject tex = (TextureMapObject)object;
@@ -215,6 +223,25 @@ public class Renderer implements ApplicationListener{
         batch.endCache();
 
         Core.batch = zbatch;
+    }
+
+    void circle(float x, float y, float radius){
+        int vertices = (int)(radius * 1.5f);
+
+        float step = 360f/vertices;
+        for(int i = 0; i < vertices; i++){
+            Tmp.v1.trns(i*step, radius);
+            if(Noise.nnoise((int)(Tmp.v1.x + x), (int)(Tmp.v1.y + y), 2f, 1f) + Noise.nnoise((int)(Tmp.v1.x + x), (int)(Tmp.v1.y + y), 20f, 1f)*2 < -0.04){
+                continue;
+            }
+
+            float rand = Noise.nnoise((int)Tmp.v1.x, -(int)Tmp.v1.y, 20f, 5f);
+
+            Tmp.v2.trns((i+1)*step, radius);
+            Tmp.v1.add(Mathf.range(rand), Mathf.range(rand));
+            Tmp.v2.add(Mathf.range(rand), Mathf.range(rand));
+            Lines.line(x + Tmp.v1.x, y + Tmp.v1.y, x + Tmp.v2.x, y + Tmp.v2.y);
+        }
     }
 
     void makeShadow(){
