@@ -205,6 +205,8 @@ public class Renderer implements ApplicationListener{
             }
         }
 
+        Lines.circle(world.width() * tilesize / 2f, world.height() * tilesize/2f, 100f);
+
         for(MapObject object : world.getObjects()){
             TextureMapObject tex = (TextureMapObject)object;
             Draw.rect(tex.textureRegion, tex.x + tex.textureRegion.getWidth()/2f, tex.y + tex.textureRegion.getHeight()/2f);
