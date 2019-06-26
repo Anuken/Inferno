@@ -31,6 +31,7 @@ public class Renderer implements ApplicationListener{
 
     private Shader fog = new Shader(Core.files.local("dshaders/default.vertex.glsl"), Core.files.local("dshaders/fog.fragment.glsl"));
     private Shader light = new Shader(Core.files.local("dshaders/default.vertex.glsl"), Core.files.local("dshaders/light.fragment.glsl"));
+    private SpriteCache cache;
 
     private Bloom bloom;
 
@@ -48,6 +49,7 @@ public class Renderer implements ApplicationListener{
     @Override
     public void init(){
         makeShadow();
+        makeFloor();
     }
 
     @Override
@@ -134,12 +136,21 @@ public class Renderer implements ApplicationListener{
     void drawWorld(){
         Draw.color();
 
+        //draw cached floor
+        Draw.flush();
+        cache.setProjectionMatrix(Core.camera.projection());
+        cache.begin();
+        cache.draw(0);
+        cache.end();
+
         //do not sort base layer for efficiency
         Layer.sort(false);
+
+        //overlays
         cull((x, y) -> {
             Tile tile = world.tile(x, y);
-            if(!world.solid(x, y) && tile.floor != null){
-                Draw.rect(tile.floor.region, x * tilesize, y * tilesize, tile.rotation);
+            if(!world.solid(x, y) && tile.overlay != null){
+                tile.overlay.draw(x, y);
             }
         });
 
@@ -153,10 +164,6 @@ public class Renderer implements ApplicationListener{
             Layer.z(y * tilesize - tilesize / 2f);
             Tile tile = world.tile(x, y);
 
-            if(!world.solid(x, y) && tile.overlay != null){
-                tile.overlay.draw(x, y);
-            }
-
             if(tile.wall != null){
                 tile.wall.draw(x, y);
             }
@@ -164,8 +171,8 @@ public class Renderer implements ApplicationListener{
     }
 
     void cull(IntPositionConsumer cons){
-        int xrange = (int)(Core.camera.width / tilesize / 2 + 2);
-        int yrange = (int)(Core.camera.height / tilesize / 2 + 2);
+        int xrange = (int)(Core.camera.width / tilesize / 2 + 3);
+        int yrange = (int)(Core.camera.height / tilesize / 2 + 3);
         int wx = (int)(Core.camera.position.x / tilesize);
         int wy = (int)(Core.camera.position.y / tilesize);
 
@@ -177,6 +184,27 @@ public class Renderer implements ApplicationListener{
                 }
             }
         }
+    }
+
+    void makeFloor(){
+        cache = new SpriteCache(world.width() * world.height(), false);
+        CacheBatch batch = new CacheBatch(cache);
+        Core.batch = batch;
+
+        batch.beginCache();
+
+        for(int x = 0; x < world.width(); x++){
+            for(int y = 0; y < world.height(); y++){
+                Tile tile = world.tile(x, y);
+                if(!world.solid(x, y) && tile.floor != null){
+                    Draw.rect(tile.floor.region, x * tilesize, y * tilesize, tile.rotation);
+                }
+            }
+        }
+
+        batch.endCache();
+
+        Core.batch = zbatch;
     }
 
     void makeShadow(){

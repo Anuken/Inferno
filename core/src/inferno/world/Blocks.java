@@ -83,6 +83,21 @@ public class Blocks{
 
                 Draw.color();
             }
+        },
+        new Block("carpet"){
+
+            @Override
+            public void draw(int x, int y){
+                Draw.rect(region, x * tilesize, y * tilesize, world.tile(x, y).rotation);
+            }
+        },
+        new Block("carpet-trim"){
+
+            @Override
+            public void draw(int x, int y){
+                Draw.rect(region, x * tilesize, y * tilesize, world.tile(x, y).rotation);
+            }
+
         }
 
     );

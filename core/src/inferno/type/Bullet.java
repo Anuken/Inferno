@@ -4,6 +4,7 @@ import inferno.entity.*;
 import inferno.graphics.Layer;
 import io.anuke.arc.math.geom.Rectangle;
 import io.anuke.arc.math.geom.Vector2;
+import io.anuke.arc.util.Time;
 import io.anuke.arc.util.Tmp;
 
 import static inferno.Inferno.bulletGroup;
@@ -32,8 +33,8 @@ public class Bullet extends SolidEntity{
     public void update(){
         super.update();
 
-        x += velocity.x;
-        y += velocity.y;
+        x += velocity.x * Time.delta();
+        y += velocity.y * Time.delta();
 
         hitboxTile(Tmp.r3);
 

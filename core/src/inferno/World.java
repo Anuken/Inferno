@@ -50,8 +50,8 @@ public class World implements ApplicationListener{
                 Block wall = blocks.getNull(wallLayer.getTile(x, y));
 
                 if(overlay != null && overLayer.getTile(x, y).getProperties().containsKey("floor")){
-                    floor = overlay;
-                    overlay = null;
+               //     floor = overlay;
+                //    overlay = null;
                 }
 
                 tiles[x][y] = new Tile(floor, overlay, wall);
