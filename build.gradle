@@ -40,6 +40,7 @@ project(":core"){
     dependencies{
         compile arcModule("arc-core")
         compile arcModule("extensions:recorder")
+        compile arcModule("extensions:typelabel")
     }
 }
 

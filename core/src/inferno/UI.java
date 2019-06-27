@@ -5,7 +5,7 @@ import io.anuke.arc.ApplicationListener;
 import io.anuke.arc.Core;
 import io.anuke.arc.scene.Scene;
 import io.anuke.arc.scene.Skin;
-import io.anuke.arc.util.Time;
+import io.anuke.arc.typelabel.TypeLabel;
 
 public class UI implements ApplicationListener{
 	
@@ -33,6 +33,15 @@ public class UI implements ApplicationListener{
 	    Core.scene.table(t -> {
 	        t.top().left();
 	        t.label(() -> Core.graphics.getFramesPerSecond() + " FPS");
+        });
+
+	    Core.scene.table(t -> {
+	        t.bottom();
+	        t.table("button", c -> {
+	            c.margin(14f);
+                TypeLabel label = new TypeLabel("{WAVE}hasgfhafhas hasfahhf afhu hAER HERHZEAHFHEH AIZERBASDIXER");
+                c.add(label);
+            });
         });
     }
 }
