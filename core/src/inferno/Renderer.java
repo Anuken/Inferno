@@ -208,7 +208,7 @@ public class Renderer implements ApplicationListener{
             }
         }
 
-        Draw.colorl(0.188f);
+        Draw.colorl(0.237f);
         Lines.stroke(2f);
         circle(world.width() * tilesize / 2f, world.height() * tilesize/2f, 290f);
         circle(world.width() * tilesize / 2f, world.height() * tilesize/2f, 370f);
@@ -229,10 +229,19 @@ public class Renderer implements ApplicationListener{
         int vertices = (int)(radius * 1.5f);
 
         float step = 360f/vertices;
+        outer:
         for(int i = 0; i < vertices; i++){
             Tmp.v1.trns(i*step, radius);
             if(Noise.nnoise((int)(Tmp.v1.x + x), (int)(Tmp.v1.y + y), 2f, 1f) + Noise.nnoise((int)(Tmp.v1.x + x), (int)(Tmp.v1.y + y), 20f, 1f)*2 < -0.04){
                 continue;
+            }
+
+            for(MapObject object : world.getObjects()){
+                TextureMapObject tex = (TextureMapObject)object;
+                float w = tex.textureRegion.getWidth()/2f - 4f;
+                if(Tmp.v1.dst2(tex.x + tex.textureRegion.getWidth()/2f - x, tex.y + tex.textureRegion.getHeight()/2f - y) < w*w){
+                    continue outer;
+                }
             }
 
             float rand = Noise.nnoise((int)Tmp.v1.x, -(int)Tmp.v1.y, 20f, 5f);
