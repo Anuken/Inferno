@@ -11,6 +11,27 @@ prince
   orig: 18, 26
   offset: 0, 0
   index: -1
+prince-move0
+  rotate: false
+  xy: 59, 1
+  size: 18, 26
+  orig: 18, 26
+  offset: 0, 0
+  index: -1
+prince-move1
+  rotate: false
+  xy: 79, 1
+  size: 18, 26
+  orig: 18, 26
+  offset: 0, 0
+  index: -1
+prince-move2
+  rotate: false
+  xy: 99, 1
+  size: 18, 26
+  orig: 18, 26
+  offset: 0, 0
+  index: -1
 scythe
   rotate: false
   xy: 674, 725
@@ -34,7 +55,7 @@ error
   index: -1
 icon-arrow-down
   rotate: false
-  xy: 149, 1
+  xy: 209, 1
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
@@ -55,21 +76,21 @@ icon-arrow-right
   index: -1
 icon-arrow-up
   rotate: false
-  xy: 161, 1
+  xy: 221, 1
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 icon-clear
   rotate: false
-  xy: 173, 1
+  xy: 233, 1
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 icon-colorize
   rotate: false
-  xy: 185, 1
+  xy: 245, 1
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
@@ -104,7 +125,7 @@ icon-crop
   index: -1
 icon-cursor
   rotate: false
-  xy: 59, 11
+  xy: 119, 11
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
@@ -188,7 +209,7 @@ icon-flip
   index: -1
 icon-folder
   rotate: false
-  xy: 149, 13
+  xy: 209, 13
   size: 14, 14
   orig: 14, 14
   offset: 0, 0
@@ -223,7 +244,7 @@ icon-image
   index: -1
 icon-invert
   rotate: false
-  xy: 197, 17
+  xy: 257, 17
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
@@ -279,14 +300,14 @@ icon-open
   index: -1
 icon-outline
   rotate: false
-  xy: 197, 5
+  xy: 257, 5
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 icon-palette
   rotate: false
-  xy: 165, 13
+  xy: 225, 13
   size: 14, 14
   orig: 14, 14
   offset: 0, 0
@@ -300,7 +321,7 @@ icon-pencil
   index: -1
 icon-pick
   rotate: false
-  xy: 77, 11
+  xy: 137, 11
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
@@ -335,7 +356,7 @@ icon-rename
   index: -1
 icon-replace
   rotate: false
-  xy: 209, 17
+  xy: 269, 17
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
@@ -391,14 +412,14 @@ icon-tap
   index: -1
 icon-trash
   rotate: false
-  xy: 181, 13
+  xy: 241, 13
   size: 14, 14
   orig: 14, 14
   offset: 0, 0
   index: -1
 icon-undo
   rotate: false
-  xy: 95, 11
+  xy: 155, 11
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
@@ -552,7 +573,7 @@ shelf
   index: -1
 shelf-edge
   rotate: false
-  xy: 113, 11
+  xy: 173, 11
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
@@ -573,7 +594,7 @@ wall
   index: -1
 wall-edge
   rotate: false
-  xy: 131, 11
+  xy: 191, 11
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
@@ -645,7 +666,7 @@ check-over
   index: -1
 cursor
   rotate: false
-  xy: 197, 1
+  xy: 257, 1
   size: 2, 2
   orig: 2, 2
   offset: 0, 0
@@ -674,7 +695,7 @@ selection
   index: -1
 slider
   rotate: false
-  xy: 59, 1
+  xy: 119, 1
   size: 1, 8
   orig: 1, 8
   offset: 0, 0

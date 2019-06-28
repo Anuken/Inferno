@@ -13,18 +13,27 @@ import io.anuke.arc.util.*;
 
 public class Player extends Char{
     private static final boolean snap = true;
-    private final static float speed = 5f;
+    private final static float speed = 3f;
     private final static float reload = 12f;
+    private final static int[] seq = {2, 1, 0, 1};
     private static final Color hand = Color.valueOf("58adb6");
 
     private Vector2 movement = new Vector2();
     private Direction direction = Direction.right;
     private Interval timer = new Interval();
-    private float scytherot;
+    private float scytherot, movetime;
+
+    private TextureRegion[] animation = new TextureRegion[3];
 
     private Array<Vector2> slashes = new Array<>();
 
     private float px, py;
+
+    public Player(){
+        for(int i = 0; i < 3; i++){
+            animation[i] = Core.atlas.find("prince-move" + i);
+        }
+    }
 
     @Override
     public void draw(){
@@ -35,7 +44,7 @@ public class Player extends Char{
             y = (int)y;
         }
 
-        TextureRegion region = Core.atlas.find("prince");
+        TextureRegion region = movetime > 0 ? animation[seq[(int)(movetime / 6) % seq.length]] : Core.atlas.find("prince");
         TextureRegion scythe = Core.atlas.find("scythe");
 
         float len = 3f;
@@ -73,6 +82,9 @@ public class Player extends Char{
 
         if(!movement.isZero()){
             direction = Direction.fromAngle(movement.angle());
+            movetime += Time.delta();
+        }else{
+            movetime = 0f;
         }
 
         move(movement.x, movement.y);
