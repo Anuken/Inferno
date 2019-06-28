@@ -9,7 +9,7 @@ public class Bullets{
 
     basic = new BulletType(){
         {
-            speed = 4f;
+            speed = 7f;
             lightColor = Pal.player;
         }
 

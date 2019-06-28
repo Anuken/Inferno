@@ -36,10 +36,11 @@ public class UI implements ApplicationListener{
         });
 
 	    Core.scene.table(t -> {
+	        t.visible(false);
 	        t.bottom();
 	        t.table("button", c -> {
 	            c.margin(14f);
-                TypeLabel label = new TypeLabel("{WAVE}hasgfhafhas hasfahhf afhu hAER HERHZEAHFHEH AIZERBASDIXER");
+                TypeLabel label = new TypeLabel("{WAVE}hasgfhafhas hasfahh{WAIT}f afhu hAER {/WAVE}HERHZEAHFHEH {COLOR=RED}AIZERBA{COLOR=ORANGE}SDIXER");
                 c.add(label);
             });
         });

@@ -9,16 +9,18 @@ import io.anuke.arc.graphics.g2d.*;
 import io.anuke.arc.math.*;
 import io.anuke.arc.math.geom.Rectangle;
 import io.anuke.arc.math.geom.Vector2;
-import io.anuke.arc.util.Time;
-import io.anuke.arc.util.Tmp;
+import io.anuke.arc.util.*;
 
 public class Player extends Char{
     private static final boolean snap = true;
     private final static float speed = 5f;
+    private final static float reload = 12f;
     private static final Color hand = Color.valueOf("58adb6");
 
     private Vector2 movement = new Vector2();
     private Direction direction = Direction.right;
+    private Interval timer = new Interval();
+    private float scytherot;
 
     private Array<Vector2> slashes = new Array<>();
 
@@ -44,10 +46,11 @@ public class Player extends Char{
 
         Layer.z(y + Tmp.v1.y);
 
-        Draw.rect("scythe", x + Tmp.v1.x - dir*7f, y + 13 + Tmp.v1.y, scythe.getWidth() * -dir, scythe.getHeight(), 50f * dir);
+        Draw.rect("scythe", x + Tmp.v1.x - dir*7f, y + 13 + Tmp.v1.y, scythe.getWidth() * -dir, scythe.getHeight(), (50f + scytherot) * dir);
+        Tmp.v2.trns((50f - scytherot), 3f);
         Draw.color(hand);
-        Fill.square(x + Tmp.v1.x - dir*9f + 0.5f, y + 15 + Tmp.v1.y + 0.5f, 1f);
-        Fill.square(x + Tmp.v1.x - dir*5f + 0.5f, y + 11 + Tmp.v1.y + 0.5f, 1f);
+        Fill.square(x + Tmp.v1.x - dir*(7f + Tmp.v2.x) + 0.5f, y + 14 + Tmp.v1.y + 0.5f + Tmp.v2.y, 1f);
+        Fill.square(x + Tmp.v1.x - dir*(7f - Tmp.v2.x) + 0.5f, y + 14 + Tmp.v1.y + 0.5f - Tmp.v2.y, 1f);
 
         Draw.color();
 
@@ -77,7 +80,13 @@ public class Player extends Char{
         float angle = Angles.mouseAngle(x, y + 13f);
 
         if(Core.input.keyDown(Binding.shoot)){
-            shoot(Bullets.basic, angle);
+            scytherot += Time.delta() * 12f;
+
+            if(timer.get(reload)){
+                shoot(Bullets.basic, angle);
+            }
+        }else{
+            scytherot = Mathf.slerpDelta(scytherot, 0f, 0.2f);
         }
 
         direction = Direction.fromAngle(angle);

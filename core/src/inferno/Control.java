@@ -5,7 +5,7 @@ import inferno.type.Player;
 import io.anuke.arc.ApplicationListener;
 import io.anuke.arc.Core;
 import io.anuke.arc.input.KeyCode;
-import io.anuke.arc.util.*;
+import io.anuke.arc.util.Time;
 
 import static inferno.Inferno.*;
 
@@ -31,6 +31,7 @@ public class Control implements ApplicationListener{
 
     @Override
     public void update(){
+
         if(Core.input.keyTap(KeyCode.ESCAPE)){
             Core.app.exit();
         }
@@ -46,7 +47,7 @@ public class Control implements ApplicationListener{
             bulletGroup.update();
             effectGroup.update();
 
-            bulletGroup.collide(charGroup);
+            charGroup.collide(bulletGroup);
         }
     }
 }
