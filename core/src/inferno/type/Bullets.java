@@ -20,5 +20,19 @@ public class Bullets{
             Draw.color(Color.WHITE);
             Fill.circle(bullet.x, bullet.y, 2f);
         }
-    };
+    },
+    lbasic = new BulletType(){
+        {
+            speed = 3f;
+            lightColor = Pal.lucine;
+        }
+
+        @Override
+        public void draw(Bullet bullet){
+            Draw.color(Pal.lucine);
+            Fill.circle(bullet.x, bullet.y, 5f);
+            Draw.color(Color.WHITE);
+            Fill.circle(bullet.x, bullet.y, 2f);
+        }
+    };;
 }

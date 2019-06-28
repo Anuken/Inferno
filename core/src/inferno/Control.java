@@ -25,7 +25,7 @@ public class Control implements ApplicationListener{
         player.set(world.width() * tilesize/2f + 0.5f, world.height() * tilesize/2f + 0.5f);
         Core.camera.position.set(player);
 
-        boss.set(world.width() * tilesize/2f, world.height() * tilesize/2f + tilesize*4);
+        boss.set(world.width() * tilesize/2f, world.height() * tilesize/2f + tilesize*25);
 
         boss.add();
         player.add();

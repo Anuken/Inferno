@@ -74,6 +74,10 @@ public class Effects{
             effect(this, x, y);
         }
 
+        public void at(float x, float y, Color color){
+            effect(this, color, x, y, 0f);
+        }
+
         public void at(float x, float y, float rotation){
             effect(this, x, y, rotation);
         }

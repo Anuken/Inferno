@@ -11,10 +11,10 @@ public class Fx{
     public static final Effect
 
     spark = new Effect(20, e -> {
-        Draw.color(Color.WHITE, Color.CYAN, e.fout());
-        Angles.randLenVectors(e.id, 10, 30f * e.fin(), (x, y) -> {
+        Draw.color(Color.WHITE, e.color, e.fout());
+        Angles.randLenVectors(e.id, 7, 30f * e.fin(), (x, y) -> {
             Fill.circle(e.x + x, e.y + y, e.fout() * 4f);
-            Layer.light(e.x + x, e.y + y, 18f * e.fout(), Color.CYAN);
+            //Layer.light(e.x + x, e.y + y, 18f * e.fout(), e.color);
         });
         Draw.color();
     }),

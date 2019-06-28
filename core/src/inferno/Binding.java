@@ -7,7 +7,8 @@ import io.anuke.arc.input.KeyCode;
 public enum Binding implements KeyBind{
     move_x(new Axis(KeyCode.A, KeyCode.D)),
     move_y(new Axis(KeyCode.S, KeyCode.W)),
-    shoot(KeyCode.MOUSE_LEFT);
+    shoot(KeyCode.MOUSE_LEFT),
+    alt(KeyCode.MOUSE_RIGHT);
 
     private final KeybindValue code;
 

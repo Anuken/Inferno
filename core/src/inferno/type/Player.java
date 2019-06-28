@@ -13,17 +13,16 @@ import io.anuke.arc.math.geom.Vector2;
 import io.anuke.arc.util.*;
 
 public class Player extends Char{
-    private static final boolean snap = true;
-    private final static float speed = 3f;
-    private final static float reload = 12f;
-    private final static float rotspeed = 14f;
+    private final static boolean snap = true;
+    private final static float speed = 3f, reload = 12f, rotspeed = 14f, slashdur = 10f, slasharc = 180f;
     private final static int[] seq = {2, 1, 0, 1};
-    private static final Color hand = Color.valueOf("202334");
+    private final static Color hand = Color.valueOf("202334").mul(2f);
 
     private Vector2 movement = new Vector2();
     private Direction direction = Direction.right;
     private Interval timer = new Interval();
-    private float scytherot, movetime, glowtime;
+    private float scytherot, movetime, glowtime, slashtime, slashrot;
+    private boolean slashdir;
 
     private TextureRegion[] animation = new TextureRegion[3];
     private Array<Vector2> slashes = new Array<>();
@@ -53,23 +52,24 @@ public class Player extends Char{
         int dir = Mathf.sign(direction.flipped);
 
         Draw.rect(region, x, y + 13, region.getWidth() * -dir, region.getHeight());
-
         Layer.z(y + Tmp.v1.y);
 
-        Draw.rect("scythe", x + Tmp.v1.x - dir*7f, y + 13 + Tmp.v1.y, scythe.getWidth() * -dir, scythe.getHeight(), (50f + scytherot) * dir);
+        float finalrot = (50f + scytherot + slashrot) * dir;
+
+        Draw.rect("scythe", x + Tmp.v1.x - dir*7f, y + 13 + Tmp.v1.y - slashrot/10f, scythe.getWidth() * -dir, scythe.getHeight(), finalrot);
 
         if(glowtime > 0f){
             Draw.alpha(glowtime);
-            Draw.rect("scytheglow", x + Tmp.v1.x - dir*7f, y + 13 + Tmp.v1.y, scythe.getWidth() * -dir, scythe.getHeight(), (50f + scytherot) * dir);
+            Draw.rect("scytheglow", x + Tmp.v1.x - dir*7f, y + 13 + Tmp.v1.y, scythe.getWidth() * -dir, scythe.getHeight(), finalrot);
             Draw.color();
 
             Layer.light(x + Tmp.v1.x - dir*7f, y + 13 + Tmp.v1.y, 50f * glowtime, Color.WHITE);
         }
 
-        Tmp.v2.trns((50f - scytherot), 3f);
+        Tmp.v2.trns((50f - scytherot + slashrot), 3f);
         Draw.color(hand);
-        Fill.square(x + Tmp.v1.x - dir*(7f + Tmp.v2.x) + 0.5f, y + 14 + Tmp.v1.y + 0.5f + Tmp.v2.y, 1f);
-        Fill.square(x + Tmp.v1.x - dir*(7f - Tmp.v2.x) + 0.5f, y + 14 + Tmp.v1.y + 0.5f - Tmp.v2.y, 1f);
+        Fill.square(x + Tmp.v1.x - dir*(7f + Tmp.v2.x) + 0.5f, y + 14 + Tmp.v1.y + 0.5f + Tmp.v2.y - slashrot/10f, 1f);
+        Fill.square(x + Tmp.v1.x - dir*(7f - Tmp.v2.x) + 0.5f, y + 14 + Tmp.v1.y + 0.5f - Tmp.v2.y - slashrot/10f, 1f);
 
         Draw.color();
 
@@ -107,7 +107,11 @@ public class Player extends Char{
         float angle = Angles.mouseAngle(x, y + 13f);
         glowtime = Mathf.lerpDelta(glowtime, 0f, 0.1f);
 
-        if(Core.input.keyDown(Binding.shoot)){
+        if(Core.input.keyTap(Binding.alt) && slashtime <= 0f){
+            slashtime = 1f;
+        }
+
+        if(Core.input.keyDown(Binding.shoot) && slashtime <= 0){
             scytherot += Time.delta() * rotspeed;
 
             if(timer.get(reload)){
@@ -116,6 +120,13 @@ public class Player extends Char{
             }
         }else{
             scytherot = Mathf.slerpDelta(scytherot, 0f, 0.2f);
+        }
+
+        float targetarcrot = slashtime <= 0 ? 0 : (Mathf.clamp(1f - slashtime) - 0.5f) * slasharc;
+        slashrot = Mathf.lerp(slashrot, targetarcrot, slashtime > 0 ? 0.8f : 0.2f);
+
+        if(slashtime > 0){
+            slashtime -= Time.delta() / slashdur;
         }
 
         direction = Direction.fromAngle(angle);

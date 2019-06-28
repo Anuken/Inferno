@@ -30,6 +30,6 @@ public class BulletType{
 
     public void hit(Bullet bullet){
         bullet.remove();
-        hit.at(bullet.x, bullet.y);
+        hit.at(bullet.x, bullet.y, lightColor);
     }
 }
