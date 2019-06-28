@@ -3,6 +3,7 @@ package inferno.entity;
 import io.anuke.arc.collection.Array;
 import io.anuke.arc.math.Mathf;
 import io.anuke.arc.math.geom.*;
+import io.anuke.arc.util.Log;
 
 import static inferno.Inferno.tilesize;
 import static inferno.Inferno.world;
@@ -124,7 +125,6 @@ public class EntityCollisions{
     }
 
     private static void checkCollide(Entity entity, Entity other){
-
         SolidEntity a = (SolidEntity)entity;
         SolidEntity b = (SolidEntity)other;
 

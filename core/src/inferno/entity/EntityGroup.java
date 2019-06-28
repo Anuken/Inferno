@@ -7,6 +7,7 @@ import io.anuke.arc.function.Predicate;
 import io.anuke.arc.graphics.Camera;
 import io.anuke.arc.math.geom.QuadTree;
 import io.anuke.arc.math.geom.Rectangle;
+import io.anuke.arc.util.Log;
 
 public class EntityGroup<T extends Entity>{
     private final boolean useTree;

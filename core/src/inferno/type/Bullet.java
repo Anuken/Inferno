@@ -30,6 +30,16 @@ public class Bullet extends SolidEntity{
     }
 
     @Override
+    public void collision(SolidEntity other, float x, float y){
+        type.hit(this);
+    }
+
+    @Override
+    public boolean collides(SolidEntity other){
+        return true;
+    }
+
+    @Override
     public void update(){
         super.update();
 
@@ -52,7 +62,7 @@ public class Bullet extends SolidEntity{
 
     @Override
     public void hitbox(Rectangle rectangle){
-        rectangle.setSize(type.size).setCenter(x, y - 4f);
+        rectangle.setSize(type.size).setCenter(x, y);
     }
 
     @Override

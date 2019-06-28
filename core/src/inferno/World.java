@@ -10,6 +10,8 @@ import io.anuke.arc.math.geom.Geometry;
 import io.anuke.arc.math.geom.Point2;
 import io.anuke.arc.util.Structs;
 
+import static inferno.Inferno.*;
+
 public class World implements ApplicationListener{
     Tile[][] tiles;
     ObjectMap<MapTile, Block> blocks = new ObjectMap<>();
@@ -75,6 +77,9 @@ public class World implements ApplicationListener{
                 }
             }
         }
+
+        bulletGroup.resize(0, 0, width() * tilesize, height() * tilesize);
+        charGroup.resize(0, 0, width() * tilesize, height() * tilesize);
     }
 
     public Array<MapObject> getObjects(){

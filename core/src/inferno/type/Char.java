@@ -8,6 +8,11 @@ import static inferno.Inferno.charGroup;
 
 public abstract class Char extends SolidEntity{
     public float health;
+    public boolean dead;
+
+    public Char(){
+        health = maxHealth();
+    }
 
     public boolean isPlayer(){
         return this instanceof Player;
@@ -23,6 +28,20 @@ public abstract class Char extends SolidEntity{
 
     public float height(){
         return 10f;
+    }
+
+    public void onDeath(){
+
+    }
+
+    @Override
+    public void collision(SolidEntity other, float x, float y){
+        Bullet bullet = (Bullet)other;
+        health -= bullet.type.damage;
+        if(!dead && health < 0){
+            dead = true;
+            onDeath();
+        }
     }
 
     @Override

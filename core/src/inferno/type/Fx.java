@@ -17,5 +17,13 @@ public class Fx{
             Layer.light(e.x + x, e.y + y, 18f * e.fout(), Color.CYAN);
         });
         Draw.color();
+    }),
+    playershoot = new Effect(10, e -> {
+        Draw.color(Color.WHITE, Color.CYAN, e.fout());
+        Angles.randLenVectors(e.id, 3, 40f * e.fin(), e.rotation, 20f, (x, y) -> {
+            Fill.circle(e.x + x, e.y + y, e.fout() * 6f);
+            Layer.light(e.x + x, e.y + y, 8f * e.fout(), Color.CYAN);
+        });
+        Draw.color();
     });
 }

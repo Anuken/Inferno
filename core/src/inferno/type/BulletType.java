@@ -9,6 +9,7 @@ public class BulletType{
     public float size = 4f;
     public float speed = 2f;
     public float light = 30f;
+    public float damage = 1f;
     public Color lightColor = new Color(1f, 1f, 1f, 0.5f);
 
     public Effect hit = Fx.spark;
