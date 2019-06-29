@@ -20,6 +20,8 @@ import io.anuke.arc.util.*;
 import io.anuke.arc.util.noise.Noise;
 
 import static inferno.Inferno.*;
+import static io.anuke.arc.Core.camera;
+import static io.anuke.arc.Core.settings;
 
 public class Renderer implements ApplicationListener{
     public LayerBatch zbatch;
@@ -30,6 +32,7 @@ public class Renderer implements ApplicationListener{
     private FrameBuffer lights = new FrameBuffer(2, 2);
     private FrameBuffer fogs;
     private float lim = 10f;
+    private float shakeIntensity, shaketime;
 
     private Shader fog = new Shader(Core.files.local("dshaders/default.vertex.glsl"), Core.files.local("dshaders/fog.fragment.glsl"));
     private Shader light = new Shader(Core.files.local("dshaders/default.vertex.glsl"), Core.files.local("dshaders/light.fragment.glsl"));
@@ -59,6 +62,7 @@ public class Renderer implements ApplicationListener{
         Layer.sort(true);
 
         Core.camera.position.lerpDelta(player.x, player.y, 0.03f).clamp(player.x - lim, player.x + lim, player.y - lim, player.y + lim);
+        updateShake(1f);
         float px = Core.camera.position.x, py = Core.camera.position.y;
         Core.camera.position.snap();
         Core.camera.update();
@@ -122,6 +126,27 @@ public class Renderer implements ApplicationListener{
         bloom.dispose();
         bloom = new Bloom();
         Core.camera.resize(width / scale, height / scale);
+    }
+
+    public void shake(float intensity, float duration){
+        shakeIntensity = Math.max(intensity, shakeIntensity);
+        shaketime = Math.max(shaketime, duration);
+    }
+
+    public void jump(float angle, float intensity){
+        camera.position.add(Tmp.v4.trns(angle, intensity));
+    }
+
+    void updateShake(float scale){
+        if(shaketime > 0){
+            float intensity = shakeIntensity * (settings.getInt("screenshake", 4) / 4f) * scale;
+            camera.position.add(Mathf.range(intensity), Mathf.range(intensity));
+            shakeIntensity -= 0.25f * Time.delta();
+            shaketime -= Time.delta();
+            shakeIntensity = Mathf.clamp(shakeIntensity, 0f, 100f);
+        }else{
+            shakeIntensity = 0f;
+        }
     }
 
     void drawShadows(){

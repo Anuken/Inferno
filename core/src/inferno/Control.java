@@ -13,6 +13,7 @@ public class Control implements ApplicationListener{
     public boolean paused = false;
 
     public Control(){
+        //Time.setDeltaProvider(() -> 0.05f);
         Core.keybinds.setDefaults(Binding.values());
         Core.settings.setAppName("Inferno");
         Core.settings.load();
