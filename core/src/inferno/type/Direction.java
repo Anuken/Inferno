@@ -1,17 +1,30 @@
 package inferno.type;
 
+import io.anuke.arc.Core;
+import io.anuke.arc.graphics.g2d.TextureRegion;
+
 public enum Direction{
-    left(true), up(false), right(false), down(false);
+    left("side", true, 2, 1, 0, 1),
+    up("back", false, 0, 1, 0, 2),
+    right("side", false, 2, 1, 0, 1),
+    down("front", false, 0, 1, 0, 2);
 
     final boolean flipped;
+    final String name;
+    final TextureRegion[] frames;
+    final TextureRegion region;
 
-    Direction(boolean flipped){
+    Direction(String name, boolean flipped, int... seq){
         this.flipped = flipped;
+        this.name = name;
+        this.region = Core.atlas.find("prince-" + name);
+        this.frames = new TextureRegion[seq.length];
+        for(int i = 0; i < seq.length; i++){
+            frames[i] = Core.atlas.find("prince-" + name + "-" + seq[i]);
+        }
     }
 
     static Direction fromAngle(float angle){
-        return angle < 90 || angle > 270 ? right : left;
-        /*
         if(angle < 45 || angle >= 315){
             return right;
         }else if(angle >= 45 && angle < 135){
@@ -20,6 +33,6 @@ public enum Direction{
             return left;
         }else{
             return down;
-        }*/
+        }
     }
 }

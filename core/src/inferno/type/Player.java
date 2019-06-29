@@ -16,7 +16,6 @@ import static inferno.Inferno.*;
 public class Player extends Char{
     private final static boolean snap = true;
     private final static float speed = 3f, reload = 12f, rotspeed = 18f, slashdur = 6f, slasharc = 210f, slashreload = 100f;
-    private final static int[] seq = {2, 1, 0, 1};
     private final static Color hand = Color.valueOf("202334").mul(2f);
 
     private Vector2 movement = new Vector2();
@@ -25,17 +24,9 @@ public class Player extends Char{
     private float scytherot, movetime, glowtime, slashtime = -1f, slashrot, shoottime;
     private boolean slashdir;
 
-    private TextureRegion[] animation = new TextureRegion[3];
     private Array<Vector3> removals = new Array<>();
     private Array<Vector3> slashes = new Array<>();
-
     private float px, py;
-
-    public Player(){
-        for(int i = 0; i < 3; i++){
-            animation[i] = Core.atlas.find("prince-move" + i);
-        }
-    }
 
     @Override
     public void draw(){
@@ -46,7 +37,7 @@ public class Player extends Char{
             y = (int)y;
         }
 
-        TextureRegion region = movetime > 0 ? animation[seq[(int)(movetime / 6) % seq.length]] : Core.atlas.find("prince");
+        TextureRegion region = movetime > 0 ? direction.frames[(int)(movetime / 6) % direction.frames.length] : direction.region;
         TextureRegion scythe = Core.atlas.find("scythe");
 
         float len = 3f;
@@ -180,7 +171,7 @@ public class Player extends Char{
         float targetarcrot = slashtime <= 0 ? 0 : (Mathf.clamp(1f - slashtime) - 0.5f) * slasharc;
         slashrot = Mathf.lerp(slashrot, targetarcrot, slashtime > 0 ? 0.8f : 0.2f);
 
-        if(slashtime > -0.6f){
+        if(slashtime > -0.7f){
             float qw = 120f;
             float qh = 120f;
             float qx = player.x - qw/2f;
