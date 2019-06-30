@@ -3,17 +3,44 @@ package inferno;
 import inferno.graphics.Layer;
 import io.anuke.arc.ApplicationListener;
 import io.anuke.arc.Core;
+import io.anuke.arc.collection.Array;
+import io.anuke.arc.graphics.Color;
+import io.anuke.arc.input.KeyCode;
 import io.anuke.arc.scene.Scene;
 import io.anuke.arc.scene.Skin;
+import io.anuke.arc.scene.ui.Image;
 import io.anuke.arc.typelabel.TypeLabel;
+import io.anuke.arc.typelabel.TypingListener;
+import io.anuke.arc.util.Align;
 
 public class UI implements ApplicationListener{
+    private TypeLabel label;
+    private Image image;
+
+    private Array<String> text = new Array<>();
+    private String displayName = "";
+    private int textIndex;
 	
 	@Override
 	public void init(){
         Core.scene = new Scene(new Skin(Core.files.internal("sprites/uiskin.json"), Core.atlas));
         Core.input.addProcessor(Core.scene);
+        image = new Image("dialogDim");
+        label = new TypeLabel("");
+        label.setTypingListener(new TypingListener(){
+            @Override
+            public void event(String event){
+                if(event.startsWith("face:")){
+                    image.setDrawable(event.substring("face:".length()));
+                }else{
+                    displayName = event;
+                }
+            }
+        });
+
         setup();
+
+        //displayText(Array.with("{Nejir}{face:prince chatbox}[scarlet]death[] {wave}death death death death death death{/wave}{shake}death death death{/shake}", "{Lucine}{face:lucine chatbox}goodbye {slower}aaaaaaaaaaaaaaaaaaaaaaaaa{normal}aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
 	}
 
 	@Override
@@ -29,6 +56,13 @@ public class UI implements ApplicationListener{
         Core.scene.draw();
     }
 
+    public void displayText(Array<String> text){
+	    this.text = text;
+	    this.textIndex = 0;
+	    label.setText(text.first());
+        label.act(0.01f);
+    }
+
     void setup(){
 	    Core.scene.table(t -> {
 	        t.top().left();
@@ -37,11 +71,35 @@ public class UI implements ApplicationListener{
 
 	    Core.scene.table(t -> {
 	        t.bottom();
-	        t.table("button", c -> {
-	            c.margin(14f);
-                TypeLabel label = new TypeLabel("{wave}begin[yellow]wave[]{wait}end wave{/wave}red text{wait}crash?\nlet's talk about how long this text is");
-                c.add(label);
-            });
+	        t.table("dialogDim", c -> {
+	            c.visible(() -> label.getText().length() != 0);
+	            c.margin(14f).top().left().defaults().top().left();
+
+                c.add(image).size(128f).padRight(8f);
+                c.table(text -> {
+                    text.left();
+                    text.label(() -> displayName).color(Color.CORAL).padBottom(3).left();
+                    text.row();
+                    text.add(label).growX().wrap();
+                }).growX();
+
+                label.setAlignment(Align.topLeft);
+                label.update(() -> {
+                    if(Core.input.keyTap(KeyCode.SPACE)){
+                        if(label.hasEnded()){
+                            if(textIndex < text.size - 1){
+                                image.setDrawable("dialogDim");
+                                label.restart(text.get(++textIndex));
+                                //label.act(0.01f);
+                            }else{
+                                label.setText("");
+                            }
+                        }else{
+                            label.skipToTheEnd(false);
+                        }
+                    }
+                });
+            }).width(600f);
         });
     }
 }

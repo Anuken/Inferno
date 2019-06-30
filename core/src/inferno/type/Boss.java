@@ -2,18 +2,18 @@ package inferno.type;
 
 import inferno.entity.SolidEntity;
 import inferno.graphics.Layer;
+import inferno.type.boss.Phase;
+import inferno.type.boss.Phases;
 import io.anuke.arc.Core;
 import io.anuke.arc.graphics.Color;
 import io.anuke.arc.graphics.g2d.Draw;
 import io.anuke.arc.graphics.g2d.TextureRegion;
 import io.anuke.arc.math.geom.Rectangle;
-import io.anuke.arc.util.Interval;
-import io.anuke.arc.util.Time;
 
-import static io.anuke.arc.math.Angles.*;
+import static io.anuke.arc.math.Angles.circle;
 
 public class Boss extends Char{
-    Interval time = new Interval();
+    Phase phase = Phases.first;
 
     @Override
     public void onDeath(){
@@ -23,10 +23,8 @@ public class Boss extends Char{
 
     @Override
     public void update(){
-        if(time.get(70f)){
-            loop(8, j -> Time.run(j * 5, () -> circle(5, j * 5f, f -> shotgun(10, 5f, f, i -> shoot(Bullets.lbasic, i)))));
-        }
-
+        phase.boss = this;
+        phase.update();
     }
 
     @Override
