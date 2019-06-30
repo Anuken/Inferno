@@ -39,7 +39,7 @@ public class UI implements ApplicationListener{
 	        t.bottom();
 	        t.table("button", c -> {
 	            c.margin(14f);
-                TypeLabel label = new TypeLabel("{wave}begin [yellow]wave[]{wait}end wave{/wave}{$red}red text{reset}{wait}crash?");
+                TypeLabel label = new TypeLabel("{wave}begin[yellow]wave[]{wait}end wave{/wave}red text{wait}crash?\nlet's talk about how long this text is");
                 c.add(label);
             });
         });
