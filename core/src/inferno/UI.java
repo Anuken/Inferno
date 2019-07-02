@@ -1,5 +1,7 @@
 package inferno;
 
+import inferno.entity.Entity;
+import inferno.graphics.HealthBar;
 import inferno.graphics.Layer;
 import io.anuke.arc.ApplicationListener;
 import io.anuke.arc.Core;
@@ -12,6 +14,9 @@ import io.anuke.arc.scene.ui.Image;
 import io.anuke.arc.typelabel.TypeLabel;
 import io.anuke.arc.typelabel.TypingListener;
 import io.anuke.arc.util.Align;
+
+import static inferno.Inferno.boss;
+import static inferno.Inferno.player;
 
 public class UI implements ApplicationListener{
     private TypeLabel label;
@@ -40,7 +45,9 @@ public class UI implements ApplicationListener{
 
         setup();
 
-        //displayText(Array.with("{Nejir}{face:prince chatbox}[scarlet]death[] {wave}death death death death death death{/wave}{shake}death death death{/shake}", "{Lucine}{face:lucine chatbox}goodbye {slower}aaaaaaaaaaaaaaaaaaaaaaaaa{normal}aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
+        Core.app.post(() -> {
+            //displayText(Array.with("{Nejir}{face:prince chatbox}[scarlet]death[] {wave}death death death death death death{/wave}{shake}death death death{/shake}", "{Lucine}{face:lucine chatbox}goodbye {slower}aaaaaaaaaaaaaaaaaaaaaaaaa{normal}aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
+        });
 	}
 
 	@Override
@@ -56,16 +63,24 @@ public class UI implements ApplicationListener{
         Core.scene.draw();
     }
 
+    public Entity getDialogueFace(){
+	    return image.getRegion().asAtlas().name.contains("lucine") ? boss : player;
+    }
+
+    public boolean hasDialogue(){
+	    return label.getText().length() > 0;
+    }
+
     public void displayText(Array<String> text){
 	    this.text = text;
 	    this.textIndex = 0;
-	    label.setText(text.first());
+	    label.restart(text.first());
         label.act(0.01f);
     }
 
     void setup(){
 	    Core.scene.table(t -> {
-	        t.top().left();
+	        t.top().right();
 	        t.label(() -> Core.graphics.getFramesPerSecond() + " FPS");
         });
 
@@ -100,6 +115,13 @@ public class UI implements ApplicationListener{
                     }
                 });
             }).width(600f);
+        });
+
+	    Core.scene.table(t -> {
+	        t.top().left().table("dialogDim", b -> {
+	            //b.setColor(Color.BLACK);
+	            b.margin(8f).add(new HealthBar()).size(340f, 20f);
+            });
         });
     }
 }

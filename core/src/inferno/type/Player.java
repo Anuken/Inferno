@@ -86,7 +86,7 @@ public class Player extends Char{
                     Lines.line(offsetx + cur.x, offsety + cur.y, offsetx + next.x, offsety + next.y, i == 0 ? CapStyle.round : CapStyle.none, 1f);
                 }
 
-                if(!control.paused){
+                if(!control.isPaused()){
                     cur.z += 1f/slashdur * Time.delta();
                 }
 
@@ -120,6 +120,11 @@ public class Player extends Char{
 
         Tmp.v2.trns(rot, 26f);
         slashes.add(new Vector3(new Vector3(Tmp.v2.x, 7 + Tmp.v2.y, offset)));
+    }
+
+    @Override
+    public float maxHealth(){
+        return 20f;
     }
 
     @Override

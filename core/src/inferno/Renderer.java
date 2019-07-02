@@ -61,7 +61,12 @@ public class Renderer implements ApplicationListener{
     public void update(){
         Layer.sort(true);
 
-        Core.camera.position.lerpDelta(player.x, player.y, 0.03f).clamp(player.x - lim, player.x + lim, player.y - lim, player.y + lim);
+        Entity target = ui.hasDialogue() ? ui.getDialogueFace() : player;
+
+        Core.camera.position.lerpDelta(target.x, target.y, 0.03f);
+        if(!ui.hasDialogue()){
+            camera.position.clamp(player.x - lim, player.x + lim, player.y - lim, player.y + lim);
+        }
         updateShake(1f);
         float px = Core.camera.position.x, py = Core.camera.position.y;
         Core.camera.position.snap();

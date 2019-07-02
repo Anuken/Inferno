@@ -10,7 +10,7 @@ import io.anuke.arc.util.Time;
 import static inferno.Inferno.*;
 
 public class Control implements ApplicationListener{
-    public boolean paused = false;
+    private boolean paused = false;
 
     public Control(){
         //Time.setDeltaProvider(() -> 0.05f);
@@ -40,10 +40,10 @@ public class Control implements ApplicationListener{
         }
 
         if(Core.input.keyTap(KeyCode.SPACE)){
-            paused = !paused;
+            setPaused(!isPaused());
         }
 
-        if(!paused){
+        if(!isPaused()){
             Time.update();
 
             charGroup.update();
@@ -52,5 +52,13 @@ public class Control implements ApplicationListener{
 
             charGroup.collide(bulletGroup);
         }
+    }
+
+    public boolean isPaused(){
+        return paused || ui.hasDialogue();
+    }
+
+    public void setPaused(boolean paused){
+        this.paused = paused;
     }
 }
