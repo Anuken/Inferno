@@ -46,7 +46,7 @@ public class UI implements ApplicationListener{
         setup();
 
         Core.app.post(() -> {
-            //displayText(Array.with("{Nejir}{face:prince chatbox}[scarlet]death[] {wave}death death death death death death{/wave}{shake}death death death{/shake}", "{Lucine}{face:lucine chatbox}goodbye {slower}aaaaaaaaaaaaaaaaaaaaaaaaa{normal}aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
+            //displayText(Array.with("{Asmus}{face:prince chatbox}[scarlet]death[] {wave}death death death death death death{/wave}{shake}death death death{/shake}", "{Lucine}{face:lucine chatbox}goodbye {slower}aaaaaaaaaaaaaaaaaaaaaaaaa{normal}aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
         });
 	}
 

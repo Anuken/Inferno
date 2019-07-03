@@ -23,10 +23,17 @@ public class Control implements ApplicationListener{
     public void init(){
         boss = new Boss();
         player = new Player();
+        reset();
+
+    }
+
+    public void reset(){
         player.set(world.width() * tilesize/2f + 0.5f, world.height() * tilesize/2f + 0.5f);
+        player.heal();
         Core.camera.position.set(player);
 
         boss.set(world.width() * tilesize/2f, world.height() * tilesize/2f + tilesize*25);
+        boss.heal();
 
         boss.add();
         player.add();

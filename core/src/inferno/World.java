@@ -94,6 +94,10 @@ public class World implements ApplicationListener{
         return wallLayer.height;
     }
 
+    public int world(float f){
+        return (int)(f / tilesize);
+    }
+
     public boolean solid(int x, int y){
         return tileOpt(x, y) == null || tile(x, y).solid();
     }

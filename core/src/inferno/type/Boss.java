@@ -8,8 +8,9 @@ import io.anuke.arc.Core;
 import io.anuke.arc.graphics.Color;
 import io.anuke.arc.graphics.g2d.Draw;
 import io.anuke.arc.graphics.g2d.TextureRegion;
-import io.anuke.arc.math.geom.Rectangle;
+import io.anuke.arc.math.geom.*;
 
+import static inferno.Inferno.*;
 import static io.anuke.arc.math.Angles.circle;
 
 public class Boss extends Char{
@@ -51,4 +52,12 @@ public class Boss extends Char{
         Draw.rect("circle", (int)x, (int)y, 16f, 7f);
     }
 
+    public float aim(){
+        return angleTo(player);
+    }
+
+    public boolean seesPlayer(){
+        return !Geometry.raycast(world.world(x), world.world(y), world.world(player.x), world.world(player.y),
+            (x, y) -> world.solid(x, y));
+    }
 }

@@ -60,13 +60,13 @@ public class Player extends Char{
             Layer.light(x + Tmp.v1.x - dir*7f, y + 13 + Tmp.v1.y, 50f * glowtime, Color.WHITE);
         }
 
+        //hands
         /*
         Tmp.v2.trns((50f - scytherot + slashrot), 3f);
         Draw.color(hand);
         Fill.square(x + Tmp.v1.x - dir*(7f + Tmp.v2.x) + 0.5f, y + 14 + Tmp.v1.y + 0.5f + Tmp.v2.y - slashrot/10f, 1f);
         Fill.square(x + Tmp.v1.x - dir*(7f - Tmp.v2.x) + 0.5f, y + 14 + Tmp.v1.y + 0.5f - Tmp.v2.y - slashrot/10f, 1f);
 */
-
 
         if(slashes.size > 0){
             removals.clear();
@@ -119,12 +119,17 @@ public class Player extends Char{
         float rot = mouseAngle() + slasharc/2f * sdir + (slashtime > 0 ? (slasharc * Mathf.clamp(1f - slashtime)) * -sdir : 0) - 20*sdir;
 
         Tmp.v2.trns(rot, 26f);
-        slashes.add(new Vector3(new Vector3(Tmp.v2.x, 7 + Tmp.v2.y, offset)));
+        slashes.add(new Vector3(Tmp.v2.x, 7 + Tmp.v2.y, offset));
+    }
+
+    @Override
+    public void onDeath(){
+        control.reset();
     }
 
     @Override
     public float maxHealth(){
-        return 20f;
+        return 60;
     }
 
     @Override

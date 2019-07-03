@@ -26,6 +26,10 @@ public abstract class Char extends SolidEntity{
         return 100f;
     }
 
+    public void heal(){
+        health = maxHealth();
+    }
+
     public float height(){
         return 10f;
     }
