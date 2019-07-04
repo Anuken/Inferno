@@ -15,14 +15,15 @@ import static inferno.Inferno.*;
 
 public class Player extends Char{
     private final static boolean snap = true;
-    private final static float speed = 3f, reload = 12f, rotspeed = 18f, slashdur = 6f, slasharc = 210f, slashreload = 100f;
+    private final static int scytheDamage = 10;
+    private final static float speed = 3f, reload = 12f, rotspeed = 18f, slashdur = 6f, slasharc = 210f, slashreload = 100f, scytheJump = 24f;
     private final static Color hand = Color.valueOf("202334").mul(2f);
 
     private Vector2 movement = new Vector2();
     private Direction direction = Direction.right;
     private Interval timer = new Interval();
-    private float scytherot, movetime, glowtime, slashtime = -1f, slashrot, shoottime;
-    private boolean slashdir;
+    private float scytherot, movetime, glowtime, slashtime = -100f, slashrot;
+    private boolean slashdir, hitBoss;
 
     private Array<Vector3> removals = new Array<>();
     private Array<Vector3> slashes = new Array<>();
@@ -52,8 +53,10 @@ public class Player extends Char{
 
         Draw.rect("scythe", x + Tmp.v1.x, y + 7 + scythe.getHeight()/2f + Tmp.v1.y, scythe.getWidth() * sdir, scythe.getHeight(), scythe.getWidth()/2f * sdir, 4f, rot);
 
-        if(glowtime > 0f){
-            Draw.alpha(glowtime);
+        if(slashtime > -slashreload/slashdur){
+            float fract = (1f - Interpolation.pow10In.apply(-slashtime / (slashreload/slashdur)));
+
+            Draw.alpha(fract);
             Draw.rect("scytheglow", x + Tmp.v1.x, y + 7 + scythe.getHeight()/2f + Tmp.v1.y, scythe.getWidth() * sdir, scythe.getHeight(), scythe.getWidth()/2f * sdir, 4f, rot);
             Draw.color();
 
@@ -159,7 +162,8 @@ public class Player extends Char{
         glowtime = Mathf.lerpDelta(glowtime, 0f, 0.1f);
 
         if(Core.input.keyTap(Binding.alt) && slashtime <= -slashreload/slashdur){
-            Tmp.v3.trns(mouseAngle(), 12f);
+            hitBoss = false;
+            Tmp.v3.trns(mouseAngle(), scytheJump);
             move(Tmp.v3.x, Tmp.v3.y);
             renderer.jump(mouseAngle() + 180f, 10f);
             renderer.shake(3f, 3f);
@@ -192,14 +196,25 @@ public class Player extends Char{
                 if(b.shooter.isPlayer()) return;
                 b.hitbox(Tmp.r2);
 
-                float bangle = Angles.angle(player.x, player.y + 7f, b.x, b.y);
-                boolean valid = Angles.angleDist(angle, bangle) <= slasharc/2f;
-
-                if(b.withinDst(player.x, player.y + 7, length) && valid){
+                if(b.withinDst(player.x, player.y + 7, length) && Angles.angleDist(angle, Angles.angle(player.x, player.y + 7f, b.x, b.y)) <= slasharc/2f){
                     b.velocity.setAngle(b.angleTo(player.x, player.y + 7f) + 180f).scl(1.1f);
                     Fx.spark.at(b.x, b.y, Pal.player);
                 }
             });
+
+            boolean hitsBoss = boss.withinDst(player.x, player.y + 7f, length) && Angles.angleDist(angle, Angles.angle(player.x, player.y + 7f, boss.x, boss.y + 7f)) <= slasharc/2f;
+
+            if(hitsBoss){
+                if(!hitBoss){
+                    boss.damage(scytheDamage);
+                    Fx.spark.at(boss.x, boss.y, Pal.player);
+                    renderer.jump(-mouseAngle(), 30f);
+                    renderer.shake(4f, 3f);
+                    hitBoss = true;
+                }
+
+                boss.move(Tmp.v1.trns(angleTo(boss), 1.5f));
+            }
         }
 
         if(slashtime > 0){

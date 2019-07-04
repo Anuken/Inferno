@@ -29,6 +29,11 @@ public class Boss extends Char{
     }
 
     @Override
+    public float maxHealth(){
+        return 100;
+    }
+
+    @Override
     public void draw(){
         TextureRegion region = Core.atlas.find("lucine");
         Draw.rect(region, x, y + region.getHeight()/2f);

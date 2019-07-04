@@ -28,6 +28,7 @@ public abstract class Char extends SolidEntity{
 
     public void heal(){
         health = maxHealth();
+        dead = false;
     }
 
     public float height(){
@@ -38,14 +39,18 @@ public abstract class Char extends SolidEntity{
 
     }
 
-    @Override
-    public void collision(SolidEntity other, float x, float y){
-        Bullet bullet = (Bullet)other;
-        health -= bullet.type.damage;
-        if(!dead && health < 0){
+    public void damage(float damage){
+        health -= damage;
+        if(!dead && health <= 0){
             dead = true;
             onDeath();
         }
+    }
+
+    @Override
+    public void collision(SolidEntity other, float x, float y){
+        Bullet bullet = (Bullet)other;
+        damage(bullet.type.damage);
     }
 
     @Override

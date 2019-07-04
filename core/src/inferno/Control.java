@@ -28,6 +28,9 @@ public class Control implements ApplicationListener{
     }
 
     public void reset(){
+        bulletGroup.clear();
+        effectGroup.clear();
+
         player.set(world.width() * tilesize/2f + 0.5f, world.height() * tilesize/2f + 0.5f);
         player.heal();
         Core.camera.position.set(player);
