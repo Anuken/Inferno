@@ -1,6 +1,7 @@
 package inferno.graphics;
 
 import io.anuke.arc.collection.Array;
+import io.anuke.arc.graphics.Texture;
 import io.anuke.arc.graphics.g2d.SpriteBatch;
 import io.anuke.arc.graphics.g2d.TextureRegion;
 import io.anuke.arc.util.pooling.Pools;
@@ -17,6 +18,19 @@ public class LayerBatch extends SpriteBatch{
             flush();
         }
         this.sort = sort;
+    }
+
+    @Override
+    protected void draw(Texture texture, float[] spriteVertices, int offset, int count){
+        if(sort){
+            DrawRequest req = Pools.obtain(DrawRequest.class, DrawRequest::new);
+            req.z = z;
+            System.arraycopy(spriteVertices, 0, req.vertices, 0, req.vertices.length);
+            req.texture = texture;
+            requests.add(req);
+        }else{
+            super.draw(texture, spriteVertices, offset, count);
+        }
     }
 
     @Override
@@ -47,7 +61,11 @@ public class LayerBatch extends SpriteBatch{
 
             for(DrawRequest req : requests){
                 colorPacked = req.color;
-                super.draw(req.region, req.x, req.y, req.originX, req.originY, req.width, req.height, req.rotation);
+                if(req.texture != null){
+                    super.draw(req.texture, req.vertices, 0, req.vertices.length);
+                }else{
+                    super.draw(req.region, req.x, req.y, req.originX, req.originY, req.width, req.height, req.rotation);
+                }
             }
 
             Pools.freeAll(requests);

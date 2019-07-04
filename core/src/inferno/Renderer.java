@@ -133,6 +133,10 @@ public class Renderer implements ApplicationListener{
         Core.camera.resize(width / scale, height / scale);
     }
 
+    public void shake(float intensity){
+        shake(intensity, intensity);
+    }
+
     public void shake(float intensity, float duration){
         shakeIntensity = Math.max(intensity, shakeIntensity);
         shaketime = Math.max(shaketime, duration);

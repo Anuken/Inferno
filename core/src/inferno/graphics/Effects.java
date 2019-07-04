@@ -81,6 +81,10 @@ public class Effects{
         public void at(float x, float y, float rotation){
             effect(this, x, y, rotation);
         }
+
+        public void at(float x, float y, float rotation, Color color){
+            effect(this, color, x, y, rotation);
+        }
     }
 
     public static class EffectContainer implements ScaleTrait{

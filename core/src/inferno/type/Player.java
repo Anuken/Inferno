@@ -15,7 +15,7 @@ import static inferno.Inferno.*;
 
 public class Player extends Char{
     private final static boolean snap = true;
-    private final static int scytheDamage = 10;
+    private final static int scytheDamage = 14;
     private final static float speed = 3f, reload = 12f, rotspeed = 18f, slashdur = 6f, slasharc = 210f, slashreload = 100f, scytheJump = 24f;
     private final static Color hand = Color.valueOf("202334").mul(2f);
 
