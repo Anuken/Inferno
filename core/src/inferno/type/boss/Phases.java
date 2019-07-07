@@ -1,9 +1,9 @@
 package inferno.type.boss;
 
-import inferno.type.*;
+import inferno.type.Boss;
+import inferno.type.Fx;
 import io.anuke.arc.collection.Array;
 import io.anuke.arc.function.Consumer;
-import io.anuke.arc.function.PositionConsumer;
 import io.anuke.arc.math.Mathf;
 
 import static inferno.Inferno.player;
@@ -71,7 +71,7 @@ public class Phases{
                 }
                 Fx.wave.at(boss.x, boss.y);
             });
-        },*/
+        },
 
         //meteors
         boss -> {
@@ -87,13 +87,15 @@ public class Phases{
             }
 
             met.accept(player.x, player.y);
-        }
-    /*
+        }*/
+
 
         //candles
         boss -> {
 
-        },
+        }
+
+    /*
 
         //ball
         boss -> {
