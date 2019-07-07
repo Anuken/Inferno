@@ -1,7 +1,7 @@
 package inferno.type;
 
 import inferno.graphics.Effects.Effect;
-import inferno.graphics.Layer;
+import inferno.graphics.Drawf;
 import io.anuke.arc.graphics.Color;
 import io.anuke.arc.graphics.g2d.Fill;
 
@@ -36,7 +36,7 @@ public class BulletType{
     public void drawLight(Bullet bullet){
         if(light <= 0) return;
 
-        Layer.light(bullet.x, bullet.y, light, lightColor);
+        Drawf.light(bullet.x, bullet.y, light, lightColor);
     }
 
     public void despawn(Bullet bullet){

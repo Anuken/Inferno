@@ -1,7 +1,7 @@
 package inferno.type;
 
 import inferno.entity.*;
-import inferno.graphics.Layer;
+import inferno.graphics.Drawf;
 import io.anuke.arc.math.Mathf;
 import io.anuke.arc.math.geom.Rectangle;
 import io.anuke.arc.math.geom.Vector2;
@@ -65,7 +65,7 @@ public class Bullet extends SolidEntity implements ScaleTrait{
 
     @Override
     public void draw(){
-        Layer.z(y - 8f);
+        Drawf.z(y - 8f);
         type.draw(this);
         type.drawLight(this);
     }

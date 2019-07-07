@@ -7,7 +7,8 @@ import io.anuke.arc.math.geom.Rectangle;
 import static inferno.Inferno.charGroup;
 
 public abstract class Char extends SolidEntity{
-    public float health;
+    public static final float hitdur = 5f;
+    public float health, hitTime;
     public boolean dead;
 
     public Char(){
@@ -41,6 +42,7 @@ public abstract class Char extends SolidEntity{
 
     public void damage(float damage){
         health -= damage;
+        hitTime = 1f;
         if(!dead && health <= 0){
             dead = true;
             onDeath();

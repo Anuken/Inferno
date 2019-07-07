@@ -13,7 +13,7 @@ public class Effects{
     private static float shakeFalloff = 1000f;
 
     public static void renderEffect(int id, Effect render, Color color, float life, float rotation, float x, float y, Object data){
-        Layer.z(y - 10f);
+        Drawf.z(y - 10f);
         container.set(id, color, life, render.lifetime, rotation, x, y, data);
         render.draw.accept(container);
         Draw.reset();

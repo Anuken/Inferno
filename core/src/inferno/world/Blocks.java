@@ -1,6 +1,6 @@
 package inferno.world;
 
-import inferno.graphics.Layer;
+import inferno.graphics.Drawf;
 import io.anuke.arc.collection.Array;
 import io.anuke.arc.graphics.Color;
 import io.anuke.arc.graphics.g2d.*;
@@ -20,13 +20,13 @@ public class Blocks{
 
             @Override
             public void draw(int x, int y){
-                Layer.z(y * tilesize);
+                Drawf.z(y * tilesize);
                 Draw.rect(region, x * tilesize, y * tilesize + region.getHeight() / 2f - 1,
                     region.getWidth() * Mathf.sign(Mathf.randomSeed(y * world.width() +x) - 0.5f), region.getHeight());
 
                 float offset = 14f;
 
-                Layer.light(x * tilesize, y * tilesize + offset, 50f + Mathf.absin(Time.time(), 10f, 10f),
+                Drawf.light(x * tilesize, y * tilesize + offset, 50f + Mathf.absin(Time.time(), 10f, 10f),
                         Color.ORANGE, 0.7f);
 
                 float rad = 1.8f + Mathf.absin(Time.time(), 5f, 1.1f);
@@ -46,7 +46,7 @@ public class Blocks{
 
             @Override
             public void draw(int x, int y){
-                Layer.z(y * tilesize + tilesize/2f);
+                Drawf.z(y * tilesize + tilesize/2f);
                 int spread = tilesize;
 
                 int amount = rand(x, y, -1, 3);

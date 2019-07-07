@@ -47,6 +47,7 @@ public class LayerBatch extends SpriteBatch{
             req.color = colorPacked;
             req.rotation = rotation;
             req.region = region;
+            req.blendColor = mixColorPacked;
             requests.add(req);
         }else{
             super.draw(region, x, y, originX, originY, width, height, rotation);
@@ -61,6 +62,7 @@ public class LayerBatch extends SpriteBatch{
 
             for(DrawRequest req : requests){
                 colorPacked = req.color;
+                mixColorPacked = req.blendColor;
                 if(req.texture != null){
                     super.draw(req.texture, req.vertices, 0, req.vertices.length);
                 }else{

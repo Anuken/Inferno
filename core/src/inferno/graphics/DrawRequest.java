@@ -6,7 +6,7 @@ import io.anuke.arc.util.pooling.Pool.Poolable;
 
 class DrawRequest implements Comparable<DrawRequest>, Poolable{
     TextureRegion region;
-    float x, y, z, originX, originY, width, height, rotation, color;
+    float x, y, z, originX, originY, width, height, rotation, color, blendColor;
     float[] vertices = new float[24];
     Texture texture;
 
@@ -17,7 +17,7 @@ class DrawRequest implements Comparable<DrawRequest>, Poolable{
 
     @Override
     public void reset(){
-        x = y = z = originX = originY = width = height = rotation = color = 0f;
+        x = y = z = originX = originY = width = height = rotation = color = blendColor = 0f;
         region = null;
         texture = null;
     }

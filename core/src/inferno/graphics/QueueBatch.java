@@ -27,6 +27,7 @@ public class QueueBatch extends SpriteBatch{
         req.color = colorPacked;
         req.rotation = rotation;
         req.region = region;
+        req.blendColor = mixColorPacked;
         requests.add(req);
     }
 
@@ -38,6 +39,7 @@ public class QueueBatch extends SpriteBatch{
 
             for(DrawRequest req : requests){
                 colorPacked = req.color;
+                mixColorPacked = req.blendColor;
                 super.draw(req.region, req.x, req.y, req.originX, req.originY, req.width, req.height, req.rotation);
             }
 

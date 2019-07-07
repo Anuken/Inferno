@@ -1,6 +1,6 @@
 package inferno.type;
 
-import inferno.graphics.Layer;
+import inferno.graphics.Drawf;
 import inferno.graphics.Pal;
 import io.anuke.arc.graphics.Color;
 import io.anuke.arc.graphics.g2d.*;
@@ -49,16 +49,24 @@ public class Bullets{
         }
 
         @Override
-        public void draw(Bullet bullet){
-            Layer.z(100000f);
-            Draw.color(Color.WHITE, Pal.lucine, bullet.fin());
-            Lines.circle(bullet.x, bullet.y, 40f * bullet.fin());
-
-            Draw.color(Color.WHITE);
-            Draw.alpha(bullet.fout());
-            Fill.circle(bullet.x, bullet.y, bullet.fout() * 40f);
+        public void init(Bullet bullet){
+            super.init(bullet);
+            Fx.meteorpost.at(bullet.x, bullet.y);
         }
 
+        @Override
+        public void draw(Bullet b){
+            Drawf.z(100000f);
+            Draw.color(Color.WHITE, Pal.lucine, b.fin());
+            Lines.circle(b.x, b.y, 40f * b.fin());
 
+            Draw.color(Color.WHITE);
+            Draw.alpha(b.fout());
+            Fill.circle(b.x, b.y, b.fout() * 40f);
+
+            Draw.color(Pal.lucine);
+            Draw.alpha(b.fout());
+            Drawf.symbols(b.id, b.x, b.y, 40f);
+        }
     };
 }

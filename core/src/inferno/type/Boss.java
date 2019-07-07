@@ -1,7 +1,7 @@
 package inferno.type;
 
 import inferno.entity.SolidEntity;
-import inferno.graphics.Layer;
+import inferno.graphics.Drawf;
 import inferno.graphics.Pal;
 import inferno.type.boss.Phase;
 import inferno.type.boss.Phases;
@@ -29,6 +29,7 @@ public class Boss extends Char{
 
     @Override
     public void update(){
+        hitTime -= 1f/hitdur;
         phase.boss = this;
         phase.update();
         direction = Direction.fromAngle(angleTo(player));
@@ -41,10 +42,13 @@ public class Boss extends Char{
 
     @Override
     public void draw(){
+        Draw.mixcol(Color.WHITE, Mathf.clamp(hitTime));
         TextureRegion region = Core.atlas.find("lucine-" + direction.name);
         Draw.rect(region, x, y + region.getHeight()/2f, region.getWidth() * -Mathf.sign(direction.flipped), region.getHeight());
 
-        Layer.light(x, y + height(), 160f, Color.SCARLET);
+        Drawf.light(x, y + height(), 160f, Color.SCARLET);
+
+        Draw.mixcol();
     }
 
     @Override

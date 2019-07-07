@@ -46,7 +46,7 @@ public class Player extends Char{
         int dir = Mathf.sign(direction.flipped);
 
         Draw.rect(region, x, y + 13, region.getWidth() * -dir, region.getHeight());
-        Layer.z(y + Tmp.v1.y);
+        Drawf.z(y + Tmp.v1.y);
         int sdir = Mathf.sign(slashdir);
 
         float rot = angleOffset();
@@ -60,7 +60,7 @@ public class Player extends Char{
             Draw.rect("scytheglow", x + Tmp.v1.x, y + 7 + scythe.getHeight()/2f + Tmp.v1.y, scythe.getWidth() * sdir, scythe.getHeight(), scythe.getWidth()/2f * sdir, 4f, rot);
             Draw.color();
 
-            Layer.light(x + Tmp.v1.x - dir*7f, y + 13 + Tmp.v1.y, 50f * glowtime, Color.WHITE);
+            Drawf.light(x + Tmp.v1.x - dir*7f, y + 13 + Tmp.v1.y, 50f * glowtime, Color.WHITE);
         }
 
         //hands
@@ -104,7 +104,7 @@ public class Player extends Char{
 
         Draw.color();
 
-        Layer.light(x, y + 10f, 150f, Color.CYAN, 0.75f);
+        Drawf.light(x, y + 10f, 150f, Color.CYAN, 0.75f);
 
         if(snap){
             x = px;
@@ -166,7 +166,7 @@ public class Player extends Char{
             Tmp.v3.trns(mouseAngle(), scytheJump);
             move(Tmp.v3.x, Tmp.v3.y);
             renderer.jump(mouseAngle() + 180f, 10f);
-            renderer.shake(3f, 3f);
+            renderer.shake(4f, 4f);
             slashtime = 1f;
             addSlashPoint(0);
         }

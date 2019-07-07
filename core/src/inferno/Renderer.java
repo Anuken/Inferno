@@ -59,7 +59,7 @@ public class Renderer implements ApplicationListener{
 
     @Override
     public void update(){
-        Layer.sort(true);
+        Drawf.sort(true);
 
         Entity target = ui.hasDialogue() ? ui.getDialogueFace() : player;
 
@@ -89,7 +89,7 @@ public class Renderer implements ApplicationListener{
         bulletGroup.draw(this::draw);
         effectGroup.draw(this::draw);
 
-        Layer.sort(false);
+        Drawf.sort(false);
 
         Draw.shader(fog);
         Draw.fbo(fogs.getTexture(), world.width(), world.height(), tilesize);
@@ -180,7 +180,7 @@ public class Renderer implements ApplicationListener{
         cache.end();
 
         //do not sort base layer for efficiency
-        Layer.sort(false);
+        Drawf.sort(false);
 
         //overlays
         cull((x, y) -> {
@@ -194,10 +194,10 @@ public class Renderer implements ApplicationListener{
         Draw.rect(Draw.wrap(shadow.getTexture()), Core.camera.position.x, Core.camera.position.y, Core.camera.width, -Core.camera.height);
         Draw.color();
 
-        Layer.sort(true);
+        Drawf.sort(true);
 
         cull((x, y) -> {
-            Layer.z(y * tilesize - tilesize / 2f);
+            Drawf.z(y * tilesize - tilesize / 2f);
             Tile tile = world.tile(x, y);
 
             if(tile.wall != null){
@@ -342,7 +342,7 @@ public class Renderer implements ApplicationListener{
     }
 
     private void draw(Entity entity){
-        Layer.z(entity.y);
+        Drawf.z(entity.y);
         entity.draw();
     }
 }

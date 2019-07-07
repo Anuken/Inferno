@@ -1,6 +1,6 @@
 package inferno.world;
 
-import inferno.graphics.Layer;
+import inferno.graphics.Drawf;
 import io.anuke.arc.Core;
 import io.anuke.arc.graphics.Color;
 import io.anuke.arc.graphics.g2d.Draw;
@@ -47,7 +47,7 @@ public class Block{
             }
 
             if(edge != null){
-                Layer.z(y * tilesize - tilesize / 2f - 0.0001f);
+                Drawf.z(y * tilesize - tilesize / 2f - 0.0001f);
                 int i = 0;
                 for(Point2 p : Geometry.d4){
                     if(world.tile(x + p.x, y + p.y).wall != this){
@@ -57,7 +57,7 @@ public class Block{
                 }
             }
         }else{
-            Layer.z(y * tilesize);
+            Drawf.z(y * tilesize);
             Draw.rect(region, x * tilesize, y * tilesize + region.getHeight() / 2f);
         }
         Draw.color();

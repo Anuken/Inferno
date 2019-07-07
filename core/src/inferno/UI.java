@@ -2,7 +2,7 @@ package inferno;
 
 import inferno.entity.Entity;
 import inferno.graphics.HealthBar;
-import inferno.graphics.Layer;
+import inferno.graphics.Drawf;
 import io.anuke.arc.ApplicationListener;
 import io.anuke.arc.Core;
 import io.anuke.arc.collection.Array;
@@ -57,7 +57,7 @@ public class UI implements ApplicationListener{
 
     @Override
     public void update(){
-        Layer.sort(false);
+        Drawf.sort(false);
 
         Core.scene.act();
         Core.scene.draw();
