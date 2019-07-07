@@ -3,7 +3,6 @@ package inferno.entity;
 import io.anuke.arc.collection.Array;
 import io.anuke.arc.math.Mathf;
 import io.anuke.arc.math.geom.*;
-import io.anuke.arc.util.Log;
 
 import static inferno.Inferno.tilesize;
 import static inferno.Inferno.world;
@@ -104,20 +103,6 @@ public class EntityCollisions{
             }
         }
         return false;
-    }
-
-    public static <T extends Entity> void updatePhysics(EntityGroup<T> group){
-
-        QuadTree tree = group.tree();
-        tree.clear();
-
-        for(Entity entity : group.all()){
-            if(entity instanceof SolidEntity){
-                SolidEntity s = (SolidEntity)entity;
-                s.lastPosition.set(s.x, s.y);
-                tree.insert(s);
-            }
-        }
     }
 
     private static boolean solid(int x, int y){

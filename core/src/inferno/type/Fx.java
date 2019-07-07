@@ -22,7 +22,7 @@ public class Fx{
     dash = new Effect(30, e -> {
         Draw.color(Color.WHITE, e.color, e.fout());
         Lines.stroke(2f * e.fout() + 1f);
-        Angles.randLenVectors(e.id, 6, 70f * e.fin(), e.rotation, 30f, (x, y) -> {
+        Angles.randLenVectors(e.id, 5, 70f * e.fin(), e.rotation, 30f, (x, y) -> {
             Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), 5f * e.fout() + 1f);
         });
         Draw.reset();

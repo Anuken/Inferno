@@ -4,6 +4,7 @@ import inferno.type.Boss;
 import inferno.type.Fx;
 import io.anuke.arc.collection.Array;
 import io.anuke.arc.function.Consumer;
+import io.anuke.arc.math.Mathf;
 
 import static inferno.Inferno.player;
 import static io.anuke.arc.math.Angles.*;
@@ -35,6 +36,22 @@ public class Phases{
                 run(i * 2, () -> boss.shoot(aim + 50f - i *5));
                 run(i * 2, () -> boss.shoot(aim - 50f + i *5));
             });
+        },
+
+        //shotgun rays
+        boss -> {
+            float aim =  boss.aim();
+            loop(20, i -> {
+                run(i * 2, () -> shotgun(3, 15f, aim + Mathf.sin(i, 1f, 5f), boss::shoot));
+            });
+        },
+
+        //circle of bullets
+        boss -> {
+            float aim =  boss.aim();
+            loop(40, i -> {
+                run(i * 3, () -> shotgun(2, 180f, aim + i *10f, boss::shoot));
+            });
         }
     );
 
@@ -49,7 +66,7 @@ public class Phases{
             //    loop(8, j -> Time.run(j * 5, () -> circle(5, j * 5f, f -> shotgun(10, 5f, f, i -> boss.shoot(Bullets.lbasic, i)))));
             }
 
-            if(time.get(1, 50f) && boss.seesPlayer()){
+            if(time.get(1, 130f) && boss.seesPlayer()){
                 boss.dash(boss.dst(player) / 1.5f);
                 //loop(8, i -> {
                 //    run(i * 2, () -> shotgun(6, 12f, boss.aim() + i * 4, this::shoot));
@@ -58,9 +75,12 @@ public class Phases{
 
             //boss.toward(player, 0.9f);
 
-            if(time.get(1, 60f * 3) && !boss.seesPlayer()){
-                Fx.spark.at(boss.x, boss.y);
-                run(5f, () -> boss.set(player.x, player.y));
+            if(time.get(2, 70f) && !boss.seesPlayer()){
+                Fx.wave.at(boss.x, boss.y);
+                run(5f, () -> {
+                    boss.set(player.x, player.y);
+                    Fx.wave.at(boss.x, boss.y);
+                });
             }
         }
     };

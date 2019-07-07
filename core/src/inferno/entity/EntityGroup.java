@@ -7,7 +7,6 @@ import io.anuke.arc.function.Predicate;
 import io.anuke.arc.graphics.Camera;
 import io.anuke.arc.math.geom.QuadTree;
 import io.anuke.arc.math.geom.Rectangle;
-import io.anuke.arc.util.Log;
 
 public class EntityGroup<T extends Entity>{
     private final boolean useTree;
@@ -30,7 +29,15 @@ public class EntityGroup<T extends Entity>{
         updateEvents();
 
         if(useTree()){
-            EntityCollisions.updatePhysics(this);
+            tree.clear();
+
+            for(Entity entity : all()){
+                if(entity instanceof SolidEntity){
+                    SolidEntity s = (SolidEntity)entity;
+                    s.lastPosition.set(s.x, s.y);
+                    tree.insert(s);
+                }
+            }
         }
 
         for(Entity e : all()){

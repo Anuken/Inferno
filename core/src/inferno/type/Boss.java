@@ -12,6 +12,7 @@ import io.anuke.arc.graphics.g2d.TextureRegion;
 import io.anuke.arc.math.Mathf;
 import io.anuke.arc.math.geom.Geometry;
 import io.anuke.arc.math.geom.Rectangle;
+import io.anuke.arc.util.Time;
 
 import static inferno.Inferno.*;
 import static io.anuke.arc.math.Angles.circle;
@@ -70,10 +71,14 @@ public class Boss extends Char{
     public void dash(float speed){
         float seg = 10f;
         float moved = speed;
+        int i = 0;
         while(moved > seg){
-            toward(player, seg);
+            Time.run(i++ * 1f, () -> {
+                toward(player, seg);
+                Fx.dash.at(x, y + 6f, angleTo(player) + 180f, Pal.lucine);
+            });
+
             moved -= seg;
-            Fx.dash.at(x, y + 6f, angleTo(player) + 180f, Pal.lucine);
         }
 
         toward(player, moved);
