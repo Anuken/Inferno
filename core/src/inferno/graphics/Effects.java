@@ -4,6 +4,7 @@ import inferno.entity.ScaleTrait;
 import inferno.type.EffectEntity;
 import io.anuke.arc.function.Consumer;
 import io.anuke.arc.graphics.Color;
+import io.anuke.arc.graphics.g2d.Draw;
 import io.anuke.arc.math.geom.Position;
 import io.anuke.arc.util.pooling.Pools;
 
@@ -15,6 +16,7 @@ public class Effects{
         Layer.z(y - 10f);
         container.set(id, color, life, render.lifetime, rotation, x, y, data);
         render.draw.accept(container);
+        Draw.reset();
     }
 
     public static void effect(Effect effect, float x, float y, float rotation){

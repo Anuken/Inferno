@@ -112,7 +112,7 @@ public class Player extends Char{
         }
     }
 
-    float mouseAngle(){
+    public float mouseAngle(){
         return Angles.mouseAngle(x, y + 13f);
     }
 
@@ -193,7 +193,7 @@ public class Player extends Char{
             float length = 35f;
 
             bulletGroup.intersect(qx, qy, qw, qh, b -> {
-                if(b.shooter.isPlayer()) return;
+                if(b.shooter.isPlayer() || !b.type.deflect) return;
                 b.hitbox(Tmp.r2);
 
                 if(b.withinDst(player.x, player.y + 7, length) && Angles.angleDist(angle, Angles.angle(player.x, player.y + 7f, b.x, b.y)) <= slasharc/2f){

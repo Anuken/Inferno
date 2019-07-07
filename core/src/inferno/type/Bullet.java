@@ -2,16 +2,19 @@ package inferno.type;
 
 import inferno.entity.*;
 import inferno.graphics.Layer;
+import io.anuke.arc.math.Mathf;
 import io.anuke.arc.math.geom.Rectangle;
 import io.anuke.arc.math.geom.Vector2;
-import io.anuke.arc.util.Time;
-import io.anuke.arc.util.Tmp;
+import io.anuke.arc.util.*;
 
 import static inferno.Inferno.bulletGroup;
 
-public class Bullet extends SolidEntity{
+public class Bullet extends SolidEntity implements ScaleTrait{
     public BulletType type;
     public Char shooter;
+    public Interval timer = new Interval(4);
+    public float time;
+    public boolean hit;
 
     public Vector2 velocity = new Vector2();
 
@@ -23,6 +26,7 @@ public class Bullet extends SolidEntity{
         bullet.velocity.set(type.speed, 0).rotate(rotation);
         bullet.shooter = shooter;
         bullet.add();
+        type.init(bullet);
     }
 
     private Bullet(){
@@ -42,6 +46,12 @@ public class Bullet extends SolidEntity{
     @Override
     public void update(){
         super.update();
+
+        time = Mathf.clamp(time + Time.delta(), 0, type.lifetime);
+
+        if(time >= type.lifetime){
+            remove();
+        }
 
         x += velocity.x * Time.delta();
         y += velocity.y * Time.delta();
@@ -73,5 +83,10 @@ public class Bullet extends SolidEntity{
     @Override
     public EntityGroup targetGroup(){
         return bulletGroup;
+    }
+
+    @Override
+    public float fin(){
+        return time / type.lifetime;
     }
 }

@@ -3,13 +3,18 @@ package inferno.type;
 import inferno.graphics.Effects.Effect;
 import inferno.graphics.Layer;
 import io.anuke.arc.graphics.Color;
-import io.anuke.arc.graphics.g2d.*;
+import io.anuke.arc.graphics.g2d.Fill;
+
+import static inferno.Inferno.renderer;
 
 public class BulletType{
     public float size = 4f;
     public float speed = 2f;
     public float light = 30f;
     public float damage = 1f;
+    public float lifetime = 200f;
+    public float shake = 0f;
+    public boolean deflect = true, pierce = false;
     public Color lightColor = new Color(1f, 1f, 1f, 0.5f);
 
     public Effect hit = Fx.spark;
@@ -22,14 +27,31 @@ public class BulletType{
 
     }
 
+    public void init(Bullet bullet){
+        if(shake > 0){
+            renderer.shake(shake);
+        }
+    }
+
     public void drawLight(Bullet bullet){
         if(light <= 0) return;
 
         Layer.light(bullet.x, bullet.y, light, lightColor);
     }
 
-    public void hit(Bullet bullet){
-        bullet.remove();
+    public void despawn(Bullet bullet){
         hit.at(bullet.x, bullet.y, lightColor);
+    }
+
+    public void hit(Bullet bullet){
+        if(pierce){
+            if(!bullet.hit){
+                hit.at(bullet.x, bullet.y, lightColor);
+                bullet.hit = true;
+            }
+        }else{
+            bullet.remove();
+            hit.at(bullet.x, bullet.y, lightColor);
+        }
     }
 }

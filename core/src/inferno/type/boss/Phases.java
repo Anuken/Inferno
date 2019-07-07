@@ -1,15 +1,16 @@
 package inferno.type.boss;
 
-import inferno.type.Boss;
-import inferno.type.Fx;
+import inferno.type.*;
 import io.anuke.arc.collection.Array;
 import io.anuke.arc.function.Consumer;
+import io.anuke.arc.function.PositionConsumer;
 import io.anuke.arc.math.Mathf;
 
 import static inferno.Inferno.player;
 import static io.anuke.arc.math.Angles.*;
 import static io.anuke.arc.util.Time.run;
 
+@SuppressWarnings("unchecked")
 public class Phases{
     private static final Array<Consumer<Boss>> attacks = Array.with(
         //rays
@@ -55,19 +56,69 @@ public class Phases{
         }
     );
 
+    private static final Array<Consumer<Boss>> cycle = Array.with(
+        //teleport
+    /*
+        boss -> {
+            Fx.wave.at(boss.x, boss.y);
+            run(15f, () -> {
+                Tmp.v1.trns(player.mouseAngle(), 40f);
+                boss.set(player.x + Tmp.v1.x, player.y + Tmp.v1.y);
+                boss.hitboxTile(Tmp.r1);
+                //warp at player, TODO fix
+                if(EntityCollisions.overlapsTile(Tmp.r1)){
+                    boss.set(player.x, player.y);
+                }
+                Fx.wave.at(boss.x, boss.y);
+            });
+        },*/
+
+        //meteors
+        boss -> {
+            PositionConsumer met = (x, y) -> {
+                Fx.meteorpre.at(x, y);
+                run(Fx.meteorpre.lifetime, () -> {
+                    boss.shoot(Bullets.meteor, x, y, 0f);
+                });
+            };
+
+            for(int i = 0; i < 30; i++){
+                run(Mathf.random(30f), () -> met.accept(player.x + Mathf.range(400f), player.y + Mathf.range(400f)));
+            }
+
+            met.accept(player.x, player.y);
+        }
+    /*
+
+        //candles
+        boss -> {
+
+        },
+
+        //ball
+        boss -> {
+
+        },
+
+        //dragonfire
+        boss -> {
+
+        }*/
+    );
+
     public static final Phase
 
     first = new Phase(){
         @Override
         public void update(){
-            if(time.get(60f)){
-                attacks.random().accept(boss);
+            if(time.get(60f * 2f)){
+                cycle.random().accept(boss);
 
             //    loop(8, j -> Time.run(j * 5, () -> circle(5, j * 5f, f -> shotgun(10, 5f, f, i -> boss.shoot(Bullets.lbasic, i)))));
             }
 
             if(time.get(1, 130f) && boss.seesPlayer()){
-                boss.dash(boss.dst(player) / 1.5f);
+                //boss.dash(boss.dst(player) / 1.5f);
                 //loop(8, i -> {
                 //    run(i * 2, () -> shotgun(6, 12f, boss.aim() + i * 4, this::shoot));
                 //});
@@ -75,7 +126,7 @@ public class Phases{
 
             //boss.toward(player, 0.9f);
 
-            if(time.get(2, 70f) && !boss.seesPlayer()){
+            if(time.get(2, 140f) && !boss.seesPlayer()){
                 Fx.wave.at(boss.x, boss.y);
                 run(5f, () -> {
                     boss.set(player.x, player.y);

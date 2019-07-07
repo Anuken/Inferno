@@ -87,7 +87,12 @@ public class Boss extends Char{
     }
 
     public void shoot(float angle){
-        boss.shoot(Bullets.lbasic, angle);
+        shoot(Bullets.lbasic, angle);
+    }
+
+
+    public void shoot(BulletType type, float x, float y, float rot){
+        Bullet.shoot(type, this, x, y, rot);
     }
 
     public float aim(){
