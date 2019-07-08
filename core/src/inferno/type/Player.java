@@ -199,6 +199,7 @@ public class Player extends Char{
                 if(b.withinDst(player.x, player.y + 7, length) && Angles.angleDist(angle, Angles.angle(player.x, player.y + 7f, b.x, b.y)) <= slasharc/2f){
                     b.velocity.setAngle(b.angleTo(player.x, player.y + 7f) + 180f).scl(1.1f);
                     Fx.spark.at(b.x, b.y, Pal.player);
+                    b.shooter = this;
                 }
             });
 

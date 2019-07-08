@@ -9,6 +9,8 @@ import io.anuke.arc.math.*;
 import io.anuke.arc.util.Tmp;
 
 public class Fx{
+    private static final RandomXS128 random = new RandomXS128();
+
     public static final Effect
 
     spark = new Effect(20, e -> {
@@ -29,6 +31,39 @@ public class Fx{
         Lines.stroke(4f * e.fout());
         Draw.color(Color.WHITE, Pal.lucine, e.fout());
         Lines.circle(e.x, e.y, e.fin() * 40f);
+    }),
+    candlespiral = new Effect(100f, e -> {
+        Drawf.z(e.y - 20f);
+        int amount = 100;
+        float length = e.fout() * 110f;
+        Draw.color(Pal.candle);
+
+        random.setSeed(e.id);
+        for(int i = 0; i < amount; i++){
+            float scl = length * random.nextFloat();
+            float vang = random.nextFloat() * 360f + e.fin()*360f * random.nextFloat() * e.fin();
+            Tmp.v1.set(scl, 0).rotate(vang);
+
+            Fill.circle(Tmp.v1.x + e.x, Tmp.v1.y + e.y, 2f * e.fin());
+        }
+
+        Draw.color(Pal.candle);
+        Fill.circle(e.x, e.y, e.fin() * 6f + 1.8f);
+        Draw.color();
+        Fill.circle(e.x, e.y, e.fin() * 4f + 1f);
+
+        Drawf.light(e.x, e.y, e.fin() * 70f, Color.ORANGE, e.fin());
+    }),
+    candlefire  = new Effect(10f, e -> {
+        Drawf.z(e.y - 30f);
+
+        Draw.color(Color.WHITE, Pal.candle, e.fin());
+        Fill.circle(e.x, e.y, 20f * e.fout());
+        Angles.randLenVectors(e.id, 20, 50f * e.finpow(), (x, y) -> {
+            Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), 6f * e.fout());
+        });
+        Lines.stroke(e.fout() * 2f);
+        Lines.circle(e.x, e.y, e.fin() * 50f);
     }),
     meteorpre = new Effect(60f, e -> {
         Drawf.z(100000f);

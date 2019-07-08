@@ -1,12 +1,12 @@
 package inferno.type.boss;
 
-import inferno.type.Boss;
-import inferno.type.Fx;
+import inferno.type.*;
 import io.anuke.arc.collection.Array;
 import io.anuke.arc.function.Consumer;
 import io.anuke.arc.math.Mathf;
+import io.anuke.arc.math.geom.Point2;
 
-import static inferno.Inferno.player;
+import static inferno.Inferno.*;
 import static io.anuke.arc.math.Angles.*;
 import static io.anuke.arc.util.Time.run;
 
@@ -92,8 +92,20 @@ public class Phases{
 
         //candles
         boss -> {
+            for(Point2 tile : world.candles()){
+                float x = tile.x * tilesize, y = tile.y * tilesize + 14f;
 
+                Fx.candlespiral.at(x, y);
+
+                run(Fx.candlespiral.lifetime, () -> {
+                    circle(20, f -> boss.shoot(Bullets.candle, x, y, f));
+                    Fx.candlefire.at(x, y);
+                    renderer.shake(4f);
+                });
+            }
         }
+
+
 
     /*
 

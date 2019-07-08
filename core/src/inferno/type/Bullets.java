@@ -36,6 +36,20 @@ public class Bullets{
             Fill.circle(bullet.x, bullet.y, 2f);
         }
     },
+    candle = new BulletType(){
+        {
+            speed = 2.5f;
+            lightColor = Pal.candle;
+        }
+
+        @Override
+        public void draw(Bullet bullet){
+            Draw.color(Pal.candle);
+            Fill.circle(bullet.x, bullet.y, 5f);
+            Draw.color(Color.WHITE);
+            Fill.circle(bullet.x, bullet.y, 2f);
+        }
+    },
     meteor = new BulletType(){
         {
             pierce = true;

@@ -15,6 +15,7 @@ import static inferno.Inferno.*;
 public class World implements ApplicationListener{
     Tile[][] tiles;
     ObjectMap<MapTile, Block> blocks = new ObjectMap<>();
+    Array<Point2> candles = new Array<>();
     TiledMap map;
     TileLayer floorLayer, wallLayer, overLayer;
     MapLayer objectLayer;
@@ -51,13 +52,12 @@ public class World implements ApplicationListener{
                 Block overlay = blocks.getNull(overLayer.getTile(x, y));
                 Block wall = blocks.getNull(wallLayer.getTile(x, y));
 
-                if(overlay != null && overLayer.getTile(x, y).getProperties().containsKey("floor")){
-               //     floor = overlay;
-                //    overlay = null;
-                }
-
                 tiles[x][y] = new Tile(floor, overlay, wall);
                 tiles[x][y].rotation = overLayer.getCell(x, y) == null ? 0 : overLayer.getCell(x, y).rotation * 90;
+
+                if(wall != null && wall.name.equals("candle")){
+                    candles.add(new Point2(x, y));
+                }
             }
         }
 
@@ -80,6 +80,10 @@ public class World implements ApplicationListener{
 
         bulletGroup.resize(0, 0, width() * tilesize, height() * tilesize);
         charGroup.resize(0, 0, width() * tilesize, height() * tilesize);
+    }
+
+    public Array<Point2> candles(){
+        return candles;
     }
 
     public Array<MapObject> getObjects(){

@@ -8,6 +8,7 @@ import io.anuke.arc.graphics.Camera;
 import io.anuke.arc.math.geom.QuadTree;
 import io.anuke.arc.math.geom.Rectangle;
 
+@SuppressWarnings("unchecked")
 public class EntityGroup<T extends Entity>{
     private final boolean useTree;
     private final Array<T> entityArray = new Array<>(false, 16);
