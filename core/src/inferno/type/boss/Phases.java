@@ -4,9 +4,8 @@ import inferno.type.*;
 import io.anuke.arc.collection.Array;
 import io.anuke.arc.function.Consumer;
 import io.anuke.arc.math.Mathf;
-import io.anuke.arc.math.geom.Point2;
 
-import static inferno.Inferno.*;
+import static inferno.Inferno.player;
 import static io.anuke.arc.math.Angles.*;
 import static io.anuke.arc.util.Time.run;
 
@@ -87,7 +86,7 @@ public class Phases{
             }
 
             met.accept(player.x, player.y);
-        }*/
+        }
 
 
         //candles
@@ -103,16 +102,14 @@ public class Phases{
                     renderer.shake(4f);
                 });
             }
-        }
-
-
-
-    /*
+        }*/
 
         //ball
         boss -> {
+            boss.shoot(Bullets.fireball, boss.aim());
+        }
 
-        },
+    /*
 
         //dragonfire
         boss -> {

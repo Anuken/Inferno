@@ -4,6 +4,10 @@ import inferno.graphics.Drawf;
 import inferno.graphics.Pal;
 import io.anuke.arc.graphics.Color;
 import io.anuke.arc.graphics.g2d.*;
+import io.anuke.arc.math.Angles;
+import io.anuke.arc.util.Time;
+
+import static inferno.Inferno.renderer;
 
 public class Bullets{
     public static final BulletType
@@ -34,6 +38,43 @@ public class Bullets{
             Fill.circle(bullet.x, bullet.y, 5f);
             Draw.color(Color.WHITE);
             Fill.circle(bullet.x, bullet.y, 2f);
+        }
+    },
+    fireball = new BulletType(){
+        {
+            speed = 2.5f;
+            lightColor = Color.ORANGE;
+            light = 120f;
+            size = 10f;
+            lifetime = 1000f;
+        }
+
+        @Override
+        public void init(Bullet bullet){
+            super.init(bullet);
+            renderer.shake(5f);
+        }
+
+        @Override
+        public void hit(Bullet bullet){
+            super.hit(bullet);
+            float len = 3f;
+
+            Angles.loop(7, i -> Time.run(3f * i, () -> Angles.circle(30, i * 9f, f -> bullet.shooter.shoot(candle, bullet.x + Angles.trnsx(f, len), bullet.y + Angles.trnsy(f, len), f))));
+            renderer.shake(10f);
+        }
+
+        @Override
+        public void despawn(Bullet bullet){
+            hit(bullet);
+        }
+
+        @Override
+        public void draw(Bullet bullet){
+            Draw.color(Pal.candle);
+            Fill.circle(bullet.x, bullet.y, 10f);
+            Draw.color(Color.WHITE);
+            Fill.circle(bullet.x, bullet.y, 5f);
         }
     },
     candle = new BulletType(){

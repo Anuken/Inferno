@@ -95,10 +95,6 @@ public class Boss extends Char{
     }
 
 
-    public void shoot(BulletType type, float x, float y, float rot){
-        Bullet.shoot(type, this, x, y, rot);
-    }
-
     public float aim(){
         return angleTo(player);
     }

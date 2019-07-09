@@ -23,6 +23,10 @@ public abstract class Char extends SolidEntity{
         Bullet.shoot(type, this, x, y + height(), rot);
     }
 
+    public void shoot(BulletType type, float x, float y, float rot){
+        Bullet.shoot(type, this, x, y, rot);
+    }
+
     public float maxHealth(){
         return 100f;
     }
