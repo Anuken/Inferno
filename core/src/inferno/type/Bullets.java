@@ -72,9 +72,13 @@ public class Bullets{
         @Override
         public void draw(Bullet bullet){
             Draw.color(Pal.candle);
-            Fill.circle(bullet.x, bullet.y, 10f);
+            Draw.alpha(0.2f);
+            Fill.circle(bullet.x, bullet.y, 20f);
+
+            Draw.color(Pal.candle);
+            Fill.circle(bullet.x, bullet.y, 14f);
             Draw.color(Color.WHITE);
-            Fill.circle(bullet.x, bullet.y, 5f);
+            Fill.circle(bullet.x, bullet.y, 8f);
         }
     },
     candle = new BulletType(){
