@@ -4,10 +4,15 @@ import inferno.graphics.Drawf;
 import inferno.graphics.Pal;
 import io.anuke.arc.graphics.Color;
 import io.anuke.arc.graphics.g2d.*;
-import io.anuke.arc.math.Angles;
+import io.anuke.arc.math.Mathf;
 import io.anuke.arc.util.Time;
+import io.anuke.arc.util.Tmp;
 
+import static inferno.Inferno.boss;
 import static inferno.Inferno.renderer;
+import static io.anuke.arc.math.Angles.circle;
+import static io.anuke.arc.math.Angles.loop;
+import static io.anuke.arc.util.Time.run;
 
 public class Bullets{
     public static final BulletType
@@ -42,11 +47,12 @@ public class Bullets{
     },
     fireball = new BulletType(){
         {
-            speed = 2.5f;
+            speed = 3f;
             lightColor = Color.ORANGE;
             light = 120f;
             size = 10f;
             lifetime = 1000f;
+            deflect = false;
         }
 
         @Override
@@ -56,12 +62,28 @@ public class Bullets{
         }
 
         @Override
+        public void update(Bullet bullet){
+            super.update(bullet);
+
+            if(Mathf.chance(0.3 * Time.delta())){
+                Fx.fireballtrail.at(bullet.x, bullet.y, Tmp.c1.set(Pal.fireball).lerp(Color.WHITE, 0.1f + bullet.fin() * 0.6f));
+            }
+        }
+
+        @Override
         public void hit(Bullet bullet){
             super.hit(bullet);
-            float len = 3f;
 
-            Angles.loop(7, i -> Time.run(3f * i, () -> Angles.circle(30, i * 9f, f -> bullet.shooter.shoot(candle, bullet.x + Angles.trnsx(f, len), bullet.y + Angles.trnsy(f, len), f))));
+            loop(7, i -> run(3f * i, () -> circle(30, i * 9f, f -> bullet.shooter.shoot(candle, bullet.x, bullet.y, f))));
             renderer.shake(10f);
+
+            float aim = bullet.velocity.angle();
+            run(15f, () -> loop(7, i -> {
+                run(10f + i * 4, () -> circle(7, f -> boss.shoot(candle, bullet.x, bullet.y, f + 25 + aim)));
+                run(i * 4, () -> circle(7, f -> boss.shoot(candle, bullet.x, bullet.y, f + aim)));
+            }));
+
+            Fx.fireballfire.at(bullet.x, bullet.y);
         }
 
         @Override
@@ -71,13 +93,16 @@ public class Bullets{
 
         @Override
         public void draw(Bullet bullet){
-            Draw.color(Pal.candle);
-            Draw.alpha(0.2f);
-            Fill.circle(bullet.x, bullet.y, 20f);
+            float glow = 0.1f + bullet.fin() * 0.6f;//Mathf.absin(Time.time(), 5f, 0.5f);
 
-            Draw.color(Pal.candle);
+            Draw.color(Pal.fireball, Color.WHITE, glow);
+            Draw.alpha(0.3f);
+            Fill.circle(bullet.x, bullet.y, 20f + Mathf.absin(Time.time(), 6f, 4f) + bullet.fin() * 4f);
+
+            Draw.color(Pal.fireball, Color.WHITE, glow);
             Fill.circle(bullet.x, bullet.y, 14f);
-            Draw.color(Color.WHITE);
+
+            Draw.color(Color.WHITE, Color.WHITE, glow);
             Fill.circle(bullet.x, bullet.y, 8f);
         }
     },

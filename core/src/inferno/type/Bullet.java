@@ -13,20 +13,24 @@ public class Bullet extends SolidEntity implements ScaleTrait{
     public BulletType type;
     public Char shooter;
     public Interval timer = new Interval(4);
+    public float lifetime;
     public float time;
     public boolean hit;
 
     public Vector2 velocity = new Vector2();
 
-    public static void shoot(BulletType type, Char shooter, float x, float y, float rotation){
+    public static Bullet shoot(BulletType type, Char shooter, float x, float y, float rotation){
         Bullet bullet = new Bullet();
         bullet.x = x;
         bullet.y = y;
         bullet.type = type;
+        bullet.lifetime = type.lifetime;
         bullet.velocity.set(type.speed, 0).rotate(rotation);
         bullet.shooter = shooter;
         bullet.add();
         type.init(bullet);
+
+        return bullet;
     }
 
     private Bullet(){
@@ -49,15 +53,17 @@ public class Bullet extends SolidEntity implements ScaleTrait{
 
         time = Mathf.clamp(time + Time.delta(), 0, type.lifetime);
 
-        if(time >= type.lifetime){
+        if(time >= lifetime){
+            type.despawn(this);
             remove();
         }
 
         x += velocity.x * Time.delta();
         y += velocity.y * Time.delta();
 
-        hitboxTile(Tmp.r3);
+        type.update(this);
 
+        hitboxTile(Tmp.r3);
         if(EntityCollisions.overlapsTile(Tmp.r3)){
             type.hit(this);
         }
@@ -87,6 +93,6 @@ public class Bullet extends SolidEntity implements ScaleTrait{
 
     @Override
     public float fin(){
-        return time / type.lifetime;
+        return time / lifetime;
     }
 }

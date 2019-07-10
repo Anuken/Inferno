@@ -20,6 +20,14 @@ public class Fx{
             //Layer.light(e.x + x, e.y + y, 18f * e.fout(), e.color);
         });
     }),
+    fireballtrail = new Effect(70, e -> {
+        Drawf.z(e.y + 1f);
+        Draw.color(e.color);
+        Angles.randLenVectors(e.id, 2, 5f + 20f * e.fin(), (x, y) -> {
+            Fill.circle(e.x + x, e.y + y, e.fout() * 5f + 1f);
+            //Layer.light(e.x + x, e.y + y, 18f * e.fout(), e.color);
+        });
+    }),
     dash = new Effect(30, e -> {
         Draw.color(Color.WHITE, e.color, e.fout());
         Lines.stroke(2f * e.fout() + 1f);
@@ -64,6 +72,15 @@ public class Fx{
         });
         Lines.stroke(e.fout() * 2f);
         Lines.circle(e.x, e.y, e.fin() * 50f);
+    }),
+    fireballfire  = new Effect(10f, e -> {
+        Drawf.z(e.y - 30f);
+
+        Draw.color(Color.WHITE, Pal.fireball, e.fin());
+        Fill.circle(e.x, e.y, 50f * e.fout());
+        Lines.stroke(e.fout() * 2f);
+        Lines.circle(e.x, e.y, e.fin() * 50f);
+        Drawf.light(e.x, e.y, 200f, Pal.fireball, e.fout());
     }),
     meteorpre = new Effect(60f, e -> {
         Drawf.z(100000f);

@@ -106,7 +106,8 @@ public class Phases{
 
         //ball
         boss -> {
-            boss.shoot(Bullets.fireball, boss.aim());
+            Bullet b = Bullet.shoot(Bullets.fireball, boss, boss.x, boss.y + boss.height(), boss.aim());
+            b.lifetime = b.dst(player) / b.type.speed;
         }
 
     /*
