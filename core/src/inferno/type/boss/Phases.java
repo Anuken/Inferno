@@ -102,20 +102,20 @@ public class Phases{
                     renderer.shake(4f);
                 });
             }
-        }*/
+        }
 
         //ball
         boss -> {
             Bullet b = Bullet.shoot(Bullets.fireball, boss, boss.x, boss.y + boss.height(), boss.aim());
             b.lifetime = b.dst(player) / b.type.speed;
-        }
+        }*/
 
-    /*
+
 
         //dragonfire
         boss -> {
 
-        }*/
+        }
     );
 
     public static final Phase
