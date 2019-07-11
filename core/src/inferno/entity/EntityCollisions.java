@@ -83,6 +83,10 @@ public class EntityCollisions{
     }
 
     public static boolean overlapsTile(Rectangle rect){
+        return overlapsTile(rect, EntityCollisions::solid);
+    }
+
+    public static boolean overlapsTile(Rectangle rect, SolidChecker solid){
         rect.getCenter(vector);
         int r = 1;
 
@@ -93,7 +97,7 @@ public class EntityCollisions{
         for(int dx = -r; dx <= r; dx++){
             for(int dy = -r; dy <= r; dy++){
                 int wx = dx + tilex, wy = dy + tiley;
-                if(solid(wx, wy)){
+                if(solid.solid(wx, wy)){
                     r2.setSize(tilesize).setCenter(wx * tilesize, wy * tilesize);
 
                     if(r2.overlaps(rect)){
@@ -212,5 +216,9 @@ public class EntityCollisions{
                 }
             }
         }
+    }
+
+    public interface SolidChecker{
+        boolean solid(int x, int y);
     }
 }

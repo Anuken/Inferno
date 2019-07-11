@@ -2,14 +2,14 @@ package inferno.type;
 
 import inferno.graphics.Drawf;
 import inferno.graphics.Pal;
+import inferno.world.Tile;
 import io.anuke.arc.graphics.Color;
 import io.anuke.arc.graphics.g2d.*;
 import io.anuke.arc.math.Mathf;
 import io.anuke.arc.util.Time;
 import io.anuke.arc.util.Tmp;
 
-import static inferno.Inferno.boss;
-import static inferno.Inferno.renderer;
+import static inferno.Inferno.*;
 import static io.anuke.arc.math.Angles.circle;
 import static io.anuke.arc.math.Angles.loop;
 import static io.anuke.arc.util.Time.run;
@@ -43,6 +43,79 @@ public class Bullets{
             Fill.circle(bullet.x, bullet.y, 5f);
             Draw.color(Color.WHITE);
             Fill.circle(bullet.x, bullet.y, 2f);
+        }
+    },
+    firebreath = new BulletType(){
+        {
+            speed = 2f;
+            lightColor = Pal.candle;
+            lifetime = 500f;
+            size = 10f;
+            deflect = false;
+        }
+
+        @Override
+        public void draw(Bullet bullet){
+            Drawf.z(bullet.y - tilesize*4f);
+
+            float glow = Mathf.absin(Time.time(), 5f, 0.5f);
+
+            Draw.color(Pal.fireball, Color.WHITE, glow);
+            Draw.alpha(0.3f);
+            Fill.circle(bullet.x, bullet.y, 10f + Mathf.absin(Time.time(), 6f, 4f));
+
+            Draw.color(Pal.fireball, Color.WHITE, glow);
+            Fill.circle(bullet.x, bullet.y, 7f);
+
+            Draw.color(Color.WHITE);
+            Fill.circle(bullet.x, bullet.y, 4f);
+        }
+
+        @Override
+        public void update(Bullet bullet){
+            if(Mathf.chance(0.15 * Time.delta())){
+                Fx.fireballtrail.at(bullet.x, bullet.y, Pal.fireball);
+            }
+
+            if(Mathf.chance(0.02 * Time.delta())){
+                float s = 0f;
+                float aimc = 0.2f;
+                bullet.shooter.shoot(breathsmall, bullet.x, bullet.y, Mathf.chance(aimc) ? bullet.angleTo(player) : bullet.angle() + 110f - s);
+                bullet.shooter.shoot(breathsmall, bullet.x, bullet.y, Mathf.chance(aimc) ? bullet.angleTo(player) : bullet.angle() - 110f + s);
+            }
+        }
+
+        @Override
+        public boolean solid(int x, int y){
+            Tile tile = world.tileOpt(x, y);
+            if(tile != null && tile.wall != null && tile.wall.clear){
+                return false;
+            }
+            return world.solid(x, y);
+        }
+    },
+    breathsmall = new BulletType(){
+        {
+            speed = 1.5f;
+            lightColor = Pal.candle;
+            lifetime = 500f;
+        }
+
+        @Override
+        public void draw(Bullet bullet){
+            Draw.color(Pal.candle);
+            Fill.circle(bullet.x, bullet.y, 5f);
+            Draw.color(Color.WHITE);
+            Fill.circle(bullet.x, bullet.y, 2f);
+        }
+
+        @Override
+        public boolean solid(int x, int y){
+            Tile tile = world.tileOpt(x, y);
+            if(tile != null && tile.wall != null && tile.wall.clear){
+                return false;
+            }
+            return world.solid(x, y);
         }
     },
     fireball = new BulletType(){
@@ -119,6 +192,8 @@ public class Bullets{
             Draw.color(Color.WHITE);
             Fill.circle(bullet.x, bullet.y, 2f);
         }
+
+
     },
     meteor = new BulletType(){
         {

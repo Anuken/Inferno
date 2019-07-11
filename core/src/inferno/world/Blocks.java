@@ -39,6 +39,20 @@ public class Blocks{
             }
         },
 
+        new Block("barrier"){
+            @Override
+            public void draw(int x, int y){
+
+            }
+        },
+
+        new Block("statue"){
+            @Override
+            public void draw(int x, int y){
+                Draw.rect(region, x * tilesize + tilesize/2f, y * tilesize - tilesize / 2f + region.getHeight() / 2f);
+            }
+        },
+
         new Block("book"){
             Color[] colors = {Color.valueOf("4c5f3e"), Color.valueOf("7b6844"), Color.valueOf("445e6d"), Color.valueOf("704533"), Color.valueOf("8f875f")};
             Color temp = new Color();

@@ -6,6 +6,7 @@ import io.anuke.arc.graphics.Color;
 import io.anuke.arc.graphics.g2d.Fill;
 
 import static inferno.Inferno.renderer;
+import static inferno.Inferno.world;
 
 public class BulletType{
     public float size = 4f;
@@ -31,6 +32,10 @@ public class BulletType{
         if(shake > 0){
             renderer.shake(shake);
         }
+    }
+
+    public boolean solid(int x, int y){
+        return world.solid(x, y);
     }
 
     public void drawLight(Bullet bullet){

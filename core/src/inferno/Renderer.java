@@ -234,7 +234,7 @@ public class Renderer implements ApplicationListener{
         for(int x = 0; x < world.width(); x++){
             for(int y = 0; y < world.height(); y++){
                 Tile tile = world.tile(x, y);
-                if(!world.solid(x, y) && tile.floor != null){
+                if((!world.solid(x, y) || (tile.wall != null && tile.wall.clear)) && tile.floor != null){
                     int rand = Mathf.randomSeed(x + y * world.width(), 1, 3);
                     Draw.rect(tile.floor.region2 == null ? tile.floor.region : rand == 1 ? tile.floor.region : rand == 2 ? tile.floor.region2 : tile.floor.region3,
                             x * tilesize, y * tilesize, tile.rotation);
@@ -297,7 +297,7 @@ public class Renderer implements ApplicationListener{
         for(int x = 0; x < world.width(); x++){
             for(int y = 0; y < world.height(); y++){
                 Tile tile = world.tile(x, y);
-                if(tile.solid()){
+                if(tile.solid() && !(tile.wall != null && tile.wall.clear)){
                     dark[x][y] = darkIterations;
                 }
             }

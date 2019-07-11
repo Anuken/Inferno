@@ -6,8 +6,7 @@ import io.anuke.arc.collection.*;
 import io.anuke.arc.graphics.g2d.TextureAtlas.AtlasRegion;
 import io.anuke.arc.maps.*;
 import io.anuke.arc.math.Mathf;
-import io.anuke.arc.math.geom.Geometry;
-import io.anuke.arc.math.geom.Point2;
+import io.anuke.arc.math.geom.*;
 import io.anuke.arc.util.Structs;
 
 import static inferno.Inferno.*;
@@ -19,6 +18,7 @@ public class World implements ApplicationListener{
     TiledMap map;
     TileLayer floorLayer, wallLayer, overLayer;
     MapLayer objectLayer;
+    Vector2 statue = new Vector2();
 
     public World(){
         map = new MapLoader().load("maps/map.tmx");
@@ -40,6 +40,7 @@ public class World implements ApplicationListener{
             }
 
             destination.solid = tile.getProperties().containsKey("solid");
+            destination.clear = tile.getProperties().containsKey("clear");
             destination.id = tile.id;
             destination.region = tile.region;
 
@@ -58,6 +59,10 @@ public class World implements ApplicationListener{
                 if(wall != null && wall.name.equals("candle")){
                     candles.add(new Point2(x, y));
                 }
+
+                if(wall != null && wall.name.equals("statue")){
+                    statue.set(x * tilesize + tilesize/2f, y * tilesize + tilesize*2f);
+                }
             }
         }
 
@@ -65,7 +70,7 @@ public class World implements ApplicationListener{
             for(int y = 0; y < height(); y++){
                 Tile tile = tiles[x][y];
 
-                if(tile.solid()){
+                if(tile.solid() && !(tile.wall != null && tile.wall.clear)){
                     for(Point2 near : Geometry.d4){
                         if(!tile(x + near.x, y + near.y).solid()){
                             tile.shadowed = true;
@@ -80,6 +85,10 @@ public class World implements ApplicationListener{
 
         bulletGroup.resize(0, 0, width() * tilesize, height() * tilesize);
         charGroup.resize(0, 0, width() * tilesize, height() * tilesize);
+    }
+
+    public Vector2 statue(){
+        return statue;
     }
 
     public Array<Point2> candles(){

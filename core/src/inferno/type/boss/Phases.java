@@ -4,13 +4,22 @@ import inferno.type.*;
 import io.anuke.arc.collection.Array;
 import io.anuke.arc.function.Consumer;
 import io.anuke.arc.math.Mathf;
+import io.anuke.arc.math.geom.Vector2;
 
 import static inferno.Inferno.player;
+import static inferno.Inferno.world;
 import static io.anuke.arc.math.Angles.*;
 import static io.anuke.arc.util.Time.run;
 
 @SuppressWarnings("unchecked")
 public class Phases{
+
+    //fun dragonfire attack
+    /*
+    Vector2 s = world.statue();
+    loop(60, i -> run(i * 3f, () -> shotgun(2 + i %10, 4f + (i + 5) % 10, 270f, f -> boss.shoot(Bullets.firebreath, s.x, s.y, f))));
+     */
+
     private static final Array<Consumer<Boss>> attacks = Array.with(
         //rays
         boss -> {
@@ -114,7 +123,8 @@ public class Phases{
 
         //dragonfire
         boss -> {
-
+            Vector2 s = world.statue();
+            loop(20, i -> run(i * 8f, () -> boss.shoot(Bullets.firebreath, s.x, s.y, 270f + Mathf.range(7f))));
         }
     );
 

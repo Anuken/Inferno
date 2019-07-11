@@ -16,7 +16,7 @@ public class Block{
     public int id;
     public String name;
     public TextureRegion region, region2, region3, edge;
-    public boolean solid;
+    public boolean solid, clear;
 
     protected float shadowSize = 8f;
 

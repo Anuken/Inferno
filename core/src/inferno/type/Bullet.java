@@ -37,6 +37,10 @@ public class Bullet extends SolidEntity implements ScaleTrait{
 
     }
 
+    public float angle(){
+        return velocity.angle();
+    }
+
     @Override
     public void collision(SolidEntity other, float x, float y){
         type.hit(this);
@@ -64,7 +68,7 @@ public class Bullet extends SolidEntity implements ScaleTrait{
         type.update(this);
 
         hitboxTile(Tmp.r3);
-        if(EntityCollisions.overlapsTile(Tmp.r3)){
+        if(EntityCollisions.overlapsTile(Tmp.r3, type::solid)){
             type.hit(this);
         }
     }
