@@ -30,12 +30,13 @@ public class Phases{
                 run(i * 4, () -> circle(5, f -> boss.shoot(f + aim)));
             });
         },
-        //star
+        //star flower
         boss -> {
             float aim =  boss.aim();
             int length = 15;
             loop(length - 1, i -> {
                 run(i * 2, () -> circle(5, f -> shotgun(2, 360f / 5 * i/(float)length, f + aim, boss::shoot)));
+                run(i * 2 + 30, () -> circle(5, f -> shotgun(2, 360f / 5 * i/(float)length, f + aim + 180, boss::shoot)));
             });
         },
 
@@ -132,21 +133,24 @@ public class Phases{
     first = new Phase(){
         @Override
         public void update(){
-            if(time.get(60f * 2f)){
-                //cycle.random().accept(boss);
+            if(time.get(60f * 10f)){
+                cycle.random().accept(boss);
             }
 
-            if(time.get(1, 130f) && boss.seesPlayer()){
-                boss.dash(boss.dst(player) / 1.5f);
+            if(time.get(1, 130f)){
+                //boss.dash(boss.dst(player) / 1.5f);
 
-                //attacks.random().accept(boss);
+                attacks.random().accept(boss);
             }
 
-            //boss.toward(player, 0.9f);
+            if(boss.seesPlayer()){
+                boss.toward(player, 1f);
+            }
 
-            if(time.get(2, 140f) && !boss.seesPlayer()){
+            if(time.get(2, 200f) && !boss.seesPlayer()){
                 Fx.wave.at(boss.x, boss.y);
-                run(5f, () -> {
+                Fx.wave.at(player.x, player.y);
+                run(10f, () -> {
                     boss.set(player.x, player.y);
                     Fx.wave.at(boss.x, boss.y);
                 });

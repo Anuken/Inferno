@@ -21,6 +21,7 @@ public class Bullets{
         {
             speed = 7f;
             lightColor = Pal.player;
+            damage = 1f;
         }
 
         @Override
@@ -52,6 +53,7 @@ public class Bullets{
             lifetime = 500f;
             size = 10f;
             deflect = false;
+            damage = 10f;
         }
 
         @Override
@@ -99,6 +101,7 @@ public class Bullets{
             speed = 1.2f;
             lightColor = Pal.candle;
             lifetime = 600f;
+            damage = 3f;
         }
 
         @Override
@@ -126,6 +129,7 @@ public class Bullets{
             size = 10f;
             lifetime = 1000f;
             deflect = false;
+            damage = 25f;
         }
 
         @Override
@@ -205,6 +209,7 @@ public class Bullets{
             shake = 4f;
             deflect = false;
             lightColor = Pal.lucine;
+            damage = 20f;
         }
 
         @Override

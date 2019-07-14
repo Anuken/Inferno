@@ -12,7 +12,7 @@ public class BulletType{
     public float size = 4f;
     public float speed = 2f;
     public float light = 30f;
-    public float damage = 1f;
+    public float damage = 4f;
     public float lifetime = 200f;
     public float shake = 0f;
     public boolean deflect = true, pierce = false;
