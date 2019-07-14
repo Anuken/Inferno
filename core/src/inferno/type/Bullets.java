@@ -96,9 +96,9 @@ public class Bullets{
     },
     breathsmall = new BulletType(){
         {
-            speed = 1.5f;
+            speed = 1.2f;
             lightColor = Pal.candle;
-            lifetime = 500f;
+            lifetime = 600f;
         }
 
         @Override

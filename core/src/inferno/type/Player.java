@@ -200,6 +200,7 @@ public class Player extends Char{
                     b.velocity.setAngle(b.angleTo(player.x, player.y + 7f) + 180f).scl(1.1f);
                     Fx.spark.at(b.x, b.y, Pal.player);
                     b.shooter = this;
+                    control.slowmo();
                 }
             });
 
@@ -212,6 +213,7 @@ public class Player extends Char{
                     renderer.jump(-mouseAngle(), 30f);
                     renderer.shake(4f, 3f);
                     hitBoss = true;
+                    control.slowmo();
                 }
 
                 boss.move(Tmp.v1.trns(angleTo(boss), 1.5f));

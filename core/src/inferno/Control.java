@@ -1,18 +1,20 @@
 package inferno;
 
-import inferno.type.Boss;
-import inferno.type.Player;
-import io.anuke.arc.ApplicationListener;
-import io.anuke.arc.Core;
-import io.anuke.arc.input.KeyCode;
-import io.anuke.arc.util.Time;
+import inferno.type.*;
+import io.anuke.arc.*;
+import io.anuke.arc.input.*;
+import io.anuke.arc.util.*;
 
 import static inferno.Inferno.*;
 
 public class Control implements ApplicationListener{
+    private static final float slowmodir = 50f;
     private boolean paused = false;
+    private float slowmo;
 
     public Control(){
+        //uncomment for slow motion effect on hit
+        //Time.setDeltaProvider(() -> Core.graphics.getDeltaTime() * 60f * Mathf.lerp(1f, 0.6f, Mathf.clamp(slowmo)));
         Core.keybinds.setDefaults(Binding.values());
         Core.settings.setAppName("Inferno");
         Core.settings.load();
@@ -20,11 +22,13 @@ public class Control implements ApplicationListener{
 
     @Override
     public void init(){
-
         boss = new Boss();
         player = new Player();
         reset();
+    }
 
+    public void slowmo(){
+        slowmo = 1f;
     }
 
     public void reset(){
@@ -55,6 +59,8 @@ public class Control implements ApplicationListener{
 
         if(!isPaused()){
             Time.update();
+
+            slowmo -= Core.graphics.getDeltaTime() * 60f / slowmodir;
 
             charGroup.update();
             bulletGroup.update();

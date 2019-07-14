@@ -1,13 +1,14 @@
 package inferno.type.boss;
 
+import inferno.entity.*;
 import inferno.type.*;
-import io.anuke.arc.collection.Array;
-import io.anuke.arc.function.Consumer;
-import io.anuke.arc.math.Mathf;
-import io.anuke.arc.math.geom.Vector2;
+import io.anuke.arc.collection.*;
+import io.anuke.arc.function.*;
+import io.anuke.arc.math.*;
+import io.anuke.arc.math.geom.*;
+import io.anuke.arc.util.*;
 
-import static inferno.Inferno.player;
-import static inferno.Inferno.world;
+import static inferno.Inferno.*;
 import static io.anuke.arc.math.Angles.*;
 import static io.anuke.arc.util.Time.run;
 
@@ -66,7 +67,7 @@ public class Phases{
 
     private static final Array<Consumer<Boss>> cycle = Array.with(
         //teleport
-    /*
+
         boss -> {
             Fx.wave.at(boss.x, boss.y);
             run(15f, () -> {
@@ -95,7 +96,7 @@ public class Phases{
             }
 
             met.accept(player.x, player.y);
-        }
+        },
 
 
         //candles
@@ -111,15 +112,13 @@ public class Phases{
                     renderer.shake(4f);
                 });
             }
-        }
+        },
 
         //ball
         boss -> {
             Bullet b = Bullet.shoot(Bullets.fireball, boss, boss.x, boss.y + boss.height(), boss.aim());
             b.lifetime = b.dst(player) / b.type.speed;
-        }*/
-
-
+        },
 
         //dragonfire
         boss -> {
@@ -134,16 +133,13 @@ public class Phases{
         @Override
         public void update(){
             if(time.get(60f * 2f)){
-                cycle.random().accept(boss);
-
-            //    loop(8, j -> Time.run(j * 5, () -> circle(5, j * 5f, f -> shotgun(10, 5f, f, i -> boss.shoot(Bullets.lbasic, i)))));
+                //cycle.random().accept(boss);
             }
 
             if(time.get(1, 130f) && boss.seesPlayer()){
-                //boss.dash(boss.dst(player) / 1.5f);
-                //loop(8, i -> {
-                //    run(i * 2, () -> shotgun(6, 12f, boss.aim() + i * 4, this::shoot));
-                //});
+                boss.dash(boss.dst(player) / 1.5f);
+
+                //attacks.random().accept(boss);
             }
 
             //boss.toward(player, 0.9f);
