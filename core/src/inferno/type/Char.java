@@ -57,7 +57,7 @@ public abstract class Char extends SolidEntity{
     @Override
     public void collision(SolidEntity other, float x, float y){
         Bullet bullet = (Bullet)other;
-        damage(bullet.type.damage);
+        damage(bullet.shooter.isPlayer() ? 1f : bullet.type.damage);
     }
 
     @Override

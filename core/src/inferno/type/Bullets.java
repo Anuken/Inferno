@@ -35,6 +35,7 @@ public class Bullets{
     lbasic = new BulletType(){
         {
             speed = 3f;
+            damage = 5;
             lightColor = Pal.lucine;
         }
 
@@ -53,7 +54,7 @@ public class Bullets{
             lifetime = 500f;
             size = 10f;
             deflect = false;
-            damage = 10f;
+            damage = 15f;
         }
 
         @Override
@@ -101,7 +102,7 @@ public class Bullets{
             speed = 1.2f;
             lightColor = Pal.candle;
             lifetime = 600f;
-            damage = 3f;
+            damage = 8f;
         }
 
         @Override
@@ -129,7 +130,7 @@ public class Bullets{
             size = 10f;
             lifetime = 1000f;
             deflect = false;
-            damage = 25f;
+            damage = 30f;
         }
 
         @Override
@@ -187,6 +188,7 @@ public class Bullets{
         {
             speed = 2.5f;
             lightColor = Pal.candle;
+            damage = 8;
         }
 
         @Override
@@ -209,7 +211,7 @@ public class Bullets{
             shake = 4f;
             deflect = false;
             lightColor = Pal.lucine;
-            damage = 20f;
+            damage = 15f;
         }
 
         @Override

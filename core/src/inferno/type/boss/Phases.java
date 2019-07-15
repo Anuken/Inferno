@@ -21,9 +21,9 @@ public class Phases{
     loop(60, i -> run(i * 3f, () -> shotgun(2 + i %10, 4f + (i + 5) % 10, 270f, f -> boss.shoot(Bullets.firebreath, s.x, s.y, f))));
      */
 
-    private static final Array<Consumer<Boss>> attacks = Array.with(
+    private static final Array<Runnable> attacks = Array.with(
         //rays
-        boss -> {
+        () -> {
             float aim =  boss.aim();
             loop(7, i -> {
                 run(10f + i * 4, () -> circle(5, f -> boss.shoot(f + 36 + aim)));
@@ -31,7 +31,7 @@ public class Phases{
             });
         },
         //star flower
-        boss -> {
+        () -> {
             float aim =  boss.aim();
             int length = 15;
             loop(length - 1, i -> {
@@ -41,7 +41,7 @@ public class Phases{
         },
 
         //waves
-        boss -> {
+        () -> {
             float aim =  boss.aim();
             loop(20, i -> {
                 run(i * 2, () -> boss.shoot(aim + 50f - i *5));
@@ -50,7 +50,7 @@ public class Phases{
         },
 
         //shotgun rays
-        boss -> {
+        () -> {
             float aim =  boss.aim();
             loop(20, i -> {
                 run(i * 2, () -> shotgun(3, 15f, aim + Mathf.sin(i, 1f, 5f), boss::shoot));
@@ -58,7 +58,7 @@ public class Phases{
         },
 
         //circle of bullets
-        boss -> {
+        () -> {
             float aim =  boss.aim();
             loop(40, i -> {
                 run(i * 3, () -> shotgun(2, 180f, aim + i *10f, boss::shoot));
@@ -66,10 +66,10 @@ public class Phases{
         }
     );
 
-    private static final Array<Consumer<Boss>> cycle = Array.with(
+    private static final Array<Runnable> cycle = Array.with(
         //teleport
 
-        boss -> {
+        () -> {
             Fx.wave.at(boss.x, boss.y);
             run(15f, () -> {
                 Tmp.v1.trns(player.mouseAngle(), 40f);
@@ -84,7 +84,7 @@ public class Phases{
         },
 
         //meteors
-        boss -> {
+        () -> {
             PositionConsumer met = (x, y) -> {
                 Fx.meteorpre.at(x, y);
                 run(Fx.meteorpre.lifetime, () -> {
@@ -101,7 +101,7 @@ public class Phases{
 
 
         //candles
-        boss -> {
+        () -> {
             for(Point2 tile : world.candles()){
                 float x = tile.x * tilesize, y = tile.y * tilesize + 14f;
 
@@ -116,31 +116,45 @@ public class Phases{
         },
 
         //ball
-        boss -> {
+        () -> {
             Bullet b = Bullet.shoot(Bullets.fireball, boss, boss.x, boss.y + boss.height(), boss.aim());
             b.lifetime = b.dst(player) / b.type.speed;
         },
 
         //dragonfire
-        boss -> {
+        () -> {
             Vector2 s = world.statue();
             loop(20, i -> run(i * 8f, () -> boss.shoot(Bullets.firebreath, s.x, s.y, 270f + Mathf.range(7f))));
         }
     );
+    
+    private static final Runnable
+    
+    spiral = () -> {
+        loop(10, i -> run(i * 2f, () -> circle(6, i * 4f, f -> boss.shoot(f))));
+    };
 
     public static final Phase
 
     first = new Phase(){
+        Runnable currentAttack = attacks.random();
+
         @Override
         public void update(){
             if(time.get(60f * 10f)){
-                cycle.random().accept(boss);
+                //cycle.random().run();
             }
 
-            if(time.get(1, 130f)){
-                //boss.dash(boss.dst(player) / 1.5f);
+            //switch to new attack
+            if(time.get(3, 60f * Mathf.random(10f, 20f))){
+                Runnable last = currentAttack;
+                while(currentAttack == last){
+                    currentAttack = attacks.random();
+                }
+            }
 
-                attacks.random().accept(boss);
+            if(time.get(1, 120f)){
+                currentAttack.run();
             }
 
             if(boss.seesPlayer()){
@@ -149,10 +163,13 @@ public class Phases{
 
             if(time.get(2, 200f) && !boss.seesPlayer()){
                 Fx.wave.at(boss.x, boss.y);
-                Fx.wave.at(player.x, player.y);
-                run(10f, () -> {
-                    boss.set(player.x, player.y);
+                float x = player.x, y = player.y;
+                Fx.tpwave.at(x, y);
+                run(Fx.tpwave.lifetime, () -> {
+                    spiral.run();
+                    boss.set(x, y);
                     Fx.wave.at(boss.x, boss.y);
+                    renderer.shake(4f, 4f);
                 });
             }
         }

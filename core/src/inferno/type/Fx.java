@@ -38,7 +38,14 @@ public class Fx{
     wave = new Effect(8, e -> {
         Lines.stroke(4f * e.fout());
         Draw.color(Color.WHITE, Pal.lucine, e.fout());
-        Lines.circle(e.x, e.y, e.fin() * 40f);
+        Lines.circle(e.x, e.y, e.fin() * 70f);
+    }),
+    tpwave = new Effect(50, e -> {
+        Lines.stroke(4f * e.fin());
+        Draw.color(Pal.lucine);
+        Lines.circle(e.x, e.y, e.fout() * 60f);
+        Draw.alpha(e.fin());
+        Drawf.symbols(e.id, e.x, e.y, 40f);
     }),
     candlespiral = new Effect(100f, e -> {
         Drawf.z(e.y - 20f);
