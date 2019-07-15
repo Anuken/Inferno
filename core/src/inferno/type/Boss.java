@@ -94,6 +94,9 @@ public class Boss extends Char{
         shoot(Bullets.lbasic, angle);
     }
 
+    public void shootf(float angle){
+        shoot(Bullets.lfast, angle);
+    }
 
     public float aim(){
         return angleTo(player);

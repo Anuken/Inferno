@@ -79,10 +79,6 @@ public class UI implements ApplicationListener{
     }
 
     void setup(){
-	    Core.scene.table(t -> {
-	        t.top().right();
-	        t.label(() -> Core.graphics.getFramesPerSecond() + " FPS");
-        });
 
 	    Core.scene.table(t -> {
 	        t.bottom();
@@ -129,6 +125,11 @@ public class UI implements ApplicationListener{
                 //b.setColor(Color.BLACK);
                 b.margin(8f).add(new HealthBar(boss)).size(340f, 20f);
             });
+        });
+
+        Core.scene.table(t -> {
+            t.top().right();
+            t.label(() -> Core.graphics.getFramesPerSecond() + " FPS");
         });
     }
 }

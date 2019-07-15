@@ -22,6 +22,7 @@ public class Phases{
      */
 
     private static final Array<Runnable> attacks = Array.with(
+    /*
         //rays
         () -> {
             float aim =  boss.aim();
@@ -63,7 +64,24 @@ public class Phases{
             loop(40, i -> {
                 run(i * 3, () -> shotgun(2, 180f, aim + i *10f, boss::shoot));
             });
-        }
+        }*/
+
+    /*
+    //spiral of bullets
+    () -> {
+        float aim =  boss.aim();
+        loop(30, i -> {
+            run(i * 1f, () -> shotgun(3, 360f/3, aim + i *10f, boss::shoot));
+        });
+    },*/
+
+    //shotgun wave
+    () -> {
+        float aim = boss.aim();
+        loop(8, i -> {
+            run(i * 3f, () -> shotgun(2 + i, 8f, aim, boss::shootf));
+        });
+    }
     );
 
     private static final Array<Runnable> cycle = Array.with(
@@ -148,20 +166,20 @@ public class Phases{
             //switch to new attack
             if(time.get(3, 60f * Mathf.random(10f, 20f))){
                 Runnable last = currentAttack;
-                while(currentAttack == last){
+                while(currentAttack == last && attacks.size != 1){
                     currentAttack = attacks.random();
                 }
             }
 
-            if(time.get(1, 120f)){
+            if(time.get(1, 100f)){
                 currentAttack.run();
             }
 
             if(boss.seesPlayer()){
-                boss.toward(player, 1f);
+                //boss.toward(player, 1f);
             }
 
-            if(time.get(2, 200f) && !boss.seesPlayer()){
+            if(time.get(2, 140f) && !boss.seesPlayer()){
                 Fx.wave.at(boss.x, boss.y);
                 float x = player.x, y = player.y;
                 Fx.tpwave.at(x, y);
