@@ -49,7 +49,7 @@ public class Bullets{
     },
     lfast = new BulletType(){
         {
-            speed = 4.5f;
+            speed = 7f;
             damage = 6;
             lightColor = Pal.lucine;
         }

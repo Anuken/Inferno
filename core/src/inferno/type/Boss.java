@@ -3,6 +3,7 @@ package inferno.type;
 import inferno.entity.SolidEntity;
 import inferno.graphics.Drawf;
 import inferno.graphics.Pal;
+import inferno.type.Bullet.*;
 import inferno.type.boss.Phase;
 import inferno.type.boss.Phases;
 import io.anuke.arc.Core;
@@ -72,7 +73,7 @@ public class Boss extends Char{
         Draw.rect("circle", (int)x, (int)y, 16f, 7f);
     }
 
-    public void dash(float speed){
+    public void dash(float speed, Runnable done){
         float seg = 10f;
         float moved = speed;
         int i = 0;
@@ -85,9 +86,15 @@ public class Boss extends Char{
             moved -= seg;
         }
 
+        Time.run(i * 1f, done);
+
         toward(player, moved);
         Fx.wave.at(x, y);
         renderer.shake(5f);
+    }
+
+    public void shoot(float angle, Mover mover){
+        shoot(Bullets.lbasic, angle, mover);
     }
 
     public void shoot(float angle){

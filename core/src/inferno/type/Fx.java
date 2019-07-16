@@ -147,5 +147,32 @@ public class Fx{
             Fill.circle(e.x + x, e.y + y, e.fout() * 6f);
             Drawf.light(e.x + x, e.y + y, 8f * e.fout(), Color.CYAN);
         });
-    });
+    }),
+
+    indline = new Effect(30f, e -> {
+        Drawf.z(e.y + 1000f);
+        Draw.color(Pal.lucine);
+        Lines.stroke(2f * e.fslope());
+
+        float fract = 0.4f;
+
+        for(int i = 0; i < 4; i++){
+            Tmp.v1.trns(e.rotation, Math.max(e.fin() * (100f) + i * 20 - 20, 0));
+            Lines.swirl(e.x + Tmp.v1.x, e.y + Tmp.v1.y, 10f, fract, e.rotation - 180f*fract);
+        }
+        Draw.reset();
+    }),
+
+    indwave = new Effect(indline.lifetime, e -> {
+        Drawf.z(e.y + 1000f);
+        Draw.color(Pal.lucine);
+        Lines.stroke(2f * e.fslope());
+
+        float fract = 0.17f;
+
+        for(int i = 0; i < 4; i++){
+            Lines.swirl(e.x, e.y, Math.max(100f * e.fin() + i * 20f - 10, 0), fract, e.rotation - 180f*fract);
+        }
+        Draw.reset();
+    });;
 }

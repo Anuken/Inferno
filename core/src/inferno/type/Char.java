@@ -2,6 +2,7 @@ package inferno.type;
 
 import inferno.entity.EntityGroup;
 import inferno.entity.SolidEntity;
+import inferno.type.Bullet.*;
 import io.anuke.arc.math.Angles;
 import io.anuke.arc.math.geom.Rectangle;
 
@@ -22,6 +23,10 @@ public abstract class Char extends SolidEntity{
 
     public void shoot(BulletType type, float rot){
         Bullet.shoot(type, this, x, y + height(), rot);
+    }
+
+    public void shoot(BulletType type, float rot, Mover mover){
+        Bullet.shoot(type, this, x, y + height(), rot).mover = mover;
     }
 
     public void shoot(BulletType type, float x, float y, float rot){

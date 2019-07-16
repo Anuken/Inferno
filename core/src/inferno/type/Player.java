@@ -200,6 +200,7 @@ public class Player extends Char{
                     b.velocity.setAngle(b.angleTo(player.x, player.y + 7f) + 180f).scl(1.1f);
                     Fx.spark.at(b.x, b.y, Pal.player);
                     b.shooter = this;
+                    b.mover = f -> Vector2.ZERO;
                     control.slowmo();
                 }
             });

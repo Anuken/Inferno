@@ -13,6 +13,7 @@ public class Control implements ApplicationListener{
     private float slowmo;
 
     public Control(){
+        Time.setDeltaProvider(() -> 1f);
 
         //uncomment for slow motion effect on hit
         //Time.setDeltaProvider(() -> Core.graphics.getDeltaTime() * 60f * Mathf.lerp(1f, 0.6f, Mathf.clamp(slowmo)));

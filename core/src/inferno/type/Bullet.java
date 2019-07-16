@@ -1,10 +1,9 @@
 package inferno.type;
 
 import inferno.entity.*;
-import inferno.graphics.Drawf;
-import io.anuke.arc.math.Mathf;
-import io.anuke.arc.math.geom.Rectangle;
-import io.anuke.arc.math.geom.Vector2;
+import inferno.graphics.*;
+import io.anuke.arc.math.*;
+import io.anuke.arc.math.geom.*;
 import io.anuke.arc.util.*;
 
 import static inferno.Inferno.bulletGroup;
@@ -16,6 +15,7 @@ public class Bullet extends SolidEntity implements ScaleTrait{
     public float lifetime;
     public float time;
     public boolean hit;
+    public Mover mover = time -> Tmp.v1.setZero();
 
     public Vector2 velocity = new Vector2();
 
@@ -62,8 +62,12 @@ public class Bullet extends SolidEntity implements ScaleTrait{
             remove();
         }
 
-        x += velocity.x * Time.delta();
-        y += velocity.y * Time.delta();
+        Vector2 v = mover.move(time);
+        v.rotate(velocity.angle());
+        velocity.add(v).limit(type.speed);
+
+        x += (velocity.x) * Time.delta();
+        y += (velocity.y ) * Time.delta();
 
         type.update(this);
 
@@ -98,5 +102,9 @@ public class Bullet extends SolidEntity implements ScaleTrait{
     @Override
     public float fin(){
         return time / lifetime;
+    }
+
+    public interface Mover{
+        Vector2 move(float time);
     }
 }
