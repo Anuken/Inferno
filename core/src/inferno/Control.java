@@ -43,6 +43,7 @@ public class Control implements ApplicationListener{
 
         boss.set(world.width() * tilesize/2f, world.height() * tilesize/2f + tilesize*25);
         boss.heal();
+        boss.reset();
 
         boss.add();
         player.add();

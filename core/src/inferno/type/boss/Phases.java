@@ -1,5 +1,6 @@
 package inferno.type.boss;
 
+import inferno.*;
 import inferno.entity.*;
 import inferno.type.*;
 import io.anuke.arc.collection.*;
@@ -180,9 +181,10 @@ public class Phases{
 
     static int data = 0;
 
-    public static final Phase
+    public static final Array<Phase> phases = Array.with(
 
-    first = new Phase(){
+    //first phase, basics
+    new Phase(Text.start){
         Array<Runnable> attacks = Array.with(
 
         //oscillating circle of bullets
@@ -191,7 +193,7 @@ public class Phases{
                 float aim = boss.aim();
                 //sin(t, 10f, 4f)
                 loop(3, i -> run(i * 3f, () -> circle(20, aim + i * 6,
-                    f -> boss.shoot(f, t -> v(0, sin(t, 11f + i, 1f))))));
+                f -> boss.shoot(f, t -> v(0, sin(t, 11f + i, 1f))))));
             });
 
             boss.toward(player, 0.6f);
@@ -216,7 +218,8 @@ public class Phases{
                 float aim = boss.aim();
                 run(Fx.indline.lifetime, () -> shotgun(shots, space, aim, f -> seq(3, 3, i -> shotgun(1 + i, 6f - i, f, boss::shootf))));
                 shotgun(shots, space, aim, f -> Fx.indline.at(boss.x, boss.y, f));
-                run(Fx.indline.lifetime + 10f, () -> boss.dash(boss.dst(player) / 2f, () -> {}));
+                run(Fx.indline.lifetime + 10f, () -> boss.dash(boss.dst(player) / 2f, () -> {
+                }));
             });
         },
 
@@ -250,13 +253,7 @@ public class Phases{
                 }
             }
 
-            //if(time.get(1, 120f)){
-                currentAttack.run();
-            //}
-
-            if(boss.seesPlayer()){
-                //boss.toward(player, 1f);
-            }
+            currentAttack.run();
 
             if(time.get(2, 140f) && !boss.seesPlayer()){
                 Fx.wave.at(boss.x, boss.y);
@@ -270,7 +267,16 @@ public class Phases{
                 });
             }
         }
-    };
+    },
+    //phase 2
+    new Phase(Text.phase1){
+        @Override
+        public void update(){
+
+        }
+    }
+
+    );
 
     private static void seq(int amount, float space, IntConsumer run){
         loop(amount, i -> run(i * space, () -> run.accept(i)));

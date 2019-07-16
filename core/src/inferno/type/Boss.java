@@ -20,18 +20,47 @@ import static io.anuke.arc.math.Angles.circle;
 
 public class Boss extends Char{
     Direction direction = Direction.down;
-    Phase phase = Phases.first;
+    boolean dialogged;
+    Phase phase = Phases.phases.first();
 
     @Override
     public void onDeath(){
-        circle(100, f -> shoot(Bullets.basic, f));
-        remove();
+        dialogged = false;
+        int index = Phases.phases.indexOf(phase);
+
+        //proceed to next phase
+        if(index < Phases.phases.size - 1){
+            nextPhase(Phases.phases.get(index + 1));
+        }else{
+            circle(100, f -> shoot(Bullets.basic, f));
+            remove();
+        }
+    }
+
+    public void nextPhase(Phase phase){
+        heal();
+        dead = false;
+        this.phase = phase;
+        dialogged = false;
+        player.heal();
+        bulletGroup.all().each(b -> {
+            Fx.spark.at(b.x, b.y, b.type.lightColor);
+        });
+        bulletGroup.clear();
+    }
+
+    public void reset(){
+        phase = Phases.phases.first();
     }
 
     @Override
     public void update(){
+        if(!dialogged){
+            ui.displayText(phase.startText);
+            dialogged = true;
+        }
+
         hitTime -= 1f/hitdur;
-        phase.boss = this;
         phase.update();
         direction = Direction.fromAngle(angleTo(player));
     }
