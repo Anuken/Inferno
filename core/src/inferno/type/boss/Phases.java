@@ -194,22 +194,22 @@ public class Phases{
                     f -> boss.shoot(f, t -> v(0, sin(t, 11f + i, 1f))))));
             });
 
-            boss.toward(player, 0.5f);
+            boss.toward(player, 0.6f);
         },
 
         //dash with basic shotgun
         () -> {
-            every(60f * 1.2f, () -> {
+            every(60f * 1.5f, () -> {
                 boss.dash(boss.dst(player) / 2f, () -> {
                     float aim = boss.aim();
-                    loop(4, i -> run(i * 3f, () -> shotgun(4 + i / 2, 8f, aim, boss::shoot)));
+                    loop(4, i -> run(i * 3f, () -> shotgun(3 + i, 8f, aim, boss::shoot)));
                 });
             });
         },
 
         //1-2 alternating shotguns with warning
         () -> {
-            every(60f * 1.1f, () -> {
+            every(60f * 1.5f, () -> {
                 int shots = data++ % 2 + 1;
                 float space = 70f;
 
@@ -222,11 +222,11 @@ public class Phases{
 
         //helix pattern thing
         () -> {
-            every(60f * 0.9f, () -> {
+            every(60f * 0.65f, () -> {
                 float aim = boss.aim();
                 seq(10, 3f, i -> {
                     for(int s : signs){
-                        boss.shoot(aim, t -> v(0, cos(t, 5f, 4f * s)));
+                        boss.shoot(aim, t -> v(0, cos(t, 5f, 6f * s)));
                     }
                 });
             });
@@ -238,7 +238,7 @@ public class Phases{
 
         @Override
         public void update(){
-            if(time.get(60f * 15f)){
+            if(time.get(60f * 18f)){
                 cycle.get((special++) % cycle.size).run();
             }
 
