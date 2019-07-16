@@ -201,6 +201,7 @@ public class Player extends Char{
                     Fx.spark.at(b.x, b.y, Pal.player);
                     b.shooter = this;
                     b.mover = f -> Vector2.ZERO;
+                    b.velocity.setLength(b.type.speed);
                     control.slowmo();
                 }
             });

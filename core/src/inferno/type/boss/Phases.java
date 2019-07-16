@@ -10,7 +10,7 @@ import io.anuke.arc.util.*;
 
 import static inferno.Inferno.*;
 import static io.anuke.arc.math.Angles.*;
-import static io.anuke.arc.math.Mathf.sin;
+import static io.anuke.arc.math.Mathf.*;
 import static io.anuke.arc.util.Time.run;
 
 public class Phases{
@@ -185,7 +185,6 @@ public class Phases{
         //simple circle of bullets
         () -> {
             float aim = boss.aim();
-            //sin(t, 10f, 4f)
             loop(6, i -> run(i * 5f, () -> circle(30, aim, f -> boss.shoot(f, t -> v(sin(t, 10f, 1f), 0f)))));
         }/*,
 
