@@ -20,7 +20,7 @@ import static io.anuke.arc.math.Angles.circle;
 
 public class Boss extends Char{
     Direction direction = Direction.down;
-    boolean dialogged;
+    boolean dialogged, midSpeech;
     Phase phase = Phases.phases.first();
 
     @Override
@@ -46,6 +46,7 @@ public class Boss extends Char{
         bulletGroup.all().each(b -> {
             Fx.spark.at(b.x, b.y, b.type.lightColor);
         });
+        Time.clear();
         bulletGroup.clear();
     }
 
@@ -56,7 +57,11 @@ public class Boss extends Char{
     @Override
     public void update(){
         if(!dialogged){
-            ui.displayText(phase.startText);
+            midSpeech = true;
+            Time.run(Phases.phases.first() == phase ? 0f : 60f, () -> {
+                ui.displayText(phase.startText);
+                midSpeech = false;
+            });
             dialogged = true;
         }
 

@@ -13,7 +13,7 @@ import io.anuke.arc.scene.Skin;
 import io.anuke.arc.scene.ui.Image;
 import io.anuke.arc.typelabel.TypeLabel;
 import io.anuke.arc.typelabel.TypingListener;
-import io.anuke.arc.util.Align;
+import io.anuke.arc.util.*;
 
 import static inferno.Inferno.boss;
 import static inferno.Inferno.player;
@@ -25,6 +25,7 @@ public class UI implements ApplicationListener{
     private Array<String> text = new Array<>();
     private String displayName = "";
     private int textIndex;
+    private float dialogueTime;
 	
 	@Override
 	public void init(){
@@ -44,10 +45,6 @@ public class UI implements ApplicationListener{
         });
 
         setup();
-
-        Core.app.post(() -> {
-            //displayText(Array.with("{Asmus}{face:prince chatbox}[scarlet]death[] {wave}death death death death death death{/wave}{shake}death death death{/shake}", "{Lucine}{face:lucine chatbox}goodbye {slower}aaaaaaaaaaaaaaaaaaaaaaaaa{normal}aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
-        });
 	}
 
 	@Override
@@ -59,16 +56,22 @@ public class UI implements ApplicationListener{
     public void update(){
         Drawf.sort(false);
 
+        if(label.getText().length() > 0){
+            dialogueTime = 1f;
+        }else{
+            dialogueTime -= Time.delta() / 30f;
+        }
+
         Core.scene.act();
         Core.scene.draw();
     }
 
     public Entity getDialogueFace(){
-	    return image.getRegion().asAtlas().name.contains("lucine") ? boss : player;
+	    return image.getRegion().asAtlas().name.contains("lucine") && label.getText().length() > 0 ? boss : player;
     }
 
     public boolean hasDialogue(){
-	    return label.getText().length() > 0;
+	    return label.getText().length() > 0 || dialogueTime > 0f;
     }
 
     public void displayText(Array<String> text){
@@ -101,8 +104,8 @@ public class UI implements ApplicationListener{
                             if(textIndex < text.size - 1){
                                 image.setDrawable("dialogDim");
                                 label.restart(text.get(++textIndex));
-                                //label.act(0.01f);
                             }else{
+                                image.setDrawable("dialogDim");
                                 label.setText("");
                             }
                         }else{

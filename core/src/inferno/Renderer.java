@@ -63,7 +63,7 @@ public class Renderer implements ApplicationListener{
 
         Entity target = ui.hasDialogue() ? ui.getDialogueFace() : player;
 
-        Core.camera.position.lerpDelta(target.x, target.y, 0.03f);
+        Core.camera.position.lerpDelta(target.x, target.y, target == player && ui.hasDialogue() ? 0.1f : 0.03f);
         if(!ui.hasDialogue()){
             camera.position.clamp(player.x - lim, player.x + lim, player.y - lim, player.y + lim);
         }

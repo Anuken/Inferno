@@ -161,7 +161,7 @@ public class Player extends Char{
         float angle = mouseAngle();
         glowtime = Mathf.lerpDelta(glowtime, 0f, 0.1f);
 
-        if(Core.input.keyTap(Binding.alt) && slashtime <= -slashreload/slashdur){
+        if(Core.input.keyTap(Binding.alt) && slashtime <= -slashreload/slashdur && !boss.midSpeech){
             hitBoss = false;
             Tmp.v3.trns(mouseAngle(), scytheJump);
             move(Tmp.v3.x, Tmp.v3.y);
@@ -171,7 +171,7 @@ public class Player extends Char{
             addSlashPoint(0);
         }
 
-        if(Core.input.keyDown(Binding.shoot)){
+        if(Core.input.keyDown(Binding.shoot) && !boss.midSpeech){
             scytherot -= Time.delta() * rotspeed;
 
             if(timer.get(reload) && slashtime <= -1f){
