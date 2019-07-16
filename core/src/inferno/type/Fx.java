@@ -42,7 +42,7 @@ public class Fx{
     }),
     tpwave = new Effect(50, e -> {
         Lines.stroke(4f * e.fin());
-        Draw.color(Pal.lucine);
+        Draw.color(Pal.lucine, Pal.candle, 0.5f);
         Lines.circle(e.x, e.y, e.fout() * 60f);
         Draw.alpha(e.fin());
         Drawf.symbols(e.id, e.x, e.y, 40f);
