@@ -10,7 +10,7 @@ import io.anuke.arc.util.*;
 
 import static inferno.Inferno.*;
 import static io.anuke.arc.math.Angles.*;
-import static io.anuke.arc.math.Mathf.sin;
+import static io.anuke.arc.math.Mathf.*;
 import static io.anuke.arc.util.Time.run;
 
 public class Phases{
@@ -20,6 +20,7 @@ public class Phases{
     Vector2 s = world.statue();
     loop(60, i -> run(i * 3f, () -> shotgun(2 + i %10, 4f + (i + 5) % 10, 270f, f -> boss.shoot(Bullets.firebreath, s.x, s.y, f))));
      */
+    private static final Interval in = new Interval(20);
 
     private static final Array<Runnable> allAttacks = Array.with(
     //rays
@@ -135,8 +136,8 @@ public class Phases{
                 run(Fx.meteorpre.lifetime, () -> boss.shoot(Bullets.meteor, x, y, 0f));
             };
 
-            for(int i = 0; i < 30; i++){
-                run(Mathf.random(30f), () -> met.accept(player.x + Mathf.range(400f), player.y + Mathf.range(400f)));
+            for(int i = 0; i < 50; i++){
+                run(Mathf.random(60f * 4), () -> met.accept(player.x + Mathf.range(400f), player.y + Mathf.range(400f)));
             }
 
             met.accept(player.x, player.y);
@@ -177,46 +178,80 @@ public class Phases{
         loop(10, i -> run(i * 2f, () -> circle(6, i * 4f, f -> boss.shoot(f))));
     };
 
+    static int data = 0;
+
     public static final Phase
 
     first = new Phase(){
         Array<Runnable> attacks = Array.with(
 
-        //simple circle of bullets
+        //oscillating circle of bullets
         () -> {
-            float aim = boss.aim();
-            //sin(t, 10f, 4f)
-            loop(6, i -> run(i * 5f, () -> circle(30, aim, f -> boss.shoot(f, t -> v(sin(t, 10f, 1f), 0f)))));
-        }/*,
-
-        //dash
-        () -> {
-            boss.dash(boss.dst(player) / 2f, () -> {
+            every(60f * 2f, () -> {
                 float aim = boss.aim();
-                loop(4, i -> run(i * 3f, () -> shotgun(4 + i/2, 8f, aim, boss::shoot)));
+                //sin(t, 10f, 4f)
+                loop(3, i -> run(i * 3f, () -> circle(20, aim + i * 6,
+                    f -> boss.shoot(f, t -> v(0, sin(t, 11f + i, 1f))))));
             });
-        }*/
+
+
+        },
+
+        //dash with basic shotgun
+        () -> {
+            every(60f * 1.2f, () -> {
+                boss.dash(boss.dst(player) / 2f, () -> {
+                    float aim = boss.aim();
+                    loop(4, i -> run(i * 3f, () -> shotgun(4 + i / 2, 8f, aim, boss::shoot)));
+                });
+            });
+        },
+
+        //1-2 alternating shotguns with warning
+        () -> {
+            every(60f * 1.1f, () -> {
+                int shots = data++ % 2 + 1;
+                float space = 70f;
+
+                float aim = boss.aim();
+                run(Fx.indline.lifetime, () -> shotgun(shots, space, aim, f -> seq(3, 3, i -> shotgun(1 + i, 6f - i, f, boss::shootf))));
+                shotgun(shots, space, aim, f -> Fx.indline.at(boss.x, boss.y, f));
+                run(Fx.indline.lifetime + 10f, () -> boss.dash(boss.dst(player) / 2f, () -> {}));
+            });
+        },
+
+        //helix pattern thing
+        () -> {
+            every(60f * 0.9f, () -> {
+                float aim = boss.aim();
+                seq(10, 3f, i -> {
+                    for(int s : signs){
+                        boss.shoot(aim, t -> v(0, cos(t, 5f, 4f * s)));
+                    }
+                });
+            });
+        }
         );
 
         Runnable currentAttack = attacks.random();
 
         @Override
         public void update(){
-            if(time.get(60f * 10f)){
-                //cycle.random().run();
+            if(time.get(60f * 20f)){
+                cycle.random().run();
             }
 
             //switch to new attack
-            if(time.get(3, 60f * Mathf.random(10f, 20f))){
+            if(time.get(3, 60f * Mathf.random(15f, 40f))){
                 Runnable last = currentAttack;
                 while(currentAttack == last && attacks.size != 1){
                     currentAttack = attacks.random();
                 }
             }
 
-            if(time.get(1, 120f)){
+            //if(time.get(1, 120f)){
                 currentAttack.run();
-            }
+            //}
 
             if(boss.seesPlayer()){
                 //boss.toward(player, 1f);
@@ -235,6 +270,16 @@ public class Phases{
             }
         }
     };
+
+    private static void seq(int amount, float space, IntConsumer run){
+        loop(amount, i -> run(i * space, () -> run.accept(i)));
+    }
+
+    private static void every(float time, Runnable run){
+        if(in.get(time)){
+            run.run();
+        }
+    }
 
     private static Vector2 v(float x, float y){
         return Tmp.v1.set(x / 10f, y / 10f);
