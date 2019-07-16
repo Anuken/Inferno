@@ -168,7 +168,7 @@ public class Phases{
         //dragonfire
         () -> {
             Vector2 s = world.statue();
-            loop(20, i -> run(i * 8f, () -> boss.shoot(Bullets.firebreath, s.x, s.y, 270f + Mathf.range(7f))));
+            loop(80, i -> run(i * 8f, () -> boss.shoot(Bullets.firebreath, s.x, s.y, 270f + Mathf.range(7f))));
         }
     );
     
@@ -187,14 +187,14 @@ public class Phases{
 
         //oscillating circle of bullets
         () -> {
-            every(60f * 2f, () -> {
+            every(60f * 2.4f, () -> {
                 float aim = boss.aim();
                 //sin(t, 10f, 4f)
                 loop(3, i -> run(i * 3f, () -> circle(20, aim + i * 6,
                     f -> boss.shoot(f, t -> v(0, sin(t, 11f + i, 1f))))));
             });
 
-
+            boss.toward(player, 0.5f);
         },
 
         //dash with basic shotgun
@@ -234,11 +234,12 @@ public class Phases{
         );
 
         Runnable currentAttack = attacks.random();
+        int special = 0;
 
         @Override
         public void update(){
-            if(time.get(60f * 20f)){
-                cycle.random().run();
+            if(time.get(60f * 15f)){
+                cycle.get((special++) % cycle.size).run();
             }
 
             //switch to new attack

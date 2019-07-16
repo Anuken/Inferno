@@ -38,7 +38,7 @@ public class Boss extends Char{
 
     @Override
     public float maxHealth(){
-        return 500;
+        return 300;
     }
 
     @Override
