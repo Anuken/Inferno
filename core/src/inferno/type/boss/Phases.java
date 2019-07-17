@@ -262,7 +262,7 @@ public class Phases{
         }
     },
     //phase 1 mid
-    new Phase(Text.phase1){
+    new Phase(null){
         Array<Runnable> attacks = Array.with(
 
         //oscillating circle of bullets
@@ -336,7 +336,7 @@ public class Phases{
     },
 
     //phase 2
-    new Phase(Text.phase2){
+    new Phase(Text.phase1){
         @Override
         public void update(){
 

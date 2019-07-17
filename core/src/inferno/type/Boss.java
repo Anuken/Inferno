@@ -74,7 +74,7 @@ public class Boss extends Char{
 
     @Override
     public void update(){
-        if(!dialogged){
+        if(!dialogged && phase.startText != null){
             midSpeech = true;
             Time.run(Phases.phases.first() == phase ? 0f : 60f, () -> {
                 if(!debug){
