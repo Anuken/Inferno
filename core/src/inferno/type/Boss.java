@@ -1,27 +1,27 @@
 package inferno.type;
 
-import inferno.entity.SolidEntity;
-import inferno.graphics.Drawf;
-import inferno.graphics.Pal;
+import inferno.entity.*;
+import inferno.graphics.*;
 import inferno.type.Bullet.*;
-import inferno.type.boss.Phase;
-import inferno.type.boss.Phases;
-import io.anuke.arc.Core;
-import io.anuke.arc.graphics.Color;
-import io.anuke.arc.graphics.g2d.Draw;
-import io.anuke.arc.graphics.g2d.TextureRegion;
-import io.anuke.arc.math.Mathf;
-import io.anuke.arc.math.geom.Geometry;
-import io.anuke.arc.math.geom.Rectangle;
-import io.anuke.arc.util.Time;
+import inferno.type.boss.*;
+import io.anuke.arc.*;
+import io.anuke.arc.graphics.*;
+import io.anuke.arc.graphics.g2d.*;
+import io.anuke.arc.math.*;
+import io.anuke.arc.math.geom.*;
+import io.anuke.arc.util.*;
 
 import static inferno.Inferno.*;
 import static io.anuke.arc.math.Angles.circle;
 
 public class Boss extends Char{
+    public static final Anim adash = new Anim("lucine-sprint"), awave = new Anim("lucine-wave-1", "lucine-wave-2");
+
     Direction direction = Direction.down;
     boolean dialogged, midSpeech;
     Phase phase = Phases.phases.first();
+    Anim anim = null;
+    float animdur, animtime;
 
     @Override
     public void onDeath(){
@@ -54,12 +54,20 @@ public class Boss extends Char{
         phase = Phases.phases.first();
     }
 
+    public void anim(Anim anim, float duration){
+        this.anim = anim;
+        this.animdur = duration;
+        this.animtime = 0f;
+    }
+
     @Override
     public void update(){
         if(!dialogged){
             midSpeech = true;
             Time.run(Phases.phases.first() == phase ? 0f : 60f, () -> {
-                ui.displayText(phase.startText);
+                if(!debug){
+                    ui.displayText(phase.startText);
+                }
                 midSpeech = false;
             });
             dialogged = true;
@@ -67,7 +75,15 @@ public class Boss extends Char{
 
         hitTime -= 1f/hitdur;
         phase.update();
-        direction = Direction.fromAngle(angleTo(player));
+        direction = player.x < x ? Direction.left : Direction.right;
+
+        if(anim != null){
+            animtime += Time.delta() / animdur;
+
+            if(animtime >= 1f){
+                anim = null;
+            }
+        }
     }
 
     @Override
@@ -78,8 +94,8 @@ public class Boss extends Char{
     @Override
     public void draw(){
         Draw.mixcol(Color.WHITE, Mathf.clamp(hitTime));
-        TextureRegion region = Core.atlas.find("lucine-" + direction.name);
-        Draw.rect(region, x, y + region.getHeight()/2f, region.getWidth() * -Mathf.sign(direction.flipped), region.getHeight());
+        TextureRegion region = anim == null ? Core.atlas.find("lucine-side") : anim.frame(animtime);
+        Draw.rect(region, x, y + region.getHeight()/2f + Mathf.absin(Time.time(), 6f, 2f), region.getWidth() * -Mathf.sign(direction.flipped), region.getHeight());
 
         Drawf.light(x, y + height(), 160f, Color.SCARLET);
 
@@ -107,7 +123,7 @@ public class Boss extends Char{
         Draw.rect("circle", (int)x, (int)y, 16f, 7f);
     }
 
-    public void dash(float speed, Runnable done){
+    public float dash(float speed, Runnable done){
         float seg = 10f;
         float moved = speed;
         int i = 0;
@@ -125,6 +141,7 @@ public class Boss extends Char{
         toward(player, moved);
         Fx.wave.at(x, y);
         renderer.shake(5f);
+        return i * 1f;
     }
 
     public void shoot(float angle, Mover mover){

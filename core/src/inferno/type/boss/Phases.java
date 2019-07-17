@@ -192,8 +192,8 @@ public class Phases{
             every(60f * 2.4f, () -> {
                 float aim = boss.aim();
                 //sin(t, 10f, 4f)
-                loop(3, i -> run(i * 3f, () -> circle(20, aim + i * 6,
-                f -> boss.shoot(f, t -> v(0, sin(t, 11f + i, 1f))))));
+                loop(3, i -> run(i * 3f, () -> circle(20, aim + i * 6, f -> boss.shoot(f, t -> v(0, sin(t, 11f + i, 1f))))));
+                wave();
             });
 
             boss.toward(player, 0.6f);
@@ -202,10 +202,10 @@ public class Phases{
         //dash with basic shotgun
         () -> {
             every(60f * 1.5f, () -> {
-                boss.dash(boss.dst(player) / 2f, () -> {
+                boss.anim(Boss.adash, 1.6f*boss.dash(boss.dst(player) / 2f, () -> {
                     float aim = boss.aim();
                     loop(4, i -> run(i * 3f, () -> shotgun(3 + i, 8f, aim, boss::shoot)));
-                });
+                }));
             });
         },
 
@@ -218,8 +218,7 @@ public class Phases{
                 float aim = boss.aim();
                 run(Fx.indline.lifetime, () -> shotgun(shots, space, aim, f -> seq(3, 3, i -> shotgun(1 + i, 6f - i, f, boss::shootf))));
                 shotgun(shots, space, aim, f -> Fx.indline.at(boss.x, boss.y, f));
-                run(Fx.indline.lifetime + 10f, () -> boss.dash(boss.dst(player) / 2f, () -> {
-                }));
+                run(Fx.indline.lifetime + 10f, () -> boss.anim(Boss.adash, 1.6f*boss.dash(boss.dst(player) / 2f, () -> {})));
             });
         },
 
@@ -232,6 +231,8 @@ public class Phases{
                         boss.shoot(aim, t -> v(0, cos(t, 5f, 6f * s)));
                     }
                 });
+
+                wave();
             });
         }
         );
@@ -277,6 +278,11 @@ public class Phases{
     }
 
     );
+
+    private static void wave(){
+        boss.anim(Boss.awave, 15f);
+        renderer.shake(4f, 4f);
+    }
 
     private static void seq(int amount, float space, IntConsumer run){
         loop(amount, i -> run(i * space, () -> run.accept(i)));
