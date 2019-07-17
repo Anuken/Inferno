@@ -19,7 +19,7 @@ public class Boss extends Char{
 
     Direction direction = Direction.down;
     boolean dialogged, midSpeech;
-    Phase phase = Phases.phases.first();
+    Phases.Phase phase = Phases.phases.get(1);
     Anim anim = null;
     float animdur, animtime;
 
@@ -37,7 +37,19 @@ public class Boss extends Char{
         }
     }
 
-    public void nextPhase(Phase phase){
+    //switches to next phase, for mid phases only
+    public void midPhase(){
+        dialogged = false;
+        phase = Phases.phases.get(Phases.phases.indexOf(phase) + 1);
+
+        bulletGroup.all().each(b -> {
+            Fx.spark.at(b.x, b.y, b.type.lightColor);
+        });
+        Time.clear();
+        bulletGroup.clear();
+    }
+
+    public void nextPhase(Phases.Phase phase){
         heal();
         dead = false;
         this.phase = phase;
@@ -74,7 +86,9 @@ public class Boss extends Char{
         }
 
         hitTime -= 1f/hitdur;
-        phase.update();
+        if(!midSpeech){
+            phase.update();
+        }
         direction = player.x < x ? Direction.left : Direction.right;
 
         if(anim != null){
@@ -88,7 +102,7 @@ public class Boss extends Char{
 
     @Override
     public float maxHealth(){
-        return 300;
+        return 1;
     }
 
     @Override
@@ -110,6 +124,12 @@ public class Boss extends Char{
     @Override
     public void hitbox(Rectangle rectangle){
         float w = 12f, h = 24f;
+        rectangle.set(x - w / 2f, y, w, h);
+    }
+
+    @Override
+    public void hitboxTile(Rectangle rectangle){
+        float w = 7, h = 12f;
         rectangle.set(x - w / 2f, y, w, h);
     }
 

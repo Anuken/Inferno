@@ -19,7 +19,7 @@ public abstract class SolidEntity extends Entity implements QuadTreeObject{
     }
 
     public void toward(Position other, float speed){
-        move(Tmp.v1.set(other).sub(x, y).limit(speed));
+        move(Tmp.v1.set(other).sub(x, y).limit(speed).rotate(speed < 0 ? 180f : 0));
     }
 
     public void move(Vector2 vector2){

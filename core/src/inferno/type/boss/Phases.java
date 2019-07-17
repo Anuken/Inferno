@@ -202,7 +202,7 @@ public class Phases{
         //dash with basic shotgun
         () -> {
             every(60f * 1.5f, () -> {
-                boss.anim(Boss.adash, 1.6f*boss.dash(boss.dst(player) / 2f, () -> {
+                boss.anim(Boss.adash, 1.6f * boss.dash(boss.dst(player) / 2f, () -> {
                     float aim = boss.aim();
                     loop(4, i -> run(i * 3f, () -> shotgun(3 + i, 8f, aim, boss::shoot)));
                 }));
@@ -218,7 +218,8 @@ public class Phases{
                 float aim = boss.aim();
                 run(Fx.indline.lifetime, () -> shotgun(shots, space, aim, f -> seq(3, 3, i -> shotgun(1 + i, 6f - i, f, boss::shootf))));
                 shotgun(shots, space, aim, f -> Fx.indline.at(boss.x, boss.y, f));
-                run(Fx.indline.lifetime + 10f, () -> boss.anim(Boss.adash, 1.6f*boss.dash(boss.dst(player) / 2f, () -> {})));
+                run(Fx.indline.lifetime + 10f, () -> boss.anim(Boss.adash, 1.6f * boss.dash(boss.dst(player) / 2f, () -> {
+                })));
             });
         },
 
@@ -237,9 +238,6 @@ public class Phases{
         }
         );
 
-        Runnable currentAttack = attacks.random();
-        int special = 0;
-
         @Override
         public void update(){
             if(time.get(60f * 18f)){
@@ -247,7 +245,7 @@ public class Phases{
             }
 
             //switch to new attack
-            if(time.get(3, 60f * Mathf.random(15f, 40f))){
+            if(currentAttack == null || time.get(3, 60f * Mathf.random(15f, 40f))){
                 Runnable last = currentAttack;
                 while(currentAttack == last && attacks.size != 1){
                     currentAttack = attacks.random();
@@ -256,21 +254,89 @@ public class Phases{
 
             currentAttack.run();
 
-            if(time.get(2, 140f) && !boss.seesPlayer()){
-                Fx.wave.at(boss.x, boss.y);
-                float x = player.x, y = player.y;
-                Fx.tpwave.at(x, y);
-                run(Fx.tpwave.lifetime, () -> {
-                    spiral.run();
-                    boss.set(x, y);
-                    Fx.wave.at(boss.x, boss.y);
-                    renderer.shake(4f, 4f);
-                });
+            teleport();
+
+            if(boss.health / boss.maxHealth() < 0.5f){
+                boss.midPhase();
             }
         }
     },
-    //phase 2
+    //phase 1 mid
     new Phase(Text.phase1){
+        Array<Runnable> attacks = Array.with(
+
+        //oscillating circle of bullets
+        () -> {
+            every(60f * 2f, () -> {
+                float aim = boss.aim();
+                //sin(t, 10f, 4f)
+                loop(5, i -> run(i * 3f, () -> circle(20, aim + i * 6, f -> boss.shoot(f, t -> v(0, sin(t, 11f + i, 1.4f))))));
+                wave();
+            });
+        },
+
+        //dash with basic shotgun
+        () -> {
+            every(60f * 1.1f, () -> {
+                boss.anim(Boss.adash, 1.6f * boss.dash(boss.dst(player) / 2f, () -> {
+                    float aim = boss.aim();
+                    loop(5, i -> run(i * 3f, () -> shotgun(3 + i, 8f, aim, boss::shoot)));
+                }));
+            });
+        },
+
+        //1-2 alternating shotguns with warning
+        () -> {
+            every(60f * 1.2f, () -> {
+                int shots = data++ % 2 + 1;
+                float space = 70f;
+
+                float aim = boss.aim();
+                run(Fx.indline.lifetime, () -> shotgun(shots, space, aim, f -> seq(4, 3, i -> shotgun(1 + i, 6f - i, f, boss::shootf))));
+                shotgun(shots, space, aim, f -> Fx.indline.at(boss.x, boss.y, f));
+                run(Fx.indline.lifetime + 10f, () -> boss.anim(Boss.adash, 1.6f * boss.dash(boss.dst(player) / 2f, () -> {
+                })));
+            });
+        },
+
+        //helix pattern thing
+        () -> {
+            every(60f * 0.5f, () -> {
+                float aim = boss.aim();
+                seq(13, 3f, i -> {
+                    for(int s : signs){
+                        boss.shoot(aim, t -> v(0, cos(t, 5f, 6f * s)));
+                    }
+                });
+
+                wave();
+            });
+        }
+        );
+
+        @Override
+        public void update(){
+            if(time.get(60f * 15f)){
+                cycle.get((special++) % cycle.size).run();
+            }
+
+            //switch to new attack
+            if(currentAttack == null || time.get(3, 60f * Mathf.random(15f, 40f))){
+                Runnable last = currentAttack;
+                while(currentAttack == last && attacks.size != 1){
+                    currentAttack = attacks.random();
+                }
+            }
+
+            currentAttack.run();
+            boss.toward(player, boss.dst(player) < 200f ? -0.6f : 0.6f);
+
+            teleport();
+        }
+    },
+
+    //phase 2
+    new Phase(Text.phase2){
         @Override
         public void update(){
 
@@ -296,5 +362,37 @@ public class Phases{
 
     private static Vector2 v(float x, float y){
         return Tmp.v1.set(x / 10f, y / 10f);
+    }
+
+    public abstract static class Phase{
+        public final Interval time = new Interval(10);
+        public final Array<String> startText;
+
+        int special = 0;
+        Runnable currentAttack = null;
+
+        public Phase(Array<String> text){
+            this.startText = text;
+        }
+
+        protected void shoot(float angle){
+            boss.shoot(Bullets.lbasic, angle);
+        }
+
+        public abstract void update();
+
+        void teleport(){
+            if(time.get(2, 140f) && !boss.seesPlayer()){
+                Fx.wave.at(boss.x, boss.y);
+                float x = player.x, y = player.y;
+                Fx.tpwave.at(x, y);
+                run(Fx.tpwave.lifetime, () -> {
+                    spiral.run();
+                    boss.set(x, y);
+                    Fx.wave.at(boss.x, boss.y);
+                    renderer.shake(4f, 4f);
+                });
+            }
+        }
     }
 }
