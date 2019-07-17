@@ -280,7 +280,7 @@ public class Phases{
     );
 
     private static void wave(){
-        boss.anim(Boss.awave, 15f);
+        boss.anim(Boss.awave, 20f);
         renderer.shake(4f, 4f);
     }
 

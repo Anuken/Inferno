@@ -1,12 +1,12 @@
 package inferno.type;
 
-import inferno.graphics.Drawf;
-import inferno.graphics.Effects.Effect;
-import inferno.graphics.Pal;
-import io.anuke.arc.graphics.Color;
+import inferno.graphics.*;
+import inferno.graphics.Effects.*;
+import io.anuke.arc.*;
+import io.anuke.arc.graphics.*;
 import io.anuke.arc.graphics.g2d.*;
 import io.anuke.arc.math.*;
-import io.anuke.arc.util.Tmp;
+import io.anuke.arc.util.*;
 
 public class Fx{
     private static final RandomXS128 random = new RandomXS128();
@@ -19,6 +19,11 @@ public class Fx{
             Fill.circle(e.x + x, e.y + y, e.fout() * 4f);
             //Layer.light(e.x + x, e.y + y, 18f * e.fout(), e.color);
         });
+    }),
+    ldash = new Effect(30f, e -> {
+        TextureRegion region = Core.atlas.find("lucine-sprint");
+        Draw.alpha(e.fout());
+        Draw.rect(region, e.x, e.y + region.getHeight()/2f + 1f, region.getWidth() * e.rotation, region.getHeight());
     }),
     fireballtrail = new Effect(70, e -> {
         Drawf.z(e.y + 1f);

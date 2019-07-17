@@ -131,6 +131,7 @@ public class Boss extends Char{
             Time.run(i++ * 1f, () -> {
                 toward(player, seg);
                 Fx.dash.at(x, y + 6f, angleTo(player) + 180f, Pal.lucine);
+                Fx.ldash.at(x, y, direction.flipped ? -1f : 1f);
             });
 
             moved -= seg;
