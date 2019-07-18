@@ -19,7 +19,7 @@ public class Boss extends Char{
 
     Direction direction = Direction.down;
     boolean dialogged, midSpeech;
-    Phases.Phase phase = Phases.phases.get(1);
+    Phases.Phase phase = Phases.phases.first();
     Anim anim = null;
     float animdur, animtime;
 
@@ -63,7 +63,7 @@ public class Boss extends Char{
     }
 
     public void reset(){
-        phase = Phases.phases.first();
+        phase = Phases.phases.get(2);
     }
 
     public void anim(Anim anim, float duration){

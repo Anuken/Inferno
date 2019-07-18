@@ -294,8 +294,7 @@ public class Phases{
                 float aim = boss.aim();
                 run(Fx.indline.lifetime, () -> shotgun(shots, space, aim, f -> seq(4, 3, i -> shotgun(1 + i, 6f - i, f, boss::shootf))));
                 shotgun(shots, space, aim, f -> Fx.indline.at(boss.x, boss.y, f));
-                run(Fx.indline.lifetime + 10f, () -> boss.anim(Boss.adash, 1.6f * boss.dash(boss.dst(player) / 2f, () -> {
-                })));
+                run(Fx.indline.lifetime + 10f, () -> boss.anim(Boss.adash, 1.6f * boss.dash(boss.dst(player) / 2f, () -> {})));
             });
         },
 
@@ -335,11 +334,30 @@ public class Phases{
         }
     },
 
-    //phase 2
+    //phase 2; burn stuff down
     new Phase(Text.phase1){
+        Array<Runnable> attacks = Array.with(
+            () -> {
+                every(60f * 2f, () -> {
+                    float aim = boss.aim();
+                    int length = 15;
+                    loop(length - 1, i -> loop(2, sp -> run(i * 2 + sp * 5, () -> circle(5, f -> shotgun(2, 360f / 5 * i / (float)length, f + aim + sp * 180f, a -> boss.shoot(a, v -> v(0, cos(v, 20f, 2f))))))));
+                });
+            }
+        );
+
         @Override
         public void update(){
+            boss.set(world.width() * tilesize/2f, world.height() * tilesize/2f);
 
+            if(currentAttack == null || time.get(3, 60f * Mathf.random(15f, 40f))){
+                Runnable last = currentAttack;
+                while(currentAttack == last && (attacks.size != 1 || currentAttack == null)){
+                    currentAttack = attacks.random();
+                }
+            }
+
+            currentAttack.run();
         }
     }
 
@@ -368,7 +386,7 @@ public class Phases{
         public final Interval time = new Interval(10);
         public final Array<String> startText;
 
-        int special = 0;
+        static int special = 0;
         Runnable currentAttack = null;
 
         public Phase(Array<String> text){

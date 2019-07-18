@@ -70,6 +70,10 @@ public class Renderer implements ApplicationListener{
         updateShake(1f);
         float px = Core.camera.position.x, py = Core.camera.position.y;
         Core.camera.position.snap();
+        if(Core.graphics.getHeight() % scale == 1 || scale == 2){
+            camera.position.y += 0.5f;
+        }
+
         Core.camera.update();
 
         Core.batch = lbatch;
