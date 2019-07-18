@@ -87,6 +87,24 @@ public class World implements ApplicationListener{
         charGroup.resize(0, 0, width() * tilesize, height() * tilesize);
     }
 
+    public void wallDetonate(){
+        int radius = 14;
+
+        for(int x = 0; x < width(); x++){
+            for(int y = 0; y < height(); y++){
+                if(Mathf.within(x, y, width()/2, height()/2, radius)){
+                    Tile tile = tile(x, y);
+                    if(tile.wall != null && tile.wall.name.equals("shelf")){
+                        tile.wall = null;
+                        tile.shadowed = false;
+                    }
+                }
+            }
+        }
+
+        renderer.updateShadows();
+    }
+
     public Vector2 statue(){
         return statue;
     }

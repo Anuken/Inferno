@@ -51,6 +51,7 @@ public class Boss extends Char{
 
     public void nextPhase(Phases.Phase phase){
         heal();
+        phase.reset();
         dead = false;
         this.phase = phase;
         dialogged = false;
@@ -64,6 +65,7 @@ public class Boss extends Char{
 
     public void reset(){
         phase = Phases.phases.get(2);
+        phase.reset();
     }
 
     public void anim(Anim anim, float duration){

@@ -1,27 +1,23 @@
 package inferno;
 
-import inferno.entity.Entity;
+import inferno.entity.*;
 import inferno.graphics.*;
-import inferno.world.Tile;
-import io.anuke.arc.ApplicationListener;
-import io.anuke.arc.Core;
-import io.anuke.arc.function.IntPositionConsumer;
+import inferno.world.*;
+import io.anuke.arc.*;
+import io.anuke.arc.function.*;
 import io.anuke.arc.graphics.*;
-import io.anuke.arc.graphics.Texture.TextureFilter;
+import io.anuke.arc.graphics.Texture.*;
 import io.anuke.arc.graphics.g2d.*;
-import io.anuke.arc.graphics.glutils.FrameBuffer;
-import io.anuke.arc.graphics.glutils.Shader;
-import io.anuke.arc.maps.MapObject;
-import io.anuke.arc.maps.objects.TextureMapObject;
-import io.anuke.arc.math.Mathf;
-import io.anuke.arc.math.geom.Geometry;
-import io.anuke.arc.math.geom.Point2;
+import io.anuke.arc.graphics.glutils.*;
+import io.anuke.arc.maps.*;
+import io.anuke.arc.maps.objects.*;
+import io.anuke.arc.math.*;
+import io.anuke.arc.math.geom.*;
 import io.anuke.arc.util.*;
-import io.anuke.arc.util.noise.Noise;
+import io.anuke.arc.util.noise.*;
 
 import static inferno.Inferno.*;
-import static io.anuke.arc.Core.camera;
-import static io.anuke.arc.Core.settings;
+import static io.anuke.arc.Core.*;
 
 public class Renderer implements ApplicationListener{
     public LayerBatch zbatch;
@@ -238,7 +234,7 @@ public class Renderer implements ApplicationListener{
         for(int x = 0; x < world.width(); x++){
             for(int y = 0; y < world.height(); y++){
                 Tile tile = world.tile(x, y);
-                if((!world.solid(x, y) || (tile.wall != null && tile.wall.clear)) && tile.floor != null){
+                if((!world.solid(x, y) || (tile.wall != null && tile.wall.clear) || (tile.wall != null && tile.wall.name.equals("shelf"))) && tile.floor != null){
                     int rand = Mathf.randomSeed(x + y * world.width(), 1, 3);
                     Draw.rect(tile.floor.region2 == null ? tile.floor.region : rand == 1 ? tile.floor.region : rand == 2 ? tile.floor.region2 : tile.floor.region3,
                             x * tilesize, y * tilesize, tile.rotation);
@@ -261,6 +257,10 @@ public class Renderer implements ApplicationListener{
         batch.endCache();
 
         Core.batch = zbatch;
+    }
+
+    public void updateShadows(){
+        makeShadow();
     }
 
     void circle(float x, float y, float radius){
@@ -292,7 +292,9 @@ public class Renderer implements ApplicationListener{
     }
 
     void makeShadow(){
-        fogs = new FrameBuffer(world.width(), world.height());
+        if(fogs == null){
+            fogs = new FrameBuffer(world.width(), world.height());
+        }
 
         byte[][] dark = new byte[world.width()][world.height()];
         byte[][] writeBuffer = new byte[world.width()][world.height()];

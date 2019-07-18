@@ -1,11 +1,11 @@
 package inferno.type.boss;
 
-import inferno.*;
-import inferno.entity.*;
+import inferno.Text;
+import inferno.entity.EntityCollisions;
 import inferno.type.*;
-import io.anuke.arc.collection.*;
+import io.anuke.arc.collection.Array;
 import io.anuke.arc.function.*;
-import io.anuke.arc.math.*;
+import io.anuke.arc.math.Mathf;
 import io.anuke.arc.math.geom.*;
 import io.anuke.arc.util.*;
 
@@ -336,6 +336,8 @@ public class Phases{
 
     //phase 2; burn stuff down
     new Phase(Text.phase1){
+        boolean detonated = false, detonating = false;
+
         Array<Runnable> attacks = Array.with(
             () -> {
                 every(60f * 2f, () -> {
@@ -350,14 +352,33 @@ public class Phases{
         public void update(){
             boss.set(world.width() * tilesize/2f, world.height() * tilesize/2f);
 
-            if(currentAttack == null || time.get(3, 60f * Mathf.random(15f, 40f))){
-                Runnable last = currentAttack;
-                while(currentAttack == last && (attacks.size != 1 || currentAttack == null)){
-                    currentAttack = attacks.random();
-                }
+            if(!detonated && !detonating){
+                detonating = true;
+
+                run(60f, () -> {
+                    world.wallDetonate();
+                    detonating = false;
+                    detonated = true;
+                });
             }
 
-            currentAttack.run();
+            if(detonated){
+                if(currentAttack == null || time.get(3, 60f * Mathf.random(15f, 40f))){
+                    Runnable last = currentAttack;
+                    while(currentAttack == last && (attacks.size != 1 || currentAttack == null)){
+                        currentAttack = attacks.random();
+                    }
+                }
+
+                currentAttack.run();
+            }
+        }
+
+        @Override
+        public void reset(){
+            super.reset();
+            detonated = false;
+            detonating = false;
         }
     }
 
@@ -411,6 +432,12 @@ public class Phases{
                     renderer.shake(4f, 4f);
                 });
             }
+        }
+
+        public void reset(){
+            special = 0;
+            currentAttack = null;
+            time.clear();
         }
     }
 }
