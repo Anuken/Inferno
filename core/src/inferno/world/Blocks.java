@@ -60,8 +60,8 @@ public class Blocks{
                 Drawf.z(y*tilesize + tilesize);
 
                 Draw.rect(region, x * tilesize , y * tilesize - tilesize / 2f + region.getHeight() / 2f);
-                Drawf.light(x * tilesize, y * tilesize + tilesize/2f, 50f + Mathf.absin(Time.time(), 5f, 7f), Color.ORANGE, 0.7f);
-                if(Mathf.chance(0.2 * Time.delta())){
+                Drawf.light(x * tilesize, y * tilesize + tilesize/2f, 60f + Mathf.absin(Time.time(), 5f, 7f), Color.ORANGE, 0.7f);
+                if(Mathf.chance(0.17 * Time.delta())){
                     Fx.fire.at(x * tilesize + Mathf.range(tilesize), y * tilesize + Mathf.range(tilesize) + tilesize/2f);
                 }
             }
