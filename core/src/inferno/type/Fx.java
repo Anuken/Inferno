@@ -52,6 +52,51 @@ public class Fx{
         Draw.alpha(e.fin());
         Drawf.symbols(e.id, e.x, e.y, 40f);
     }),
+    lspiral = new Effect(200f, e -> {
+        Drawf.z(e.y - 20f);
+        int amount = 100;
+        float length = e.fout() * 200f;
+        Draw.color(Pal.lucine, Color.WHITE, e.fin());
+
+        random.setSeed(e.id);
+        for(int i = 0; i < amount; i++){
+            float scl = length * random.nextFloat();
+            float vang = random.nextFloat() * 360f + e.fin()*360f * random.nextFloat() * e.fin();
+            Tmp.v1.set(scl, 0).rotate(vang);
+
+            Fill.circle(Tmp.v1.x + e.x, Tmp.v1.y + e.y, 2f * e.fin());
+        }
+
+        Draw.color();
+        Draw.alpha(e.fin() * 0.9f);
+        Fill.circle(e.x, e.y, e.fin() * 10f + 1f);
+
+        Drawf.light(e.x, e.y, e.fin() * 200f, Pal.lucine, e.fin());
+    }),
+    blastind = new Effect(lspiral.lifetime, e -> {
+        Drawf.z(e.y + 1000f);
+        Draw.color(Pal.lucine);
+        Lines.stroke(2f * e.fslope());
+
+        for(int i = 0; i < 4; i++){
+            Lines.circle(e.x, e.y, Math.max(180f * e.fin() + i * 20f - 10, 0));
+        }
+        Draw.reset();
+    }),
+    blast = new Effect(30f, e -> {
+        Drawf.z(0f);
+        Draw.alpha(Interpolation.exp5Out.apply(e.fout()));
+        Fill.circle(e.x, e.y, 200f);
+        Drawf.light(e.x, e.y, 250f*2, Pal.fireball, 1f);
+    }),
+    blastspark = new Effect(200f, e -> {
+        Draw.color(Color.WHITE, Pal.fireball, e.fout());
+        Lines.stroke(2f * e.fout() + 1f);
+
+        Angles.randLenVectors(e.id, 100, 300f * e.fin(), (x, y) -> {
+            Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), 5f * e.fout() + 1f);
+        });
+    }),
     candlespiral = new Effect(100f, e -> {
         Drawf.z(e.y - 20f);
         int amount = 100;
