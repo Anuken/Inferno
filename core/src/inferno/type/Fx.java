@@ -56,7 +56,7 @@ public class Fx{
         Drawf.z(e.y - 20f);
         int amount = 100;
         float length = e.fout() * 200f;
-        Draw.color(Pal.lucine);
+        Draw.color(Pal.lucine, Color.WHITE, e.fin());
 
         random.setSeed(e.id);
         for(int i = 0; i < amount; i++){
@@ -67,10 +67,9 @@ public class Fx{
             Fill.circle(Tmp.v1.x + e.x, Tmp.v1.y + e.y, 2f * e.fin());
         }
 
-        Draw.color(Pal.candle);
-        //Fill.circle(e.x, e.y, e.fin() * 6f + 1.8f);
         Draw.color();
-        //Fill.circle(e.x, e.y, e.fin() * 4f + 1f);
+        Draw.alpha(e.fin() * 0.9f);
+        Fill.circle(e.x, e.y, e.fin() * 10f + 1f);
 
         Drawf.light(e.x, e.y, e.fin() * 200f, Pal.lucine, e.fin());
     }),
@@ -84,7 +83,7 @@ public class Fx{
         }
         Draw.reset();
     }),
-    blast = new Effect(10f, e -> {
+    blast = new Effect(30f, e -> {
         Drawf.z(0f);
         Draw.alpha(Interpolation.exp5Out.apply(e.fout()));
         Fill.circle(e.x, e.y, 200f);

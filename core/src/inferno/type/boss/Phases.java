@@ -354,7 +354,7 @@ public class Phases{
 
             if(!detonated && !detonating){
                 detonating = true;
-                Fx.lspiral.at(boss.x, boss.y);
+                Fx.lspiral.at(boss.x, boss.y + 10f);
                 Fx.blastind.at(boss.x, boss.y);
 
                 run(Fx.lspiral.lifetime, () -> {
