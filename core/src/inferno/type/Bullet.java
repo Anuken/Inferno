@@ -63,7 +63,7 @@ public class Bullet extends SolidEntity implements ScaleTrait{
         }
 
         Vector2 v = mover.move(time);
-        v.rotate(velocity.angle());
+        v.rotate(velocity.angle()).scl(Time.delta());
         velocity.add(v).limit(type.speed);
 
         x += (velocity.x) * Time.delta();

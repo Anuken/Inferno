@@ -202,7 +202,7 @@ public class Player extends Char{
                     b.shooter = this;
                     b.mover = f -> Vector2.ZERO;
                     b.velocity.setLength(b.type.speed);
-                    control.slowmo();
+                    //control.slowmo();
                 }
             });
 
@@ -215,7 +215,7 @@ public class Player extends Char{
                     renderer.jump(-mouseAngle(), 30f);
                     renderer.shake(4f, 3f);
                     hitBoss = true;
-                    control.slowmo();
+                    //control.slowmo();
                 }
 
                 boss.move(Tmp.v1.trns(angleTo(boss), 1.5f));

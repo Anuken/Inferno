@@ -3,6 +3,7 @@ package inferno;
 import inferno.type.*;
 import io.anuke.arc.*;
 import io.anuke.arc.input.*;
+import io.anuke.arc.math.*;
 import io.anuke.arc.util.*;
 
 import static inferno.Inferno.*;
@@ -13,10 +14,7 @@ public class Control implements ApplicationListener{
     private float slowmo;
 
     public Control(){
-        Time.setDeltaProvider(() -> 1f);
-
-        //uncomment for slow motion effect on hit
-        //Time.setDeltaProvider(() -> Core.graphics.getDeltaTime() * 60f * Mathf.lerp(1f, 0.6f, Mathf.clamp(slowmo)));
+        Time.setDeltaProvider(() -> slowmo <= 0f ? 1f : Mathf.lerp(1f, 0.6f, Mathf.clamp(slowmo)));
         Core.keybinds.setDefaults(Binding.values());
         Core.settings.setAppName("Inferno");
         Core.settings.load();
@@ -33,7 +31,12 @@ public class Control implements ApplicationListener{
         slowmo = 1f;
     }
 
+    public void slowmo(float amount){
+        slowmo = amount;
+    }
+
     public void reset(){
+        Time.clear();
         bulletGroup.clear();
         effectGroup.clear();
 

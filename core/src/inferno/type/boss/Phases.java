@@ -354,11 +354,19 @@ public class Phases{
 
             if(!detonated && !detonating){
                 detonating = true;
+                Fx.lspiral.at(boss.x, boss.y);
+                Fx.blastind.at(boss.x, boss.y);
 
-                run(60f, () -> {
-                    world.wallDetonate();
-                    detonating = false;
-                    detonated = true;
+                run(Fx.lspiral.lifetime, () -> {
+                    control.slowmo(3f);
+                    Fx.blast.at(boss.x, boss.y);
+                    Fx.blastspark.at(boss.x, boss.y);
+                    renderer.shake(30f);
+                    run(5f, () -> {
+                        world.wallDetonate();
+                        detonating = false;
+                        detonated = true;
+                    });
                 });
             }
 
