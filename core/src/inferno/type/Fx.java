@@ -94,6 +94,16 @@ public class Fx{
         Lines.circle(e.x, e.y, e.fin() * 50f);
         Drawf.light(e.x, e.y, 200f, Pal.fireball, e.fout());
     }),
+    fire = new Effect(70f, e -> {
+        Draw.color(Color.YELLOW, Color.SCARLET, e.fin());
+
+        Angles.randLenVectors(e.id, 2, 2f + e.fin() * 30f, 90f, 120f, (x, y) -> {
+            Fill.circle(e.x + x, e.y + y, 0.2f + e.fslope() * 2.5f);
+            Fill.circle(e.x + x/2.f, e.y + y/2f, 0.1f + e.fslope() * 1.9f);
+        });
+
+        Draw.color();
+    }),
     meteorpre = new Effect(60f, e -> {
         Drawf.z(100000f);
         Lines.stroke(3f * e.fin());

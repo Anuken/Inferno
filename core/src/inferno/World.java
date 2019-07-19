@@ -7,13 +7,14 @@ import io.anuke.arc.graphics.g2d.TextureAtlas.AtlasRegion;
 import io.anuke.arc.maps.*;
 import io.anuke.arc.math.Mathf;
 import io.anuke.arc.math.geom.*;
-import io.anuke.arc.util.Structs;
+import io.anuke.arc.util.*;
 
 import static inferno.Inferno.*;
 
 public class World implements ApplicationListener{
     Tile[][] tiles;
     ObjectMap<MapTile, Block> blocks = new ObjectMap<>();
+    ObjectMap<String, Block> blockNames = new ObjectMap<>();
     Array<Point2> candles = new Array<>();
     TiledMap map;
     TileLayer floorLayer, wallLayer, overLayer;
@@ -45,6 +46,7 @@ public class World implements ApplicationListener{
             destination.region = tile.region;
 
             blocks.put(tile, destination);
+            blockNames.put(name, destination);
         }
 
         for(int x = 0; x < width(); x++){
@@ -95,8 +97,13 @@ public class World implements ApplicationListener{
                 if(Mathf.within(x, y, width()/2, height()/2, radius)){
                     Tile tile = tile(x, y);
                     if(tile.wall != null && tile.wall.name.equals("shelf")){
+                        int rx = Mathf.clamp(x - width()/2, -1, 1) * Mathf.random(0, 1);
+                        int ry = Mathf.clamp(y - height()/2, -1, 1) * Mathf.random(0, 1);
+
                         tile.wall = null;
                         tile.shadowed = false;
+
+                        tiles[x + rx][y + ry].wall = blockNames.get("shelfrubble");
                     }
                 }
             }

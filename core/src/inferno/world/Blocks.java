@@ -1,14 +1,14 @@
 package inferno.world;
 
-import inferno.graphics.Drawf;
-import io.anuke.arc.collection.Array;
-import io.anuke.arc.graphics.Color;
+import inferno.graphics.*;
+import inferno.type.*;
+import io.anuke.arc.collection.*;
+import io.anuke.arc.graphics.*;
 import io.anuke.arc.graphics.g2d.*;
-import io.anuke.arc.math.Mathf;
-import io.anuke.arc.util.Time;
+import io.anuke.arc.math.*;
+import io.anuke.arc.util.*;
 
-import static inferno.Inferno.tilesize;
-import static inferno.Inferno.world;
+import static inferno.Inferno.*;
 
 public class Blocks{
     public static final Array<Block> blocks = Array.with(
@@ -50,6 +50,20 @@ public class Blocks{
             @Override
             public void draw(int x, int y){
                 Draw.rect(region, x * tilesize + tilesize/2f, y * tilesize - tilesize / 2f + region.getHeight() / 2f);
+
+            }
+        },
+
+        new Block("shelfrubble"){
+            @Override
+            public void draw(int x, int y){
+                Drawf.z(y*tilesize + tilesize);
+
+                Draw.rect(region, x * tilesize , y * tilesize - tilesize / 2f + region.getHeight() / 2f);
+                Drawf.light(x * tilesize, y * tilesize + tilesize/2f, 50f + Mathf.absin(Time.time(), 5f, 7f), Color.ORANGE, 0.7f);
+                if(Mathf.chance(0.2 * Time.delta())){
+                    Fx.fire.at(x * tilesize + Mathf.range(tilesize), y * tilesize + Mathf.range(tilesize) + tilesize/2f);
+                }
             }
         },
 
