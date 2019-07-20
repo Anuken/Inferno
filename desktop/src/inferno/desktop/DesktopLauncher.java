@@ -1,13 +1,13 @@
 package inferno.desktop;
 
-import inferno.Inferno;
+import inferno.*;
 import io.anuke.arc.backends.sdl.*;
 
-public class DesktopLauncher {
-	public static void main (String[] arg) {
-		SdlConfig config = new SdlConfig();
-		config.title = "Inferno";
-		config.maximized = true;
-		new SdlApplication(new Inferno(), config);
+public class DesktopLauncher{
+	public static void main(String[] arg){
+		new SdlApplication(new Inferno(), new SdlConfig(){{
+			title = "Inferno";
+			maximized = true;
+		}});
 	}
 }
