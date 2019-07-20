@@ -367,6 +367,18 @@ public class Phases{
                         run(i * 2f, () -> shotgun(3, 360f / 3, aim + i * 10f, boss::shoot));
                     });
                 });
+            },
+
+            //indicator shotguns
+            () -> {
+                every(60f * 0.9f, () -> {
+                    float space = 25 + (data++%3) * 15;
+                    int shots = (int)(360f/space);
+
+                    float aim = boss.aim() + space/2f;
+                    run(Fx.indline.lifetime, () -> shotgun(shots, space, aim, f -> seq(4, 3, i -> shotgun(1 + i, 8f - i, f, boss::shoot))));
+                    shotgun(shots, space, aim, f -> Fx.indline.at(boss.x, boss.y, f));
+                });
             }
         );
 

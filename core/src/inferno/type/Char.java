@@ -71,8 +71,8 @@ public abstract class Char extends SolidEntity{
 
     @Override
     public void hitboxTile(Rectangle rectangle){
-        float w = 4f, h = 4f;
-        rectangle.set(x - w / 2f, y, w, h);
+        float w = 6f, h = 6f;
+        rectangle.set(x - w / 2f, y - 1, w, h);
     }
 
     @Override
