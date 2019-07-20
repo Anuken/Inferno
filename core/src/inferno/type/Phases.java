@@ -341,16 +341,16 @@ public class Phases{
         Array<Runnable> attacks = Array.with(
             //double flower attack
             () -> {
-                every(60f * 3f, () -> {
+                every(60f * 4f, () -> {
                     float aim = boss.aim();
                     int length = 15;
-                    loop(length - 1, i -> loop(2, sp -> run(i * 2 + sp * 5, () -> circle(5, f -> shotgun(2, 360f / 5 * i / (float)length, f + aim + sp * 180f, a -> boss.shoot(a, v -> v(0, cos(v, 20f, 2f))))))));
+                    loop(length - 1, i -> loop(2, sp -> run(i * 2 + sp * 5, () -> circle(5, f -> shotgun(2, 360f / 8 * i / (float)length, f + aim + sp * 180f, a -> boss.shoot(a, v -> v(0, cos(v, 20f, 2f))))))));
                 });
             },
 
             //rays
             () -> {
-                every(60f * 1f, () -> {
+                every(60f * 2f, () -> {
                     float aim = boss.aim();
                     loop(7, i -> {
                         run(10f + i * 4, () -> circle(5, f -> boss.shootf(f + 36 + aim)));
@@ -361,10 +361,10 @@ public class Phases{
 
             //spiral of bullets
             () -> {
-                every(60f * 2f, () -> {
+                every(60f * 3f, () -> {
                     float aim = boss.aim();
                     loop(60, i -> {
-                        run(i * 1f, () -> shotgun(3, 360f / 3, aim + i * 10f, boss::shoot));
+                        run(i * 2f, () -> shotgun(3, 360f / 3, aim + i * 10f, boss::shoot));
                     });
                 });
             }
@@ -407,13 +407,13 @@ public class Phases{
 
                 currentAttack.run();
 
-                if(time.get(5, 60f * 10f)){
+                if(time.get(5, 60f * 17f)){
                     for(Point2 candle : world.candles()){
                         if(!Geometry.raycast(candle.x, candle.y, world.world(player.x), world.world(player.y), (x, y) -> world.solid(x, y))){
-                            run(Mathf.range(60f * 3), () -> {
+                            run(Mathf.range(60f * 5), () -> {
                                 float cx = candle.x * tilesize, cy = candle.y * tilesize + 14f;
-                                Fx.candleinwave.at(cx, cy);
-                                runTask(Fx.candleinwave.lifetime, () -> {
+                                Fx.candlespiral.at(cx, cy);
+                                runTask(Fx.candlespiral.lifetime, () -> {
                                     float angle = Angles.angle(cx, cy, player.x, player.y);
                                     seq(8, 4, i -> {
                                         boss.shoot(Bullets.candle, cx, cy, angle, v -> v(0, cos(v, 9f, 1.5f)));
