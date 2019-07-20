@@ -22,6 +22,7 @@ public class Bullets{
             speed = 7f;
             lightColor = Pal.player;
             damage = 1f;
+            lifetime = 50f;
         }
 
         @Override
@@ -204,6 +205,7 @@ public class Bullets{
             speed = 2.5f;
             lightColor = Pal.candle;
             damage = 8;
+            lifetime = 500f;
         }
 
         @Override

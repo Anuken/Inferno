@@ -235,9 +235,7 @@ public class Renderer implements ApplicationListener{
             for(int y = 0; y < world.height(); y++){
                 Tile tile = world.tile(x, y);
                 if((!world.solid(x, y) || (tile.wall != null && tile.wall.clear) || (tile.wall != null && tile.wall.name.equals("shelf"))) && tile.floor != null){
-                    int rand = Mathf.randomSeed(x + y * world.width(), 1, 3);
-                    Draw.rect(tile.floor.region2 == null ? tile.floor.region : rand == 1 ? tile.floor.region : rand == 2 ? tile.floor.region2 : tile.floor.region3,
-                            x * tilesize, y * tilesize, tile.rotation);
+                    Draw.rect(tile.floor.regions[Block.rand(x, y, tile.floor.regions.length) - 1], x * tilesize, y * tilesize, tile.rotation);
                 }
             }
         }

@@ -20,6 +20,8 @@ public class Blocks{
 
             @Override
             public void draw(int x, int y){
+                TextureRegion region = regions[0];
+
                 Drawf.z(y * tilesize);
                 Draw.rect(region, x * tilesize, y * tilesize + region.getHeight() / 2f - 1,
                     region.getWidth() * Mathf.sign(Mathf.randomSeed(y * world.width() +x) - 0.5f), region.getHeight());
@@ -49,6 +51,8 @@ public class Blocks{
         new Block("statue"){
             @Override
             public void draw(int x, int y){
+                TextureRegion region = regions[0];
+
                 Draw.rect(region, x * tilesize + tilesize/2f, y * tilesize - tilesize / 2f + region.getHeight() / 2f);
 
             }
@@ -61,6 +65,8 @@ public class Blocks{
 
             @Override
             public void draw(int x, int y){
+                TextureRegion region = regions[0];
+
                 Drawf.z(y*tilesize + tilesize);
 
                 Draw.rect(region, x * tilesize , y * tilesize - tilesize / 2f + region.getHeight() / 2f);
@@ -119,6 +125,8 @@ public class Blocks{
 
             @Override
             public void draw(int x, int y){
+                TextureRegion region = regions[0];
+
                 Draw.rect(region, x * tilesize, y * tilesize, world.tile(x, y).rotation);
             }
         },
@@ -126,6 +134,8 @@ public class Blocks{
 
             @Override
             public void draw(int x, int y){
+                TextureRegion region = regions[0];
+
                 Draw.rect(region, x * tilesize, y * tilesize, world.tile(x, y).rotation);
             }
 
@@ -134,7 +144,7 @@ public class Blocks{
 
             @Override
             public void draw(int x, int y){
-                TextureRegion d = rand(x, y, 2) == 1 ? region : region2;
+                TextureRegion d = regions[rand(x, y, variants) - 1];
                 Draw.color(0f, 0f, 0f, 0.3f);
                 Draw.rect(d, x * tilesize, y * tilesize + tilesize/2f - 1);
                 Draw.color();
