@@ -2,6 +2,7 @@ package inferno.type;
 
 import inferno.*;
 import inferno.entity.*;
+import inferno.graphics.*;
 import io.anuke.arc.collection.*;
 import io.anuke.arc.function.*;
 import io.anuke.arc.math.*;
@@ -11,7 +12,7 @@ import io.anuke.arc.util.*;
 import static inferno.Inferno.*;
 import static io.anuke.arc.math.Angles.*;
 import static io.anuke.arc.math.Mathf.*;
-import static io.anuke.arc.util.Time.run;
+import static io.anuke.arc.util.Time.*;
 
 public class Phases{
 
@@ -405,6 +406,24 @@ public class Phases{
                 }
 
                 currentAttack.run();
+
+                if(time.get(5, 60f * 10f)){
+                    for(Point2 candle : world.candles()){
+                        if(!Geometry.raycast(candle.x, candle.y, world.world(player.x), world.world(player.y), (x, y) -> world.solid(x, y))){
+                            run(Mathf.range(60f * 3), () -> {
+                                float cx = candle.x * tilesize, cy = candle.y * tilesize + 14f;
+                                Fx.candleinwave.at(cx, cy);
+                                runTask(Fx.candleinwave.lifetime, () -> {
+                                    float angle = Angles.angle(cx, cy, player.x, player.y);
+                                    seq(8, 4, i -> {
+                                        boss.shoot(Bullets.candle, cx, cy, angle, v -> v(0, cos(v, 9f, 1.5f)));
+                                        Fx.spark.at(cx, cy, Pal.candle);
+                                    });
+                                });
+                            });
+                        }
+                    }
+                }
             }
         }
 

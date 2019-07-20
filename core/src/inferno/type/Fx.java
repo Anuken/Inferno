@@ -79,7 +79,7 @@ public class Fx{
         Lines.stroke(2f * e.fslope());
 
         for(int i = 0; i < 4; i++){
-            Lines.circle(e.x, e.y, Math.max(180f * e.fin() + i * 20f - 10, 0));
+            Lines.circle(e.x, e.y, Math.max(150f * e.fin() + i * 20f - 10, 0));
         }
         Lines.stroke(2f * e.fin());
         Lines.circle(e.x, e.y, 200f);
@@ -121,6 +121,12 @@ public class Fx{
         Fill.circle(e.x, e.y, e.fin() * 4f + 1f);
 
         Drawf.light(e.x, e.y, e.fin() * 70f, Color.ORANGE, e.fin());
+    }),
+    candleinwave = new Effect(30f, e -> {
+        Drawf.z(e.y - 20f);
+        Draw.color(Pal.candle);
+        Lines.stroke(e.fin() * 1.5f);
+        Lines.circle(e.x, e.y, e.fout() * 10f);
     }),
     candlefire  = new Effect(10f, e -> {
         Drawf.z(e.y - 30f);
