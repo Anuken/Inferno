@@ -1,14 +1,13 @@
 package inferno.desktop;
 
-import io.anuke.arc.backends.lwjgl3.Lwjgl3Application;
-import io.anuke.arc.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import inferno.Inferno;
+import io.anuke.arc.backends.sdl.*;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
-		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-		config.setTitle("Inferno");
-		config.setMaximized(true);
-		new Lwjgl3Application(new Inferno(), config);
+		SdlConfig config = new SdlConfig();
+		config.title = "Inferno";
+		config.maximized = true;
+		new SdlApplication(new Inferno(), config);
 	}
 }
