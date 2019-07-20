@@ -43,7 +43,6 @@ public class World implements ApplicationListener{
             destination.solid = tile.getProperties().containsKey("solid");
             destination.clear = tile.getProperties().containsKey("clear");
             destination.id = tile.id;
-            destination.region = tile.region;
 
             blocks.put(tile, destination);
             blockNames.put(name, destination);

@@ -15,9 +15,11 @@ import static inferno.Inferno.world;
 public class Block{
     public int id;
     public String name;
-    public TextureRegion region, region2, region3, edge;
+    public TextureRegion edge;
+    public TextureRegion[] regions;
     public float damage = - 1;
     public boolean solid, clear;
+    public int variants;
 
     protected float shadowSize = 8f;
 
@@ -28,12 +30,23 @@ public class Block{
             edge = Core.atlas.find(name + "-edge");
         }
 
-        if(Core.atlas.has(name + "2")){
-            region2 = Core.atlas.find(name + "2");
+        for(int i = 0; i < 10; i++){
+            if(!Core.atlas.has(name + (i + 1))){
+                break;
+            }
+            variants = i + 1;
         }
 
-        if(Core.atlas.has(name + "3")){
-            region3 = Core.atlas.find(name + "3");
+        if(variants == 0){
+            variants = 1;
+            regions = new TextureRegion[1];
+            regions[0] = Core.atlas.find(name);
+        }else{
+            regions = new TextureRegion[variants];
+
+            for(int i = 0; i < variants; i++){
+                regions[i] = Core.atlas.find(name + (i + 1));
+            }
         }
     }
 
@@ -41,11 +54,8 @@ public class Block{
         if(y == 0) Draw.color(Color.BLACK);
 
         if(solid){
-            if(region2 == null){
-                Draw.rect(region, x * tilesize, y * tilesize - tilesize / 2f + region.getHeight() / 2f);
-            }else{
-                Draw.rect(rand(x, y, 2) == 1 ? region : region2, x * tilesize, y * tilesize - tilesize / 2f + region.getHeight() / 2f);
-            }
+            TextureRegion region = regions[rand(x, y, variants) - 1];
+            Draw.rect(region, x * tilesize, y * tilesize - tilesize / 2f + region.getHeight() / 2f);
 
             if(edge != null){
                 Drawf.z(y * tilesize - tilesize / 2f - 0.0001f);
@@ -59,7 +69,7 @@ public class Block{
             }
         }else{
             Drawf.z(y * tilesize);
-            Draw.rect(region, x * tilesize, y * tilesize + region.getHeight() / 2f);
+            Draw.rect(regions[0], x * tilesize, y * tilesize + regions[0].getHeight() / 2f);
         }
         Draw.color();
     }
@@ -72,7 +82,7 @@ public class Block{
         }
     }
 
-    static int rand(int x, int y, int max){
+    public static int rand(int x, int y, int max){
         return rand(x, y, 0, max);
     }
 
