@@ -409,19 +409,17 @@ public class Phases{
 
                 if(time.get(5, 60f * 17f)){
                     for(Point2 candle : world.candles()){
-                        if(!Geometry.raycast(candle.x, candle.y, world.world(player.x), world.world(player.y), (x, y) -> world.solid(x, y))){
-                            run(Mathf.range(60f * 5), () -> {
-                                float cx = candle.x * tilesize, cy = candle.y * tilesize + 14f;
-                                Fx.candlespiral.at(cx, cy);
-                                runTask(Fx.candlespiral.lifetime, () -> {
-                                    float angle = Angles.angle(cx, cy, player.x, player.y);
-                                    seq(8, 4, i -> {
-                                        boss.shoot(Bullets.candle, cx, cy, angle, v -> v(0, cos(v, 9f, 1.5f)));
-                                        Fx.spark.at(cx, cy, Pal.candle);
-                                    });
+                        run(Mathf.range(60f * 5), () -> {
+                            float cx = candle.x * tilesize, cy = candle.y * tilesize + 14f;
+                            Fx.candlespiral.at(cx, cy);
+                            runTask(Fx.candlespiral.lifetime, () -> {
+                                float angle = Angles.angle(cx, cy, player.x, player.y);
+                                seq(8, 4, i -> {
+                                    boss.shoot(Bullets.candle, cx, cy, angle, v -> v(0, cos(v, 9f, 1.5f)));
+                                    Fx.spark.at(cx, cy, Pal.candle);
                                 });
                             });
-                        }
+                        });
                     }
                 }
             }
