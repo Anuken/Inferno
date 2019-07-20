@@ -1,11 +1,10 @@
-package inferno.type.boss;
+package inferno.type;
 
-import inferno.Text;
-import inferno.entity.EntityCollisions;
-import inferno.type.*;
-import io.anuke.arc.collection.Array;
+import inferno.*;
+import inferno.entity.*;
+import io.anuke.arc.collection.*;
 import io.anuke.arc.function.*;
-import io.anuke.arc.math.Mathf;
+import io.anuke.arc.math.*;
 import io.anuke.arc.math.geom.*;
 import io.anuke.arc.util.*;
 
@@ -339,11 +338,33 @@ public class Phases{
         boolean detonated = false, detonating = false;
 
         Array<Runnable> attacks = Array.with(
+            //double flower attack
             () -> {
-                every(60f * 2f, () -> {
+                every(60f * 3f, () -> {
                     float aim = boss.aim();
                     int length = 15;
                     loop(length - 1, i -> loop(2, sp -> run(i * 2 + sp * 5, () -> circle(5, f -> shotgun(2, 360f / 5 * i / (float)length, f + aim + sp * 180f, a -> boss.shoot(a, v -> v(0, cos(v, 20f, 2f))))))));
+                });
+            },
+
+            //rays
+            () -> {
+                every(60f * 1f, () -> {
+                    float aim = boss.aim();
+                    loop(7, i -> {
+                        run(10f + i * 4, () -> circle(5, f -> boss.shootf(f + 36 + aim)));
+                        run(i * 4, () -> circle(5, f -> boss.shootf(f + aim)));
+                    });
+                });
+            },
+
+            //spiral of bullets
+            () -> {
+                every(60f * 2f, () -> {
+                    float aim = boss.aim();
+                    loop(60, i -> {
+                        run(i * 1f, () -> shotgun(3, 360f / 3, aim + i * 10f, boss::shoot));
+                    });
                 });
             }
         );
@@ -358,6 +379,11 @@ public class Phases{
                 Fx.blastind.at(boss.x, boss.y);
 
                 run(Fx.lspiral.lifetime, () -> {
+                    //instakill player if within blast radius
+                    if(player.withinDst(boss.x, boss.y, 200)){
+                        player.damage(player.health + 1);
+                    }
+
                     control.slowmo(3f);
                     Fx.blast.at(boss.x, boss.y);
                     Fx.blastspark.at(boss.x, boss.y);

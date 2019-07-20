@@ -3,7 +3,6 @@ package inferno.type;
 import inferno.entity.*;
 import inferno.graphics.*;
 import inferno.type.Bullet.*;
-import inferno.type.boss.*;
 import io.anuke.arc.*;
 import io.anuke.arc.graphics.*;
 import io.anuke.arc.graphics.g2d.*;

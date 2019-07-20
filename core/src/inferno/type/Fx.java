@@ -81,6 +81,9 @@ public class Fx{
         for(int i = 0; i < 4; i++){
             Lines.circle(e.x, e.y, Math.max(180f * e.fin() + i * 20f - 10, 0));
         }
+        Lines.stroke(2f * e.fin());
+        Lines.circle(e.x, e.y, 200f);
+
         Draw.reset();
     }),
     blast = new Effect(30f, e -> {

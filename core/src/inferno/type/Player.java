@@ -1,11 +1,12 @@
 package inferno.type;
 
-import inferno.Binding;
-import inferno.entity.SolidEntity;
+import inferno.*;
+import inferno.entity.*;
 import inferno.graphics.*;
-import io.anuke.arc.Core;
-import io.anuke.arc.collection.Array;
-import io.anuke.arc.graphics.Color;
+import inferno.world.*;
+import io.anuke.arc.*;
+import io.anuke.arc.collection.*;
+import io.anuke.arc.graphics.*;
 import io.anuke.arc.graphics.g2d.*;
 import io.anuke.arc.math.*;
 import io.anuke.arc.math.geom.*;
@@ -147,6 +148,15 @@ public class Player extends Char{
 
     @Override
     public void update(){
+        //apply fire damage
+        Tile tile = world.tileOpt((int)((x + tilesize/2f) / tilesize), (int)((y + tilesize/2f) / tilesize));
+        if(tile.wall != null && tile.wall.damage > 0){
+            damage(tile.wall.damage * Time.delta());
+            if(Mathf.chance(0.5 * Time.delta())){
+                Fx.spark.at(player.x + Mathf.range(4f), player.y + height() + Mathf.range(5f), Pal.player);
+            }
+        }
+
         movement.set(Core.input.axis(Binding.move_x), Core.input.axis(Binding.move_y)).nor().scl(speed).scl(Time.delta());
 
         if(!movement.isZero()){

@@ -55,6 +55,10 @@ public class Blocks{
         },
 
         new Block("shelfrubble"){
+            {
+                damage = 3f;
+            }
+
             @Override
             public void draw(int x, int y){
                 Drawf.z(y*tilesize + tilesize);
