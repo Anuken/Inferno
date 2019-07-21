@@ -50,11 +50,13 @@ public class Boss extends Char{
 
     public void nextPhase(Phases.Phase phase){
         heal();
+        player.heal();
         phase.reset();
         dead = false;
         this.phase = phase;
         dialogged = false;
         player.heal();
+        effectGroup.clear();
         bulletGroup.all().each(b -> {
             Fx.spark.at(b.x, b.y, b.type.lightColor);
         });
@@ -63,7 +65,8 @@ public class Boss extends Char{
     }
 
     public void reset(){
-        phase = Phases.phases.get(2);
+        world.wallUndetonate();
+        phase = Phases.phases.get(3);
         phase.reset();
     }
 
@@ -103,7 +106,7 @@ public class Boss extends Char{
 
     @Override
     public float maxHealth(){
-        return 300;
+        return 350;
     }
 
     @Override

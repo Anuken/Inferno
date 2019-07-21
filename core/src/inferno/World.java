@@ -15,6 +15,7 @@ public class World implements ApplicationListener{
     Tile[][] tiles;
     ObjectMap<MapTile, Block> blocks = new ObjectMap<>();
     ObjectMap<String, Block> blockNames = new ObjectMap<>();
+    Array<Point2> brokenWalls = new Array<>();
     Array<Point2> candles = new Array<>();
     TiledMap map;
     TileLayer floorLayer, wallLayer, overLayer;
@@ -32,8 +33,6 @@ public class World implements ApplicationListener{
         tiles = new Tile[floorLayer.width][floorLayer.height];
 
         for(MapTile tile : map.tilesets.getTileSet(0)){
-            //if(!Core.atlas.isFound(tile.region)) continue;
-
             String name = ((AtlasRegion)tile.region).name;
             Block destination = Blocks.blocks.find(b -> b.name.equalsIgnoreCase(name));
             if(destination == null){
@@ -103,11 +102,32 @@ public class World implements ApplicationListener{
                         tile.shadowed = false;
 
                         tiles[x + rx][y + ry].wall = blockNames.get("shelfrubble");
+                        brokenWalls.add(new Point2(x, y));
                     }
                 }
             }
         }
 
+        renderer.updateShadows();
+    }
+
+    public void wallUndetonate(){
+        for(int x = 0; x < width(); x++){
+            for(int y = 0; y < height(); y++){
+                Tile tile = tile(x, y);
+                if(tile.wall != null && tile.wall.name.equals("shelfrubble")){
+                    tile.wall = null;
+                }
+            }
+        }
+
+        for(Point2 p : brokenWalls){
+            Tile tile = tile(p.x, p.y);
+            tile.shadowed = true;
+            tile.wall = blockNames.get("shelf");
+        }
+
+        brokenWalls.clear();
         renderer.updateShadows();
     }
 

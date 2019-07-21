@@ -341,43 +341,41 @@ public class Phases{
         Array<Runnable> attacks = Array.with(
             //double flower attack
             () -> {
-                every(60f * 4f, () -> {
+                every(60f * 4f - healthi(60), () -> {
                     float aim = boss.aim();
                     int length = 15;
-                    loop(length - 1, i -> loop(2, sp -> run(i * 2 + sp * 5, () -> circle(5, f -> shotgun(2, 360f / 8 * i / (float)length, f + aim + sp * 180f, a -> boss.shoot(a, v -> v(0, cos(v, 20f, 2f))))))));
+                    loop(length - 1, i -> loop(2, sp -> run(i * 2 + sp * 5, () -> circle(5, f -> shotgun(2, 360f / 16 * i / (float)length, f + aim + sp * 180f, a -> boss.shoot(a, v -> v(0, cos(v, 20f, 2f))))))));
                 });
             },
 
             //rays
             () -> {
-                every(60f * 2f, () -> {
+                every(60f * 3f, () -> {
                     float aim = boss.aim();
                     loop(7, i -> {
-                        run(10f + i * 4, () -> circle(5, f -> boss.shootf(f + 36 + aim)));
-                        run(i * 4, () -> circle(5, f -> boss.shootf(f + aim)));
+                        run(20f + i * 4, () -> circle(10, f -> boss.shoot(f + 18 + aim)));
+                        run(i * 4, () -> circle(10, f -> boss.shoot(f + aim)));
                     });
                 });
             },
 
-            //spiral of bullets
+            //trispiral of bullets
             () -> {
-                every(60f * 3f, () -> {
-                    float aim = boss.aim();
-                    loop(60, i -> {
-                        run(i * 2f, () -> shotgun(3, 360f / 3, aim + i * 10f, boss::shoot));
-                    });
+                every(15f - healthi(5), () -> {
+                    float aim = 0;
+                    int d = data++;
+                    seq(5, 3f, l -> shotgun(3, 360f / 3, aim + d * 20f, f -> boss.shoot(f, v -> v(0, cos(v, 9f, 2f)))));
                 });
             },
 
             //indicator shotguns
             () -> {
-                every(60f * 0.9f, () -> {
+                every(60f * 0.9f - healthi(20), () -> {
                     float space = 25 + (data++%3) * 15;
                     int shots = (int)(360f/space);
 
                     float aim = boss.aim() + space/2f;
-                    run(Fx.indline.lifetime, () -> shotgun(shots, space, aim, f -> seq(4, 3, i -> shotgun(1 + i, 8f - i, f, boss::shoot))));
-                    shotgun(shots, space, aim, f -> Fx.indline.at(boss.x, boss.y, f));
+                    shotgun(shots, space, aim, f -> seq(4 + healthi(2), 3, i -> shotgun(1 + i + healthi(2), 8f - i, f, boss::shoot)));
                 });
             }
         );
@@ -421,12 +419,14 @@ public class Phases{
 
                 if(time.get(5, 60f * 17f)){
                     for(Point2 candle : world.candles()){
+                        if(Mathf.chance(0.4)) continue;
+
                         run(Mathf.range(60f * 5), () -> {
                             float cx = candle.x * tilesize, cy = candle.y * tilesize + 14f;
                             Fx.candlespiral.at(cx, cy);
                             runTask(Fx.candlespiral.lifetime, () -> {
                                 float angle = Angles.angle(cx, cy, player.x, player.y);
-                                seq(8, 4, i -> {
+                                seq(6, 4, i -> {
                                     boss.shoot(Bullets.candle, cx, cy, angle, v -> v(0, cos(v, 9f, 1.5f)));
                                     Fx.spark.at(cx, cy, Pal.candle);
                                 });
@@ -442,6 +442,25 @@ public class Phases{
             super.reset();
             detonated = false;
             detonating = false;
+        }
+    },
+
+    new Phase(Text.phase2){
+        @Override
+        public void update(){
+            if(time.get(60f * 15f)){
+                //cycle.get((special++) % cycle.size).run();
+            }
+
+            if(time.get(2, 60f * 4f)){
+                //circles
+                seq(6,  40f, i -> {
+                    float x = player.x;
+                    float y = player.y + 10f;
+                    float ang = Mathf.random(30f);
+                    circleVectors(17, 200f, (cx, cy) -> boss.shoot(Bullets.lbasicslow, x + cx, y + cy, Mathf.angle(cx, cy) + 180f + ang));
+                });
+            }
         }
     }
 
@@ -460,6 +479,10 @@ public class Phases{
         if(in.get(time)){
             run.run();
         }
+    }
+
+    private static int healthi(int max){
+        return (int)((1f - boss.health / boss.maxHealth()) * max);
     }
 
     private static Vector2 v(float x, float y){

@@ -39,6 +39,7 @@ public class Player extends Char{
             y = (int)y;
         }
 
+        Draw.mixcol(Color.SCARLET, Mathf.clamp(hitTime));
         TextureRegion region = movetime > 0 ? direction.frames[(int)(movetime / 6) % direction.frames.length] : direction.region;
         TextureRegion scythe = Core.atlas.find("scythe");
 
@@ -104,6 +105,7 @@ public class Player extends Char{
         }
 
         Draw.color();
+        Draw.mixcol();
 
         Drawf.light(x, y + 10f, 150f, Color.CYAN, 0.75f);
 
@@ -143,7 +145,7 @@ public class Player extends Char{
 
     @Override
     public boolean collides(SolidEntity other){
-        return other instanceof Bullet && ((Bullet) other).shooter instanceof Boss;
+        return other instanceof Bullet && ((Bullet) other).shooter instanceof Boss && hitTime <= 0f;
     }
 
     @Override
@@ -157,6 +159,7 @@ public class Player extends Char{
             }
         }
 
+        hitTime -= 1f/hitdur;
         movement.set(Core.input.axis(Binding.move_x), Core.input.axis(Binding.move_y)).nor().scl(speed).scl(Time.delta());
 
         if(!movement.isZero()){

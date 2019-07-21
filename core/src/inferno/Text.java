@@ -17,8 +17,8 @@ public class Text{
     phase2 = Array.with(
     "{Lucine}{face:lucine frown}This is what you wanted, right?",
     "{Asmus}{face:asmus lookleft}You're delusional.",
-    "{Lucine}{face:lucine concerned}Good one.",
-    "{Lucine}{face:lucine smug}I'm not the one with a mask."
+    "{Lucine}{face:lucine annoyed}Good one.",
+    "{Lucine}{face:lucine smug}Hey, I'm not the one with a mask."
     ),
 
     phase3 = Array.with(

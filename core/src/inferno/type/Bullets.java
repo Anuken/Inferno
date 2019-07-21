@@ -48,6 +48,31 @@ public class Bullets{
             Fill.circle(bullet.x, bullet.y, 2f);
         }
     },
+    lbasicslow = new BulletType(){
+        float fs = 0.1f;
+        {
+            speed = 1.5f;
+            damage = 5;
+            lightColor = Pal.lucine;
+        }
+
+        @Override
+        public void draw(Bullet bullet){
+            float sizemult = Mathf.clamp(bullet.fin() / fs);
+
+            Draw.color(Pal.lucine);
+            Fill.circle(bullet.x, bullet.y, 5f * sizemult);
+            Draw.color(Color.WHITE);
+            Fill.circle(bullet.x, bullet.y, 2f * sizemult);
+        }
+
+        @Override
+        public void drawLight(Bullet bullet){
+            if(light <= 0) return;
+
+            Drawf.light(bullet.x, bullet.y, light *  Mathf.clamp(bullet.fin() / fs), lightColor);
+        }
+    },
     lfast = new BulletType(){
         {
             speed = 7f;
