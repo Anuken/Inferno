@@ -446,20 +446,84 @@ public class Phases{
     },
 
     new Phase(Text.phase2){
+        Array<Runnable> attacks = Array.with(
+        () -> {
+            every(10f, () -> {
+                float aim = boss.aim() + Mathf.range(40f);
+                seq(6, 3f, i -> shoot(aim));
+            });
+        },
+
+        () -> {
+            every(60f * 3f, () -> {
+                seq(10, 20f, i -> {
+                    float ang = Mathf.random(360f);
+                    float dst = 100f;
+                    float x = player.x, y = player.y + 10f;
+                    loop(6, j -> {
+                        run(j, () -> {
+                            Tmp.v1.trns(ang, dst + j * 8f);
+                            boss.shoot(Bullets.lbasicslow, x + Tmp.v1.x, y + Tmp.v1.y, ang + 180f, v -> v(0, 0));
+                        });
+
+                    });
+                });
+            });
+        }
+        );
+
         @Override
         public void update(){
             if(time.get(60f * 15f)){
-                //cycle.get((special++) % cycle.size).run();
+                cycle.get((special++) % cycle.size).run();
             }
 
-            if(time.get(2, 60f * 4f)){
+            if(currentAttack == null || time.get(3, 60f * Mathf.random(10f, 30f))){
+                Runnable last = currentAttack;
+                while(currentAttack == last && (attacks.size != 1 || currentAttack == null)){
+                    currentAttack = attacks.random();
+                }
+            }
+
+            currentAttack.run();
+
+            if(time.get(2, 60f * 9f)){
                 //circles
-                seq(6,  40f, i -> {
+
+                seq(6, 40f, i -> {
                     float x = player.x;
                     float y = player.y + 10f;
                     float ang = Mathf.random(30f);
-                    circleVectors(17, 200f, (cx, cy) -> boss.shoot(Bullets.lbasicslow, x + cx, y + cy, Mathf.angle(cx, cy) + 180f + ang));
+                    circleVectors(17, 200f, ang, (cx, cy) -> boss.shoot(Bullets.lbasicslow, x + cx, y + cy, Mathf.angle(cx, cy) + 180f));
                 });
+
+                //squares.
+                /*
+                seq(2,  60f, i -> {
+                    float x = player.x;
+                    float y = player.y + 10f;
+                    float ang = Mathf.random(30f);
+                    int am = 16;
+                    float dst = 120f;
+                    float space = 20f;
+                    if(data++%2 == 0){
+                        loop(am, j -> {
+                            for(int s : signs){
+                                float cx = x + dst * s;
+                                float cy = y - am/2f*space + j * space;
+                                boss.shoot(Bullets.lbasicslow, cx, cy, angle(cx, cy, x, y));
+                            }
+                        });
+                    }else{
+                        loop(am, j -> {
+                            for(int s : signs){
+                                float cx = x - am/2f*space + j * space;
+                                float cy = y + dst * s;
+                                boss.shoot(Bullets.lbasicslow, cx, cy, angle(cx, cy, x, y));
+                            }
+                        });
+                    }
+                });*/
             }
         }
     }
