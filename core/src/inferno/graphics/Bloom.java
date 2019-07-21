@@ -1,9 +1,9 @@
 package inferno.graphics;
 
-import io.anuke.arc.Core;
+import io.anuke.arc.*;
 import io.anuke.arc.graphics.*;
-import io.anuke.arc.graphics.Pixmap.Format;
-import io.anuke.arc.graphics.VertexAttributes.Usage;
+import io.anuke.arc.graphics.Pixmap.*;
+import io.anuke.arc.graphics.VertexAttributes.*;
 import io.anuke.arc.graphics.glutils.*;
 
 /**
@@ -151,8 +151,7 @@ public class Bloom{
             }
         }
         if(fbo == null){
-            frameBuffer = new FrameBuffer(format, Core.graphics.getWidth(),
-                    Core.graphics.getHeight(), hasDepth);
+            frameBuffer = new FrameBuffer(format, Core.graphics.getWidth(), Core.graphics.getHeight(), hasDepth);
         }else{
             frameBuffer = fbo;
         }
