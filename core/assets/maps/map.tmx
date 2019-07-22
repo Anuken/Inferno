@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" tiledversion="1.1.1" orientation="orthogonal" renderorder="right-down" width="82" height="82" tilewidth="16" tileheight="16" infinite="0" nextobjectid="18">
- <tileset firstgid="1" name="default" tilewidth="96" tileheight="110" tilecount="13" columns="0">
+ <tileset firstgid="1" name="default" tilewidth="96" tileheight="110" tilecount="14" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
    <properties>
@@ -59,10 +59,13 @@
    <image width="16" height="32" source="../../assets-raw/sprites/tiles/barrier.png"/>
   </tile>
   <tile id="16">
-   <image width="16" height="32" source="../../assets-raw/sprites/tiles/shelfrubble.png"/>
+   <image width="16" height="32" source="../../assets-raw/sprites/tiles/shelfrubble1.png"/>
+  </tile>
+  <tile id="17">
+   <image width="16" height="32" source="../../assets-raw/sprites/tiles/ashrubble1.png"/>
   </tile>
  </tileset>
- <tileset firstgid="18" name="images" tilewidth="480" tileheight="480" tilecount="5" columns="0">
+ <tileset firstgid="19" name="images" tilewidth="480" tileheight="480" tilecount="5" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
    <image width="80" height="80" source="../../assets-raw/sprites/tiles/magicirclesmall.png"/>
@@ -167,11 +170,11 @@
 </data>
  </layer>
  <objectgroup name="images" visible="0">
-  <object id="9" gid="19" x="417" y="897" width="480" height="480"/>
-  <object id="13" gid="20" x="992" y="512" width="128" height="128"/>
-  <object id="14" gid="22" x="496" y="352" width="96" height="96"/>
-  <object id="15" gid="21" x="752" y="1120" width="64" height="64"/>
-  <object id="16" gid="18" x="352" y="816" width="80" height="80"/>
+  <object id="9" gid="20" x="417" y="897" width="480" height="480"/>
+  <object id="13" gid="21" x="992" y="512" width="128" height="128"/>
+  <object id="14" gid="23" x="496" y="352" width="96" height="96"/>
+  <object id="15" gid="22" x="752" y="1120" width="64" height="64"/>
+  <object id="16" gid="19" x="352" y="816" width="80" height="80"/>
  </objectgroup>
  <layer name="overlay" width="82" height="82" visible="0">
   <data encoding="csv">

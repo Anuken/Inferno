@@ -24,6 +24,16 @@ task dist(type: Jar) {
     from {configurations.compile.collect {zipTree(it)}}
     from files(project.assetsDir);
 
+    if(project.hasProperty("target")){
+        def target = project.properties["target"]
+        if(target == "windows") exclude('**.so', "**.dylib")
+        if(target == "mac") exclude('**.so', "**.dll")
+        if(target == "linux") exclude('**.dll', "**.dylib")
+        archivesBaseName = appName + "-" + target
+    }else{
+        archivesBaseName = appName + "-all"
+    }
+
     manifest {
         attributes 'Main-Class': project.mainClassName
     }

@@ -446,11 +446,14 @@ public class Phases{
     },
 
     new Phase(Text.phase2){
+        float windup;
         Array<Runnable> attacks = Array.with(
         () -> {
-            every(10f, () -> {
-                float aim = boss.aim() + Mathf.range(40f);
-                seq(6, 3f, i -> shoot(aim));
+            every(30f, () -> {
+                float f = (data++%2 - 0.5f) * 50f;
+                float aim = boss.aim() + f;
+                int sign = -Mathf.sign(f);
+                seq(6, 3f, i -> shotgun(4, 3f, aim + i * sign * 5, boss::shoot));
             });
         },
 
@@ -469,6 +472,14 @@ public class Phases{
                     });
                 });
             });
+        },
+
+        () -> {
+            every(60f * 2, () -> {
+                float aim = boss.aim() + 45f;
+                int s = Mathf.sign(data++%2-0.5f);
+                seq(20, 4f, i -> shotgun(2, 180f, (i * 8f + aim) * s, f -> shotgun(6, 10f, f, boss::shoot)));
+            });
         }
         );
 
@@ -486,16 +497,15 @@ public class Phases{
             }
 
             currentAttack.run();
+            windup += Time.delta();
 
-            if(time.get(2, 60f * 9f)){
+            if(windup >= 60f * 60f & time.get(2, 40f)){
                 //circles
 
-                seq(6, 40f, i -> {
-                    float x = player.x;
-                    float y = player.y + 10f;
-                    float ang = Mathf.random(30f);
-                    circleVectors(17, 200f, ang, (cx, cy) -> boss.shoot(Bullets.lbasicslow, x + cx, y + cy, Mathf.angle(cx, cy) + 180f));
-                });
+                float x = player.x;
+                float y = player.y + 10f;
+                float ang = Mathf.random(30f);
+                circleVectors(17, 200f, ang, (cx, cy) -> boss.shoot(Bullets.lbasicslow, x + cx, y + cy, Mathf.angle(cx, cy) + 180f));
 
                 //squares.
                 /*
@@ -525,6 +535,20 @@ public class Phases{
                     }
                 });*/
             }
+
+            teleport();
+        }
+
+        @Override
+        public void begin(){
+            world.wallExtinguish();
+        }
+
+        @Override
+        public void reset(){
+            super.reset();
+            windup = 0f;
+
         }
     }
 
@@ -566,6 +590,10 @@ public class Phases{
 
         protected void shoot(float angle){
             boss.shoot(Bullets.lbasic, angle);
+        }
+
+        public void begin(){
+
         }
 
         public abstract void update();

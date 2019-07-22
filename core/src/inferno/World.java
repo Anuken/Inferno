@@ -34,7 +34,10 @@ public class World implements ApplicationListener{
 
         for(MapTile tile : map.tilesets.getTileSet(0)){
             String name = ((AtlasRegion)tile.region).name;
-            Block destination = Blocks.blocks.find(b -> b.name.equalsIgnoreCase(name));
+            if(name.endsWith("1")) name = name.substring(0, name.length() - 1);
+            String fname = name;
+
+            Block destination = Blocks.blocks.find(b -> b.name.equalsIgnoreCase(fname));
             if(destination == null){
                 destination = new Block(name);
             }
@@ -102,6 +105,27 @@ public class World implements ApplicationListener{
                         tile.shadowed = false;
 
                         tiles[x + rx][y + ry].wall = blockNames.get("shelfrubble");
+                        brokenWalls.add(new Point2(x, y));
+                    }
+                }
+            }
+        }
+
+        renderer.updateShadows();
+    }
+
+    public void wallExtinguish(){
+        int radius = 14;
+
+        for(int x = 0; x < width(); x++){
+            for(int y = 0; y < height(); y++){
+                Tile tile = tile(x, y);
+
+                if(Mathf.within(x, y, width()/2, height()/2, radius) && tile.wall != null && (tile.wall.name.equals("shelf") || tile.wall.name.equals("shelfrubble"))){
+                    tile.wall = blockNames.get("ashrubble");
+                    tile.shadowed = false;
+
+                    if(tile.wall.name.equals("shelf")){
                         brokenWalls.add(new Point2(x, y));
                     }
                 }

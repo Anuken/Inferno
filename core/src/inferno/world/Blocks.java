@@ -65,7 +65,7 @@ public class Blocks{
 
             @Override
             public void draw(int x, int y){
-                TextureRegion region = regions[0];
+                TextureRegion region = regions[rand(x, y, regions.length - 1)];
 
                 Drawf.z(y*tilesize + tilesize);
 
@@ -74,6 +74,16 @@ public class Blocks{
                 if(!control.isPaused() && Mathf.chance(0.13 * Time.delta())){
                     Fx.fire.at(x * tilesize + Mathf.range(tilesize), y * tilesize + Mathf.range(tilesize) + tilesize/2f);
                 }
+            }
+        },
+
+        new Block("ashrubble"){
+
+            @Override
+            public void draw(int x, int y){
+                TextureRegion region = regions[rand(x, y, regions.length - 1)];
+                Drawf.z(y*tilesize + tilesize);
+                Draw.rect(region, x * tilesize , y * tilesize - tilesize / 2f + region.getHeight() / 2f);
             }
         },
 

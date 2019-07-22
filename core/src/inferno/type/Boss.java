@@ -40,10 +40,7 @@ public class Boss extends Char{
     public void midPhase(){
         dialogged = false;
         phase = Phases.phases.get(Phases.phases.indexOf(phase) + 1);
-
-        bulletGroup.all().each(b -> {
-            Fx.spark.at(b.x, b.y, b.type.lightColor);
-        });
+        bulletGroup.all().each(b -> Fx.spark.at(b.x, b.y, b.type.lightColor));
         Time.clear();
         bulletGroup.clear();
     }
@@ -55,11 +52,10 @@ public class Boss extends Char{
         dead = false;
         this.phase = phase;
         dialogged = false;
+        phase.begin();
         player.heal();
         effectGroup.clear();
-        bulletGroup.all().each(b -> {
-            Fx.spark.at(b.x, b.y, b.type.lightColor);
-        });
+        bulletGroup.all().each(b -> Fx.spark.at(b.x, b.y, b.type.lightColor));
         Time.clear();
         bulletGroup.clear();
     }
@@ -68,6 +64,7 @@ public class Boss extends Char{
         world.wallUndetonate();
         phase = Phases.phases.get(3);
         phase.reset();
+        phase.begin();
     }
 
     public void anim(Anim anim, float duration){

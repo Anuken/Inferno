@@ -14,7 +14,7 @@ buildscript{
 
 allprojects{
 
-    version = '1.0'
+    version = 'dev'
     ext{
         appName = "Inferno"
         gdxVersion = '1.9.9'
