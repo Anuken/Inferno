@@ -499,7 +499,7 @@ public class Phases{
             currentAttack.run();
             windup += Time.delta();
 
-            if(windup >= 60f * 60f & time.get(2, 40f)){
+            if(windup >= 50f * 60f + healthi(70) & time.get(2, 40f)){
                 //circles
 
                 float x = player.x;
