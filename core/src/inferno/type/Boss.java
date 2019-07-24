@@ -62,7 +62,7 @@ public class Boss extends Char{
 
     public void reset(){
         world.wallUndetonate();
-        phase = Phases.phases.get(3);
+        phase = Phases.phases.get(0);
         phase.reset();
         phase.begin();
     }

@@ -69,6 +69,13 @@ public class World implements ApplicationListener{
             }
         }
 
+        bulletGroup.resize(0, 0, width() * tilesize, height() * tilesize);
+        charGroup.resize(0, 0, width() * tilesize, height() * tilesize);
+
+        updateShadowed();
+    }
+
+    public void updateShadowed(){
         for(int x = 0; x < width(); x++){
             for(int y = 0; y < height(); y++){
                 Tile tile = tiles[x][y];
@@ -85,9 +92,6 @@ public class World implements ApplicationListener{
                 }
             }
         }
-
-        bulletGroup.resize(0, 0, width() * tilesize, height() * tilesize);
-        charGroup.resize(0, 0, width() * tilesize, height() * tilesize);
     }
 
     public void wallDetonate(){
@@ -102,7 +106,6 @@ public class World implements ApplicationListener{
                         int ry = Mathf.clamp(y - height()/2, -1, 1) * Mathf.random(0, 1);
 
                         tile.wall = null;
-                        tile.shadowed = false;
 
                         tiles[x + rx][y + ry].wall = blockNames.get("shelfrubble");
                         brokenWalls.add(new Point2(x, y));
@@ -111,6 +114,7 @@ public class World implements ApplicationListener{
             }
         }
 
+        updateShadowed();
         renderer.updateShadows();
     }
 
@@ -123,7 +127,6 @@ public class World implements ApplicationListener{
 
                 if(Mathf.within(x, y, width()/2, height()/2, radius) && tile.wall != null && (tile.wall.name.equals("shelf") || tile.wall.name.equals("shelfrubble"))){
                     tile.wall = blockNames.get("ashrubble");
-                    tile.shadowed = false;
 
                     if(tile.wall.name.equals("shelf")){
                         brokenWalls.add(new Point2(x, y));
@@ -132,6 +135,7 @@ public class World implements ApplicationListener{
             }
         }
 
+        updateShadowed();
         renderer.updateShadows();
     }
 
@@ -147,11 +151,11 @@ public class World implements ApplicationListener{
 
         for(Point2 p : brokenWalls){
             Tile tile = tile(p.x, p.y);
-            tile.shadowed = true;
             tile.wall = blockNames.get("shelf");
         }
 
         brokenWalls.clear();
+        updateShadowed();
         renderer.updateShadows();
     }
 

@@ -161,7 +161,7 @@ public class Renderer implements ApplicationListener{
     void drawShadows(){
         cull((x, y) -> {
             Tile tile = world.tile(x, y);
-            if(tile.shadowed){
+            if(tile.shadowed && tile.wall != null){
                 tile.wall.drawShadow(x, y);
             }
         });

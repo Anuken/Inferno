@@ -4,7 +4,9 @@ sourceCompatibility = 1.8
 sourceSets.main.java.srcDirs = [ "src/" ]
 
 project.ext.mainClassName = "inferno.desktop.DesktopLauncher"
-project.ext.assetsDir = new File("../core/assets");
+project.ext.assetsDir = new File("../core/assets")
+
+def IKVM_DIR = System.env.IKVM_HOME
 
 task run(dependsOn: classes, type: JavaExec) {
     main = project.mainClassName
@@ -18,25 +20,55 @@ task run(dependsOn: classes, type: JavaExec) {
     }
 }
 
-task dist(type: Jar) {
+task dist(type: Jar, dependsOn: classes) {
     from files(sourceSets.main.output.classesDirs)
     from files(sourceSets.main.output.resourcesDir)
     from {configurations.compile.collect {zipTree(it)}}
     from files(project.assetsDir);
 
-    if(project.hasProperty("target")){
-        def target = project.properties["target"]
-        if(target == "windows") exclude('**.so', "**.dylib")
-        if(target == "mac") exclude('**.so', "**.dll")
-        if(target == "linux") exclude('**.dll', "**.dylib")
-        archivesBaseName = appName + "-" + target
-    }else{
-        archivesBaseName = appName + "-all"
-    }
+    //use target = all for all platforms
+    def target = project.hasProperty("target") ? project.properties["target"] : "windows";
+    if(target == "windows") exclude('**.so', "**.dylib")
+    if(target == "mac") exclude('**.so', "**.dll")
+    if(target == "linux") exclude('**.dll', "**.dylib")
+    archivesBaseName = appName + "-" + target
 
     manifest {
         attributes 'Main-Class': project.mainClassName
     }
 }
 
-dist.dependsOn classes
+task doZip(type: Zip){
+    def filename = "$appName-windows-${version}"
+
+    from "build/libs/$filename"
+    archiveBaseName = "$appName-windows"
+}
+
+task ikdist{
+    dependsOn dist
+    finalizedBy doZip
+
+    doLast{
+        def filename = "$appName-windows-${version}"
+        def folder = "build/libs/$filename"
+        def args = ["mono", "$IKVM_DIR/ikvmc.exe", "-target:winexe", "-static", "-out:build/libs/${filename}.exe", "build/libs/${filename}.jar"]
+        if(file("../core/assets/sprites/icon.ico").exists()){
+            args += ["-win32icon:../core/assets/sprites/icon.ico"]
+        }
+
+        exec{
+            commandLine args
+        }
+
+        copy{
+            from file("build/libs/${filename}.exe")
+            into file(folder)
+        }
+
+        copy{
+            from "$IKVM_DIR/libraries"
+            into folder
+        }
+    }
+}

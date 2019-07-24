@@ -390,11 +390,6 @@ public class Phases{
                 Fx.blastind.at(boss.x, boss.y);
 
                 run(Fx.lspiral.lifetime, () -> {
-                    //instakill player if within blast radius
-                    if(player.withinDst(boss.x, boss.y, 200)){
-                        player.damage(player.health + 1);
-                    }
-
                     control.slowmo(3f);
                     Fx.blast.at(boss.x, boss.y);
                     Fx.blastspark.at(boss.x, boss.y);
@@ -404,6 +399,11 @@ public class Phases{
                         detonating = false;
                         detonated = true;
                     });
+
+                    //instakill player if within blast radius
+                    if(player.withinDst(boss.x, boss.y, 200)){
+                        player.damage(player.health + 1);
+                    }
                 });
             }
 
