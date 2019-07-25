@@ -67,7 +67,7 @@ public class UI implements ApplicationListener{
     }
 
     public Entity getDialogueFace(){
-	    return image.getRegion().asAtlas().name.contains("lucine") && label.getText().length() > 0 ? boss : player;
+	    return image.getRegion().asAtlas().name.contains("lucine") && label.getText().length() > 0 ? boss : image.getRegion().asAtlas().name.contains("asmus") || label.getText().length() == 0 ? player : null;
     }
 
     public boolean hasDialogue(){
@@ -102,8 +102,8 @@ public class UI implements ApplicationListener{
                     if(Core.input.keyTap(KeyCode.SPACE)){
                         if(label.hasEnded()){
                             if(textIndex < text.size - 1){
-                                image.setDrawable("dialogDim");
                                 label.restart(text.get(++textIndex));
+                                label.act(0.01f);
                             }else{
                                 image.setDrawable("dialogDim");
                                 label.setText("");

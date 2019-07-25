@@ -2,6 +2,8 @@ package inferno;
 
 import inferno.type.*;
 import io.anuke.arc.*;
+import io.anuke.arc.graphics.*;
+import io.anuke.arc.graphics.g2d.*;
 import io.anuke.arc.input.*;
 import io.anuke.arc.math.*;
 import io.anuke.arc.util.*;
@@ -54,6 +56,8 @@ public class Control implements ApplicationListener{
 
     @Override
     public void update(){
+        Color.WHITE.set(1f, 1f, 1f, 1f);
+        Draw.mixcol();
 
         if(Core.input.keyTap(KeyCode.ESCAPE)){
             Core.app.exit();

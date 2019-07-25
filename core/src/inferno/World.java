@@ -107,6 +107,9 @@ public class World implements ApplicationListener{
 
                         tile.wall = null;
 
+                        if(tiles[x + rx][y + ry].wall != null && tiles[x + rx][y + ry].wall.name.equals("shelf")){
+                            brokenWalls.add(new Point2(x + rx, y + ry));
+                        }
                         tiles[x + rx][y + ry].wall = blockNames.get("shelfrubble");
                         brokenWalls.add(new Point2(x, y));
                     }
@@ -126,11 +129,10 @@ public class World implements ApplicationListener{
                 Tile tile = tile(x, y);
 
                 if(Mathf.within(x, y, width()/2, height()/2, radius) && tile.wall != null && (tile.wall.name.equals("shelf") || tile.wall.name.equals("shelfrubble"))){
-                    tile.wall = blockNames.get("ashrubble");
-
                     if(tile.wall.name.equals("shelf")){
                         brokenWalls.add(new Point2(x, y));
                     }
+                    tile.wall = blockNames.get("ashrubble");
                 }
             }
         }
@@ -143,7 +145,7 @@ public class World implements ApplicationListener{
         for(int x = 0; x < width(); x++){
             for(int y = 0; y < height(); y++){
                 Tile tile = tile(x, y);
-                if(tile.wall != null && tile.wall.name.equals("shelfrubble")){
+                if(tile.wall != null && (tile.wall.name.equals("shelfrubble") || tile.wall.name.equals("ashrubble"))){
                     tile.wall = null;
                 }
             }
