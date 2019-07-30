@@ -1,5 +1,6 @@
 package inferno.type;
 
+import inferno.*;
 import inferno.entity.*;
 import inferno.graphics.*;
 import inferno.type.Bullet.*;
@@ -62,7 +63,7 @@ public class Boss extends Char{
 
     public void reset(){
         world.wallUndetonate();
-        phase = Phases.phases.get(0);
+        phase = Phases.phases.get(Inferno.debug ? 3 : 0);
         phase.reset();
         phase.begin();
     }
@@ -115,6 +116,13 @@ public class Boss extends Char{
         Drawf.light(x, y + height(), 160f, Color.SCARLET);
 
         Draw.mixcol();
+
+        Draw.color(Pal.lucine);
+        Drawf.z(y + 600f);
+        Draw.alpha(hitTime);
+        Lines.stroke(2f);
+        Lines.swirl(x, y, 20f, health / maxHealth());
+        Draw.reset();
     }
 
     @Override

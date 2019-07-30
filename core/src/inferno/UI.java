@@ -126,7 +126,7 @@ public class UI implements ApplicationListener{
         Core.scene.table(t -> {
             t.top().right().table("dialogDim", b -> {
                 //b.setColor(Color.BLACK);
-                b.margin(8f).add(new HealthBar(boss)).size(340f, 20f);
+                //b.margin(8f).add(new HealthBar(boss)).size(340f, 20f);
             });
         });
 
