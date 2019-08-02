@@ -63,7 +63,7 @@ public class Boss extends Char{
 
     public void reset(){
         world.wallUndetonate();
-        phase = Phases.phases.get(Inferno.debug ? 3 : 0);
+        phase = Phases.phases.get(Inferno.debug ? 4 : 0);
         phase.reset();
         phase.begin();
     }
@@ -117,12 +117,23 @@ public class Boss extends Char{
 
         Draw.mixcol();
 
-        Draw.color(Pal.lucine);
+        Draw.color(Pal.lucine, Color.WHITE, Mathf.clamp(hitTime));
         Drawf.z(y + 600f);
-        Draw.alpha(hitTime);
         Lines.stroke(2f);
-        Lines.swirl(x, y, 20f, health / maxHealth());
+        Lines.swirl(x, y, 20f, health / maxHealth(), Time.time() * 2f);
         Draw.reset();
+
+        if(phase == Phases.phases.get(4)){
+            drawStatue();
+        }
+    }
+
+    void drawStatue(){
+        float x = 40.5f * tilesize, y = (world.height() - 10.5f) * tilesize;
+        Drawf.z(y - 1f);
+        TextureRegion r = Core.atlas.find("statue-enraged");
+        Draw.rect(r, x, y + r.getHeight()/2f);
+        Drawf.light(x, y + r.getHeight()/2f, 150f + Mathf.absin(Time.time(), 6f, 10f), Color.RED, 0.9f);
     }
 
     @Override

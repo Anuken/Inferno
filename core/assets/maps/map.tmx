@@ -12,10 +12,10 @@
    <properties>
     <property name="solid" value=""/>
    </properties>
-   <image width="16" height="32" source="../../assets-raw/sprites/tiles/wall.png"/>
+   <image width="16" height="32" source="../../assets-raw/sprites/tiles/wall1.png"/>
   </tile>
   <tile id="2">
-   <image width="16" height="16" source="../../assets-raw/sprites/tiles/floor.png"/>
+   <image width="16" height="16" source="../../assets-raw/sprites/tiles/floor1.png"/>
   </tile>
   <tile id="3">
    <image width="16" height="16" source="../../assets-raw/sprites/tiles/torch.png"/>
@@ -39,7 +39,7 @@
    <image width="16" height="16" source="../../assets-raw/sprites/tiles/book.png"/>
   </tile>
   <tile id="12">
-   <image width="16" height="32" source="../../assets-raw/sprites/tiles/rubble.png"/>
+   <image width="16" height="32" source="../../assets-raw/sprites/tiles/rubble1.png"/>
   </tile>
   <tile id="13">
    <image width="16" height="16" source="../../assets-raw/sprites/tiles/floorsquare.png"/>
@@ -169,14 +169,14 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup name="images" visible="0">
+ <objectgroup name="images">
   <object id="9" gid="20" x="417" y="897" width="480" height="480"/>
   <object id="13" gid="21" x="992" y="512" width="128" height="128"/>
   <object id="14" gid="23" x="496" y="352" width="96" height="96"/>
   <object id="15" gid="22" x="752" y="1120" width="64" height="64"/>
   <object id="16" gid="19" x="352" y="816" width="80" height="80"/>
  </objectgroup>
- <layer name="overlay" width="82" height="82" visible="0">
+ <layer name="overlay" width="82" height="82">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -262,7 +262,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer name="walls" width="82" height="82" visible="0">
+ <layer name="walls" width="82" height="82">
   <data encoding="csv">
 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,

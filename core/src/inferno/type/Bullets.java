@@ -163,6 +163,32 @@ public class Bullets{
             return world.solid(x, y);
         }
     },
+    breath2 = new BulletType(){
+        {
+            speed = 2f;
+            lightColor = Pal.candle;
+            lifetime = 600f;
+            damage = 8f;
+        }
+
+        @Override
+        public void draw(Bullet bullet){
+            Drawf.z(bullet.y - tilesize*4f);
+            Draw.color(Pal.candle);
+            Fill.circle(bullet.x, bullet.y, 5f);
+            Draw.color(Color.WHITE);
+            Fill.circle(bullet.x, bullet.y, 2f);
+        }
+
+        @Override
+        public boolean solid(int x, int y){
+            Tile tile = world.tileOpt(x, y);
+            if(tile != null && tile.wall != null && tile.wall.clear){
+                return false;
+            }
+            return world.solid(x, y);
+        }
+    },
     fireball = new BulletType(){
         {
             speed = 3f;

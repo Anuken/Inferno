@@ -29,9 +29,15 @@ public class Renderer implements ApplicationListener{
     private FrameBuffer fogs;
     private float lim = 10f;
     private float shakeIntensity, shaketime;
+    private Color ambient = new Color(0.2f, 0.06f, 0.02f, 0.5f);
 
     private Shader fog = new Shader(Core.files.local("dshaders/default.vertex.glsl"), Core.files.local("dshaders/fog.fragment.glsl"));
-    private Shader light = new Shader(Core.files.local("dshaders/default.vertex.glsl"), Core.files.local("dshaders/light.fragment.glsl"));
+    private Shader light = new Shader(Core.files.local("dshaders/default.vertex.glsl"), Core.files.local("dshaders/light.fragment.glsl")){
+        @Override
+        public void apply(){
+            light.setUniformf("u_ambient", ambient);
+        }
+    };
     private SpriteCache cache;
 
     private Bloom bloom;
@@ -101,6 +107,7 @@ public class Renderer implements ApplicationListener{
 
         Draw.color();
         lights.beginDraw(Color.CLEAR);
+        lbatch.blend(Blending.additive);
         lbatch.flush();
         lights.endDraw();
 

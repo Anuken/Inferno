@@ -1,14 +1,17 @@
 package inferno.graphics;
 
-import io.anuke.arc.collection.Array;
-import io.anuke.arc.graphics.Texture;
-import io.anuke.arc.graphics.g2d.SpriteBatch;
-import io.anuke.arc.graphics.g2d.TextureRegion;
-import io.anuke.arc.util.pooling.Pools;
+import io.anuke.arc.collection.*;
+import io.anuke.arc.graphics.*;
+import io.anuke.arc.graphics.g2d.*;
+import io.anuke.arc.util.pooling.*;
 
 public class QueueBatch extends SpriteBatch{
     private Array<DrawRequest> requests = new Array<>();
     private boolean flushing;
+
+    public void blend(Blending blending){
+        this.blending = blending;
+    }
 
     @Override
     protected void draw(Texture texture, float[] spriteVertices, int offset, int count){
@@ -33,6 +36,7 @@ public class QueueBatch extends SpriteBatch{
 
     @Override
     public void flush(){
+
         if(!flushing && !requests.isEmpty()){
             flushing = true;
             requests.sort();

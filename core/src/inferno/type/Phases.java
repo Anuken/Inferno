@@ -294,7 +294,8 @@ public class Phases{
                 float aim = boss.aim();
                 run(Fx.indline.lifetime, () -> shotgun(shots, space, aim, f -> seq(4, 3, i -> shotgun(1 + i, 6f - i, f, boss::shootf))));
                 shotgun(shots, space, aim, f -> Fx.indline.at(boss.x, boss.y, f));
-                run(Fx.indline.lifetime + 10f, () -> boss.anim(Boss.adash, 1.6f * boss.dash(boss.dst(player) / 2f, () -> {})));
+                run(Fx.indline.lifetime + 10f, () -> boss.anim(Boss.adash, 1.6f * boss.dash(boss.dst(player) / 2f, () -> {
+                })));
             });
         },
 
@@ -339,50 +340,50 @@ public class Phases{
         boolean detonated = false, detonating = false;
 
         Array<Runnable> attacks = Array.with(
-            //double flower attack
-            () -> {
-                every(60f * 4f - healthi(60), () -> {
-                    float aim = boss.aim();
-                    int length = 15;
-                    loop(length - 1, i -> loop(2, sp -> run(i * 2 + sp * 5, () -> circle(5, f -> shotgun(2, 360f / 16 * i / (float)length, f + aim + sp * 180f, a -> boss.shoot(a, v -> v(0, cos(v, 20f, 2f))))))));
-                });
-            },
+        //double flower attack
+        () -> {
+            every(60f * 4f - healthi(60), () -> {
+                float aim = boss.aim();
+                int length = 15;
+                loop(length - 1, i -> loop(2, sp -> run(i * 2 + sp * 5, () -> circle(5, f -> shotgun(2, 360f / 16 * i / (float)length, f + aim + sp * 180f, a -> boss.shoot(a, v -> v(0, cos(v, 20f, 2f))))))));
+            });
+        },
 
-            //rays
-            () -> {
-                every(60f * 3f, () -> {
-                    float aim = boss.aim();
-                    loop(7, i -> {
-                        run(20f + i * 4, () -> circle(10, f -> boss.shoot(f + 18 + aim)));
-                        run(i * 4, () -> circle(10, f -> boss.shoot(f + aim)));
-                    });
+        //rays
+        () -> {
+            every(60f * 3f, () -> {
+                float aim = boss.aim();
+                loop(7, i -> {
+                    run(20f + i * 4, () -> circle(10, f -> boss.shoot(f + 18 + aim)));
+                    run(i * 4, () -> circle(10, f -> boss.shoot(f + aim)));
                 });
-            },
+            });
+        },
 
-            //trispiral of bullets
-            () -> {
-                every(15f - healthi(5), () -> {
-                    float aim = 0;
-                    int d = data++;
-                    seq(5, 3f, l -> shotgun(3, 360f / 3, aim + d * 20f, f -> boss.shoot(f, v -> v(0, cos(v, 9f, 2f)))));
-                });
-            },
+        //trispiral of bullets
+        () -> {
+            every(15f - healthi(5), () -> {
+                float aim = 0;
+                int d = data++;
+                seq(5, 3f, l -> shotgun(3, 360f / 3, aim + d * 20f, f -> boss.shoot(f, v -> v(0, cos(v, 9f, 2f)))));
+            });
+        },
 
-            //indicator shotguns
-            () -> {
-                every(60f * 0.9f - healthi(20), () -> {
-                    float space = 25 + (data++%3) * 15;
-                    int shots = (int)(360f/space);
+        //indicator shotguns
+        () -> {
+            every(60f * 0.9f - healthi(20), () -> {
+                float space = 25 + (data++ % 3) * 15;
+                int shots = (int)(360f / space);
 
-                    float aim = boss.aim() + space/2f;
-                    shotgun(shots, space, aim, f -> seq(4 + healthi(2), 3, i -> shotgun(1 + i + healthi(2), 8f - i, f, boss::shoot)));
-                });
-            }
+                float aim = boss.aim() + space / 2f;
+                shotgun(shots, space, aim, f -> seq(4 + healthi(2), 3, i -> shotgun(1 + i + healthi(2), 8f - i, f, boss::shoot)));
+            });
+        }
         );
 
         @Override
         public void update(){
-            boss.set(world.width() * tilesize/2f, world.height() * tilesize/2f);
+            boss.set(world.width() * tilesize / 2f, world.height() * tilesize / 2f);
 
             if(!detonated && !detonating){
                 detonating = true;
@@ -450,7 +451,7 @@ public class Phases{
         Array<Runnable> attacks = Array.with(
         () -> {
             every(30f, () -> {
-                float f = (data++%2 - 0.5f) * 50f;
+                float f = (data++ % 2 - 0.5f) * 50f;
                 float aim = boss.aim() + f;
                 int sign = -Mathf.sign(f);
                 seq(6, 3f, i -> shotgun(4, 3f, aim + i * sign * 5, boss::shoot));
@@ -477,7 +478,7 @@ public class Phases{
         () -> {
             every(60f * 2, () -> {
                 float aim = boss.aim() + 45f;
-                int s = Mathf.sign(data++%2-0.5f);
+                int s = Mathf.sign(data++ % 2 - 0.5f);
                 seq(20, 4f, i -> shotgun(2, 180f, (i * 8f + aim) * s, f -> shotgun(6, 10f, f, boss::shoot)));
             });
         }
@@ -549,6 +550,19 @@ public class Phases{
             super.reset();
             windup = 0f;
 
+        }
+    },
+
+    new Phase(Text.phase3){
+        @Override
+        public void update(){
+            //off-screen boss
+            boss.set(0, 1000000);
+
+            if(time.get(3, 60f*1.5f)){
+                Vector2 s = world.statue();
+                loop(7, i -> run(i * 3f, () -> shotgun(2 + i %10, 4f + (i + 5) % 10, 270f, f -> boss.shoot(Bullets.breath2, s.x, s.y, f))));
+            }
         }
     }
 
