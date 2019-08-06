@@ -557,7 +557,20 @@ public class Phases{
         @Override
         public void update(){
             //off-screen boss
-            boss.set(0, 1000000);
+
+            if(time.get(60f * 15f)){
+                int current = (special++) % cycle.size;
+                if(current == 0){
+                    float aim =  boss.aim();
+                    loop(20, i -> {
+                        run(i * 2, () -> shotgun(3, 15f, aim + sin(i, 1f, 3f), boss::shoot));
+                    });
+                }else{
+                    cycle.get(current).run();
+                }
+            }
+
+            boss.set(world.statue().x, world.statue().y);
 
             if(time.get(3, 60f*1.5f)){
                 Vector2 s = world.statue();

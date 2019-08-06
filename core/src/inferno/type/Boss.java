@@ -109,30 +109,38 @@ public class Boss extends Char{
 
     @Override
     public void draw(){
-        Draw.mixcol(Color.WHITE, Mathf.clamp(hitTime));
-        TextureRegion region = anim == null ? Core.atlas.find("lucine-side") : anim.frame(animtime);
-        Draw.rect(region, x, y + region.getHeight()/2f + Mathf.absin(Time.time(), 6f, 2f), region.getWidth() * -Mathf.sign(direction.flipped), region.getHeight());
-
-        Drawf.light(x, y + height(), 160f, Color.SCARLET);
-
-        Draw.mixcol();
-
-        Draw.color(Pal.lucine, Color.WHITE, Mathf.clamp(hitTime));
-        Drawf.z(y + 600f);
-        Lines.stroke(2f);
-        Lines.swirl(x, y, 20f, health / maxHealth(), Time.time() * 2f);
-        Draw.reset();
-
-        if(phase == Phases.phases.get(4)){
+        //dragon susbstitute, don't draw
+        if(isStatue()){
             drawStatue();
+        }else{
+
+            Draw.mixcol(Color.WHITE, Mathf.clamp(hitTime));
+            TextureRegion region = anim == null ? Core.atlas.find("lucine-side") : anim.frame(animtime);
+            Draw.rect(region, x, y + region.getHeight() / 2f + Mathf.absin(Time.time(), 6f, 2f), region.getWidth() * -Mathf.sign(direction.flipped), region.getHeight());
+
+            Drawf.light(x, y + height(), 160f, Color.SCARLET);
+
+            Draw.mixcol();
+
+            Draw.color(Pal.lucine, Color.WHITE, Mathf.clamp(hitTime));
+            Drawf.z(y + 600f);
+            Lines.stroke(2f);
+            Lines.swirl(x, y, 20f, health / maxHealth(), Time.time() * 2f);
+            Draw.reset();
         }
+    }
+
+    boolean isStatue(){
+        return phase == Phases.phases.get(4);
     }
 
     void drawStatue(){
         float x = 40.5f * tilesize, y = (world.height() - 10.5f) * tilesize;
         Drawf.z(y - 1f);
         TextureRegion r = Core.atlas.find("statue-enraged");
+        Draw.mixcol(Color.WHITE, hitTime /2f);
         Draw.rect(r, x, y + r.getHeight()/2f);
+        Draw.reset();
         Drawf.light(x, y + r.getHeight()/2f, 150f + Mathf.absin(Time.time(), 6f, 10f), Color.RED, 0.9f);
     }
 
@@ -143,8 +151,8 @@ public class Boss extends Char{
 
     @Override
     public void hitbox(Rectangle rectangle){
-        float w = 12f, h = 24f;
-        rectangle.set(x - w / 2f, y, w, h);
+        float w = isStatue() ? tilesize * 6f : 12f, h = isStatue() ? tilesize * 5 : 24f;
+        rectangle.set(x - w / 2f, y - (isStatue() ? h /2f : 0), w, h);
     }
 
     @Override

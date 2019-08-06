@@ -1,12 +1,12 @@
 package inferno.type;
 
-import inferno.graphics.Effects.Effect;
-import inferno.graphics.Drawf;
-import io.anuke.arc.graphics.Color;
-import io.anuke.arc.graphics.g2d.Fill;
+import inferno.graphics.*;
+import inferno.graphics.Effects.*;
+import inferno.world.*;
+import io.anuke.arc.graphics.*;
+import io.anuke.arc.graphics.g2d.*;
 
-import static inferno.Inferno.renderer;
-import static inferno.Inferno.world;
+import static inferno.Inferno.*;
 
 public class BulletType{
     public float size = 4f;
@@ -35,6 +35,10 @@ public class BulletType{
     }
 
     public boolean solid(int x, int y){
+        Tile tile = world.tileOpt(x, y);
+        if(tile != null && tile.wall != null && tile.wall.clear){
+            return false;
+        }
         return world.solid(x, y);
     }
 

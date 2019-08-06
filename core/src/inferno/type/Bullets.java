@@ -32,6 +32,7 @@ public class Bullets{
             Draw.color(Color.WHITE);
             Fill.circle(bullet.x, bullet.y, 2f);
         }
+
     },
     lbasic = new BulletType(){
         {
@@ -128,15 +129,6 @@ public class Bullets{
                 bullet.shooter.shoot(breathsmall, bullet.x, bullet.y, Mathf.chance(aimc) ? bullet.angleTo(player) : bullet.angle() - 110f + s);
             }
         }
-
-        @Override
-        public boolean solid(int x, int y){
-            Tile tile = world.tileOpt(x, y);
-            if(tile != null && tile.wall != null && tile.wall.clear){
-                return false;
-            }
-            return world.solid(x, y);
-        }
     },
     breathsmall = new BulletType(){
         {
@@ -178,15 +170,6 @@ public class Bullets{
             Fill.circle(bullet.x, bullet.y, 5f);
             Draw.color(Color.WHITE);
             Fill.circle(bullet.x, bullet.y, 2f);
-        }
-
-        @Override
-        public boolean solid(int x, int y){
-            Tile tile = world.tileOpt(x, y);
-            if(tile != null && tile.wall != null && tile.wall.clear){
-                return false;
-            }
-            return world.solid(x, y);
         }
     },
     fireball = new BulletType(){
