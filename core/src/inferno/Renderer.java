@@ -100,7 +100,7 @@ public class Renderer implements ApplicationListener{
         Drawf.sort(false);
 
         Draw.shader(fog);
-        //Draw.fbo(fogs.getTexture(), world.width(), world.height(), tilesize);
+        Draw.fbo(fogs.getTexture(), world.width(), world.height(), tilesize);
         Draw.shader();
 
         buffer.endDraw();
@@ -115,7 +115,7 @@ public class Renderer implements ApplicationListener{
 
         Draw.color();
         Draw.shader(light);
-        //Draw.rect(Draw.wrap(lights.getTexture()), Core.camera.position.x, Core.camera.position.y, Core.camera.width, -Core.camera.height);
+        Draw.rect(Draw.wrap(lights.getTexture()), Core.camera.position.x, Core.camera.position.y, Core.camera.width, -Core.camera.height);
         Draw.shader();
 
         buffer.endDraw();
@@ -125,7 +125,7 @@ public class Renderer implements ApplicationListener{
         Draw.blend(Blending.disabled);
         Draw.rect(Draw.wrap(buffer.getTexture()), Core.camera.position.x, Core.camera.position.y, Core.camera.width, -Core.camera.height);
         Draw.blend();
-        //if(dobloom) bloom.render();
+        if(dobloom) bloom.render();
 
         Core.camera.position.set(px, py);
 
