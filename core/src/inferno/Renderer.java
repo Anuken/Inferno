@@ -232,7 +232,7 @@ public class Renderer implements ApplicationListener{
     }
 
     void makeFloor(){
-        cache = new SpriteCache(world.width() * world.height() + world.getObjects().size*2 + 200, true);
+        cache = new SpriteCache(world.width() * world.height() + world.getObjects().size*2 + 500, false);
         CacheBatch batch = new CacheBatch(cache);
         Core.batch = batch;
 

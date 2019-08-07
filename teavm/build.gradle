@@ -33,7 +33,7 @@ teavmc{
     targetFileName "app.js"
     copySources false
     generateSourceMap false
-    minified true
+    minified false
 }
 
 teavmc.dependsOn(copyAssets)
