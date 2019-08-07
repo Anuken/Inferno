@@ -11,8 +11,7 @@ Color: {
 	green: {a: 1, b: 0, g: 1, r: 0 },
 	red: {a: 1, b: 0, g: 0, r: 1 },
 	blue: {a: 1, b: 1, g: 0, r: 0 },
-	grey: {a: 1, b: 0.32, g: 0.32, r: 0.32 },
-	orange: {hex: "#FFA500"}
+	grey: {a: 1, b: 0.32, g: 0.32, r: 0.32 }
 },
 TintedDrawable: {
 	dialogDim: {name: white, color: {r: 0, g: 0, b: 0, a: 0.45} },
@@ -24,7 +23,6 @@ ButtonStyle: {
 },
 TextButtonStyle: {
 	default: {over: button-over, disabled: button, font: default, fontColor: white, disabledFontColor: grey, down: button-down, up: button, transition: 0 },
-	invisible: {up: blank, over: blankSelect, down: blankSelect, font: default, fontColor: white, disabledFontColor: grey, downFontColor: orange },
 	toggle: {font: default, fontColor: white, checked: button-down, down: button-down, up: button, over: button-over, disabled: button, disabledFontColor: grey }
 },
 ImageButtonStyle: {
@@ -35,7 +33,7 @@ ScrollPaneStyle: {
 	default: {background: blank, vScroll: scroll, vScrollKnob: scroll-knob-vertical }
 },
 WindowStyle: {
-	default: {titleFont: default, background: window, titleFontColor: orange },
+	default: {titleFont: default, background: window, titleFontColor: white },
 	dialog: {stageBackground: dialogDim, titleFont: default, background: window, titleFontColor: white }
 },
 SliderStyle: {

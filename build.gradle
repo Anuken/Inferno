@@ -3,18 +3,21 @@ buildscript{
         mavenLocal()
         mavenCentral()
         google()
+        maven{ url "https://dl.bintray.com/konsoletyper/teavm"}
         maven{ url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven{ url "https://jitpack.io" }
         jcenter()
     }
 
     dependencies{
         classpath "com.badlogicgames.gdx:gdx-tools:1.9.10"
+        classpath 'com.github.Anuken:teavm-gradle-plugin:d11d927197'
     }
 }
 
 allprojects{
-
     version = 'dev'
+
     ext{
         appName = "Inferno"
         gdxVersion = '1.9.10'
@@ -40,6 +43,20 @@ project(":core"){
         compile arcModule("arc-core")
         compile arcModule("extensions:recorder")
         compile arcModule("extensions:typelabel")
+    }
+}
+
+project(":teavm"){
+    apply plugin: "java"
+
+    repositories{
+        maven{ url "https://dl.bintray.com/konsoletyper/teavm"}
+    }
+
+    dependencies{
+        compile project(":core")
+        compile arcModule("arc-core")
+        compile arcModule("backends:backend-teavm")
     }
 }
 

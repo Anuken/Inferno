@@ -1,15 +1,16 @@
-include 'core', 'desktop'
+include 'core', 'desktop', 'teavm'
 
-def use = { String name, String path ->
+def use = { String name ->
     include(name)
-    project(name).projectDir = new File(settingsDir, path)
+    project(name).projectDir = new File(settingsDir, "../${name.substring(1).replace(":", "/")}")
 }
 
-use(':Arc', '../Arc')
-use(':Arc:arc-core', '../Arc/arc-core')
-use(':Arc:extensions', '../Arc/extensions')
-use(':Arc:extensions:recorder', '../Arc/extensions/recorder')
-use(':Arc:extensions:postprocessing', '../Arc/extensions/postprocessing')
-use(':Arc:extensions:typelabel', '../Arc/extensions/typelabel')
-use(':Arc:backends', '../Arc/backends')
-use(':Arc:backends:backend-sdl', '../Arc/backends/backend-sdl')
+use(':Arc')
+use(':Arc:arc-core')
+use(':Arc:extensions')
+use(':Arc:extensions:recorder')
+use(':Arc:extensions:postprocessing')
+use(':Arc:extensions:typelabel')
+use(':Arc:backends')
+use(':Arc:backends:backend-sdl')
+use(':Arc:backends:backend-teavm')
