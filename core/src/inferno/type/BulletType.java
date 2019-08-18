@@ -24,6 +24,11 @@ public class BulletType{
         Fill.circle(bullet.x, bullet.y, 4f);
     }
 
+    public void draw(Laser laser){
+        Lines.stroke(8f * laser.fout(), Pal.fireball);
+        Lines.lineAngle(laser.x, laser.y, laser.angle, 1000f);
+    }
+
     public void update(Bullet bullet){
 
     }

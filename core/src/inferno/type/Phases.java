@@ -590,6 +590,10 @@ public class Phases{
 
             boss.set(world.statue().x, world.statue().y);
 
+            if(time.get(5, 60f * 2)){
+                boss.laser(Bullets.laser, boss.aim());
+            }
+
             if(currentAttack == null || time.get(3, 60f * Mathf.random(10f, 30f))){
                 currentAttack = attacks.random(currentAttack);
             }

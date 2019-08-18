@@ -168,6 +168,7 @@ public class Renderer implements ApplicationListener{
     }
 
     void drawShadows(){
+        Draw.color();
         cull((x, y) -> {
             Tile tile = world.tile(x, y);
             if(tile.shadowed && tile.wall != null){
@@ -199,7 +200,7 @@ public class Renderer implements ApplicationListener{
             }
         });
 
-        Draw.color(0f, 0f, 0f, 0.4f);
+        Draw.color(0f, 0f, 0f, 0.3f);
         Draw.rect(Draw.wrap(shadow.getTexture()), Core.camera.position.x, Core.camera.position.y, Core.camera.width, -Core.camera.height);
         Draw.color();
 

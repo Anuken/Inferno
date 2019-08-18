@@ -201,6 +201,10 @@ public class Boss extends Char{
         shoot(Bullets.lbasic, angle);
     }
 
+    public void laser(BulletType type, float angle){
+        new Laser(type, x, y, angle).add();
+    }
+
     public void shootf(float angle){
         shoot(Bullets.lfast, angle);
     }

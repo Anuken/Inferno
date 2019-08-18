@@ -49,6 +49,15 @@ public class Drawf{
         Core.batch = renderer.zbatch;
     }
 
+    public static void light(Color color, float alpha, Runnable run){
+        Core.batch = renderer.lbatch;
+        Draw.color(color, alpha);
+        run.run();
+        //Draw.rect("light", x, y, width, height);
+        Draw.color();
+        Core.batch = renderer.zbatch;
+    }
+
     public static void z(float z){
         renderer.zbatch.z = z;
     }

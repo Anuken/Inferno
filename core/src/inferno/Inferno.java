@@ -1,6 +1,6 @@
 package inferno;
 
-import inferno.entity.EntityGroup;
+import inferno.entity.*;
 import inferno.type.*;
 import io.anuke.arc.ApplicationCore;
 

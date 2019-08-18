@@ -302,5 +302,28 @@ public class Bullets{
             Draw.alpha(b.fout());
             Drawf.symbols(b.id, b.x, b.y, 40f);
         }
+    },
+    laser = new BulletType(){
+        {
+            damage = 10;
+            lifetime = 30f;
+        }
+
+        @Override
+        public void draw(Laser laser){
+            Lines.stroke(12f * laser.fout(), Pal.fireball);
+            Lines.lineAngle(laser.x, laser.y, laser.angle, Laser.length);
+
+            Lines.stroke(5f * laser.fout(), Color.WHITE);
+            Lines.lineAngle(laser.x, laser.y, laser.angle, Laser.length);
+
+            Tmp.v1.trns(laser.angle, Laser.length);
+
+            Drawf.light(Color.WHITE, 1f, () -> {
+                Lines.stroke(20f * laser.fout());
+                Lines.lineAngle(laser.x, laser.y, laser.angle, Laser.length, CapStyle.round);
+            });
+        }
+
     };
 }

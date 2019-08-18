@@ -33,7 +33,7 @@ public class Bullet extends SolidEntity implements ScaleTrait{
         return bullet;
     }
 
-    private Bullet(){
+    protected Bullet(){
 
     }
 
@@ -53,8 +53,6 @@ public class Bullet extends SolidEntity implements ScaleTrait{
 
     @Override
     public void update(){
-        super.update();
-
         time = Mathf.clamp(time + Time.delta(), 0, type.lifetime);
 
         if(time >= lifetime){
