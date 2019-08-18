@@ -238,6 +238,7 @@ public class Bullets{
 
         @Override
         public void draw(Bullet bullet){
+            Drawf.z(bullet.y - tilesize*4f);
             float glow = 0.1f + bullet.fin() * 0.6f;//Mathf.absin(Time.time(), 5f, 0.5f);
 
             Draw.color(Pal.fireball, Color.WHITE, glow);

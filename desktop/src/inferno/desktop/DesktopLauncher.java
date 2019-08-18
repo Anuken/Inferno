@@ -8,7 +8,7 @@ public class DesktopLauncher{
 		new SdlApplication(new Inferno(), new SdlConfig(){{
 			title = "Inferno";
 			maximized = true;
-			disableAudio = true;
+			disableAudio = false;
 		}});
 	}
 }

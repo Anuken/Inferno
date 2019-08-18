@@ -220,6 +220,8 @@ public class Player extends Char{
             });
 
             boolean hitsBoss = boss.withinDst(player.x, player.y + 7f, length) && Angles.angleDist(angle, Angles.angle(player.x, player.y + 7f, boss.x, boss.y + 7f)) <= slasharc/2f;
+            boss.hitbox(Tmp.r2);
+            hitsBoss |= boss.isStatue() && Intersector.overlaps(Tmp.cr1.set(player.x, player.y + 7f, length), Tmp.r2) && Angles.angleDist(angle, Angles.angle(player.x, player.y + 7f, boss.x, boss.y + 7f)) <= slasharc/2f;
 
             if(hitsBoss){
                 if(!hitBoss){

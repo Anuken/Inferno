@@ -247,13 +247,13 @@ public class Fx{
         Draw.reset();
     }),
 
-    indlaser = new Effect(20f, e -> {
+    indlaser = new Effect(30f, e -> {
         Drawf.z(-90f);
         Draw.color(Pal.fireball);
         Lines.stroke(2f * e.fin());
 
         for(int i : Mathf.signs){
-            Tmp.v1.trns(e.rotation + i*90, 30 * e.fout());
+            Tmp.v1.trns(e.rotation + i*90, 30 * e.fout() - 1f);
             Lines.lineAngle(e.x + Tmp.v1.x, e.y + Tmp.v1.y, e.rotation, Laser.length);
         }
     });

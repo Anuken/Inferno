@@ -2,6 +2,7 @@ package inferno;
 
 import inferno.type.*;
 import io.anuke.arc.*;
+import io.anuke.arc.audio.*;
 import io.anuke.arc.graphics.*;
 import io.anuke.arc.graphics.g2d.*;
 import io.anuke.arc.input.*;
@@ -20,6 +21,10 @@ public class Control implements ApplicationListener{
         Core.keybinds.setDefaults(Binding.values());
         Core.settings.setAppName("Inferno");
         Core.settings.load();
+
+        Music music = Core.audio.newMusic(Core.files.local("music/music.mp3"));
+        music.setLooping(true);
+        music.play();
     }
 
     @Override

@@ -8,15 +8,18 @@ import io.anuke.arc.math.*;
 import io.anuke.arc.scene.Element;
 import io.anuke.arc.util.Tmp;
 
+import static inferno.Inferno.boss;
+
 public class HealthBar extends Element{
     private final Char c;
-    private final Color color = Pal.player;
+    private final Color color;
 
     private float fract = 1f;
     private float hit = 0f;
 
     public HealthBar(Char c){
         this.c = c;
+        color = c == boss ? Pal.lucine : Pal.player;
     }
 
     @Override

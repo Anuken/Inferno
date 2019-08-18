@@ -203,7 +203,7 @@ public class Boss extends Char{
 
     public void laser(BulletType type, float angle){
         Fx.indlaser.at(x, y, angle);
-        Time.run(Fx.indlaser.lifetime, () -> {
+        Time.run(Fx.indlaser.lifetime + 1f, () -> {
             new Laser(type, x, y, angle).add();
         });
     }

@@ -570,6 +570,15 @@ public class Phases{
                 });
             });
 
+        },
+
+        () -> {
+            every(60f*5f, () -> {
+                seq(3, 45f, i -> {
+                    cycle.get(3).run();
+                });
+            });
+
         }
         );
 
@@ -590,8 +599,10 @@ public class Phases{
 
             boss.set(world.statue().x, world.statue().y);
 
-            if(time.get(5, 60f * 1.5f)){
-                boss.laser(Bullets.laser, boss.aim());
+            if(time.get(6, 60f * 9f)){
+                seq(5, 23f, i -> {
+                    boss.laser(Bullets.laser, boss.aim());
+                });
             }
 
             if(currentAttack == null || time.get(3, 60f * Mathf.random(10f, 30f))){
