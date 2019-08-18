@@ -172,6 +172,23 @@ public class Bullets{
             Fill.circle(bullet.x, bullet.y, 2f);
         }
     },
+    breathfast = new BulletType(){
+        {
+            speed = 7f;
+            lightColor = Pal.candle;
+            lifetime = 600f;
+            damage = 8f;
+        }
+
+        @Override
+        public void draw(Bullet bullet){
+            Drawf.z(bullet.y - tilesize*4f);
+            Draw.color(Pal.candle);
+            Draw.rect("circle", bullet.x, bullet.y, 14f, 9f, bullet.angle());
+            Draw.color(Color.WHITE);
+            Draw.rect("circle", bullet.x, bullet.y, 6f, 3.5f, bullet.angle());
+        }
+    },
     fireball = new BulletType(){
         {
             speed = 3f;

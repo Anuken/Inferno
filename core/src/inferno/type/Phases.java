@@ -491,10 +491,7 @@ public class Phases{
             }
 
             if(currentAttack == null || time.get(3, 60f * Mathf.random(10f, 30f))){
-                Runnable last = currentAttack;
-                while(currentAttack == last && (attacks.size != 1 || currentAttack == null)){
-                    currentAttack = attacks.random();
-                }
+                currentAttack = attacks.random(currentAttack);
             }
 
             currentAttack.run();
@@ -554,11 +551,32 @@ public class Phases{
     },
 
     new Phase(Text.phase3){
+        Array<Runnable> attacks = Array.with(
+        () -> {
+            every(60f*0.6f, () -> {
+                Vector2 s = world.statue();
+                loop(7, i -> run(i * 3f, () -> shotgun(2 + i %10, 4f + (i + 5) % 10, 0f, f -> boss.shoot(Bullets.breath2, s.x, s.y, f + boss.aim()))));
+            });
+        },
+
+        () -> {
+            every(60f*2f, () -> {
+                float aim = boss.aim();
+                Fx.indwave.at(boss.x, boss.y, aim);
+                run(Fx.indline.lifetime, () -> {
+                    loop(8, i -> {
+                        run(i * 3f, () -> shotgun(2 + i, 8f, aim, f -> boss.shoot(Bullets.breathfast, f)));
+                    });
+                });
+            });
+
+        }
+        );
+
         @Override
         public void update(){
-            //off-screen boss
 
-            if(time.get(60f * 15f)){
+            if(time.get(60f * 10f)){
                 int current = (special++) % cycle.size;
                 if(current == 0){
                     float aim =  boss.aim();
@@ -572,10 +590,11 @@ public class Phases{
 
             boss.set(world.statue().x, world.statue().y);
 
-            if(time.get(3, 60f*1.5f)){
-                Vector2 s = world.statue();
-                loop(7, i -> run(i * 3f, () -> shotgun(2 + i %10, 4f + (i + 5) % 10, 270f, f -> boss.shoot(Bullets.breath2, s.x, s.y, f))));
+            if(currentAttack == null || time.get(3, 60f * Mathf.random(10f, 30f))){
+                currentAttack = attacks.random(currentAttack);
             }
+
+            currentAttack.run();
         }
     }
 
