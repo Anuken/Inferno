@@ -570,15 +570,6 @@ public class Phases{
                 });
             });
 
-        },
-
-        () -> {
-            every(60f*5f, () -> {
-                seq(3, 45f, i -> {
-                    cycle.get(3).run();
-                });
-            });
-
         }
         );
 
@@ -588,9 +579,8 @@ public class Phases{
             if(time.get(60f * 10f)){
                 int current = (special++) % cycle.size;
                 if(current == 0){
-                    float aim =  boss.aim();
-                    loop(40, i -> {
-                        run(i * 2, () -> shotgun(3, 15f, aim + sin(i, 3f, 5f), boss::shoot));
+                    seq(3, 45f, i -> {
+                        cycle.get(3).run();
                     });
                 }else{
                     cycle.get(current).run();

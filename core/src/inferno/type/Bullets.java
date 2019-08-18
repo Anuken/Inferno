@@ -267,8 +267,6 @@ public class Bullets{
             Draw.color(Color.WHITE);
             Fill.circle(bullet.x, bullet.y, 2f);
         }
-
-
     },
     meteor = new BulletType(){
         {
