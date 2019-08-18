@@ -9,7 +9,7 @@ import io.anuke.arc.util.*;
 import static inferno.Inferno.*;
 
 public class Laser extends Bullet implements ScaleTrait{
-    public static final float length = 1000f;
+    public static final float length = 1300f;
 
     float angle;
     boolean damaged;

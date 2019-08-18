@@ -130,7 +130,7 @@ public class Player extends Char{
 
     @Override
     public void onDeath(){
-        control.reset();
+        Core.app.post(() -> control.reset());
     }
 
     @Override
