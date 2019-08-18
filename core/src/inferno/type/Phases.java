@@ -590,7 +590,7 @@ public class Phases{
 
             boss.set(world.statue().x, world.statue().y);
 
-            if(time.get(5, 60f * 2)){
+            if(time.get(5, 60f * 1.5f)){
                 boss.laser(Bullets.laser, boss.aim());
             }
 

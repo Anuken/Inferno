@@ -5,7 +5,7 @@ import inferno.graphics.Pal;
 import inferno.world.Tile;
 import io.anuke.arc.graphics.Color;
 import io.anuke.arc.graphics.g2d.*;
-import io.anuke.arc.math.Mathf;
+import io.anuke.arc.math.*;
 import io.anuke.arc.util.Time;
 import io.anuke.arc.util.Tmp;
 
@@ -305,22 +305,29 @@ public class Bullets{
     },
     laser = new BulletType(){
         {
-            damage = 10;
+            damage = 20;
             lifetime = 30f;
+            shake = 10f;
+        }
+
+        @Override
+        public void init(Bullet bullet){
+            super.init(bullet);
         }
 
         @Override
         public void draw(Laser laser){
-            Lines.stroke(12f * laser.fout(), Pal.fireball);
+            float f = laser.fout(Interpolation.exp5Out);
+            Lines.stroke(14f * f, Pal.fireball);
             Lines.lineAngle(laser.x, laser.y, laser.angle, Laser.length);
 
-            Lines.stroke(5f * laser.fout(), Color.WHITE);
+            Lines.stroke(6f * f, Color.WHITE);
             Lines.lineAngle(laser.x, laser.y, laser.angle, Laser.length);
 
             Tmp.v1.trns(laser.angle, Laser.length);
 
             Drawf.light(Color.WHITE, 1f, () -> {
-                Lines.stroke(20f * laser.fout());
+                Lines.stroke(20f * f);
                 Lines.lineAngle(laser.x, laser.y, laser.angle, Laser.length, CapStyle.round);
             });
         }

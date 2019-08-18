@@ -44,8 +44,15 @@ public class Laser extends Bullet implements ScaleTrait{
             if(Intersector.intersectSegmentRectangle(x, y, x + Tmp.v2.x, y + Tmp.v2.y, Tmp.r1)){
                 player.damage(type.damage);
                 //TODO damage effect/shake
-                renderer.shake(3f, 3f);
+                renderer.shake(5f, 5f);
                 damaged = true;
+                control.slowmo(1f);
+
+                Tmp.v2.limit(60f);
+                player.move(Tmp.v2.x, Tmp.v2.y);
+                for(int i = 0; i < 8; i++){
+                    Fx.spark.at(player.x + Mathf.range(8f), player.y + 6f + Mathf.range(8f), Pal.fireball);
+                }
             }
         }
     }

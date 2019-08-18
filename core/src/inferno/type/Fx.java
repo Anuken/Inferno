@@ -245,5 +245,16 @@ public class Fx{
             Lines.swirl(e.x, e.y, Math.max(100f * e.fin() + i * 20f - 10, 0), fract, e.rotation - 180f*fract);
         }
         Draw.reset();
-    });;
+    }),
+
+    indlaser = new Effect(20f, e -> {
+        Drawf.z(-90f);
+        Draw.color(Pal.fireball);
+        Lines.stroke(2f * e.fin());
+
+        for(int i : Mathf.signs){
+            Tmp.v1.trns(e.rotation + i*90, 30 * e.fout());
+            Lines.lineAngle(e.x + Tmp.v1.x, e.y + Tmp.v1.y, e.rotation, Laser.length);
+        }
+    });
 }
