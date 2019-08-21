@@ -209,8 +209,7 @@ public class EntityCollisions{
             arrOut.clear();
             groupb.tree().getIntersect(arrOut, r2);
 
-            for(Entity sce : groupb.all()){
-                SolidEntity sc = (SolidEntity)sce;
+            for(SolidEntity sc : arrOut){
                 sc.hitbox(r1);
                 if(r2.overlaps(r1)){
                     checkCollide(entity, sc);
