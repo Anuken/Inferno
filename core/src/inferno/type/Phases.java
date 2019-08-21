@@ -11,6 +11,8 @@ import io.anuke.arc.math.*;
 import io.anuke.arc.math.geom.*;
 import io.anuke.arc.util.*;
 
+import java.util.*;
+
 import static inferno.Inferno.*;
 import static io.anuke.arc.math.Angles.*;
 import static io.anuke.arc.math.Mathf.*;
@@ -667,10 +669,6 @@ public class Phases{
             this.startText = text;
         }
 
-        protected void shoot(float angle){
-            boss.shoot(Bullets.lbasic, angle);
-        }
-
         public void begin(){
 
         }
@@ -695,6 +693,7 @@ public class Phases{
             special = 0;
             currentAttack = null;
             time.clear();
+            Arrays.fill(time.getTimes(), Time.time());
         }
     }
 }
