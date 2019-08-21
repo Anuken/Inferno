@@ -8,6 +8,8 @@ import io.anuke.arc.graphics.g2d.*;
 import io.anuke.arc.math.*;
 import io.anuke.arc.util.*;
 
+import static inferno.Inferno.*;
+
 public class Fx{
     private static final RandomXS128 random = new RandomXS128();
 
@@ -53,7 +55,7 @@ public class Fx{
         Drawf.symbols(e.id, e.x, e.y, 40f);
     }),
     lspiral = new Effect(200f, e -> {
-        Drawf.z(e.y - 20f);
+        Drawf.z(e.y - 40f);
         int amount = 100;
         float length = e.fout() * 200f;
         Draw.color(Pal.lucine, Color.WHITE, e.fin());
@@ -95,6 +97,7 @@ public class Fx{
         Drawf.light(e.x, e.y, 250f*2, Pal.fireball, 1f);
     }),
     blastspark = new Effect(200f, e -> {
+        Drawf.z(e.y - tilesize*5);
         Draw.color(Color.WHITE, Pal.fireball, e.fout());
         Lines.stroke(2f * e.fout() + 1f);
 
@@ -218,6 +221,16 @@ public class Fx{
             Fill.circle(e.x + x, e.y + y, e.fout() * 6f);
             Drawf.light(e.x + x, e.y + y, 8f * e.fout(), Color.CYAN);
         });
+    }),
+    eyes = new Effect(blastind.lifetime, e -> {
+
+        Drawf.z(-10f);
+        TextureRegion r = Core.atlas.find("statue-eyes");
+        float x = 40.5f * tilesize, y = (world.height() - 10.5f) * tilesize + r.getHeight()/2f;
+        Draw.alpha(e.fin()/2f*1.2f);
+        Draw.rect(r, x, y, r.getWidth() * (1.2f + e.fin()), r.getHeight() * (1.2f + e.fin()));
+        Draw.alpha(e.fin()*1.2f);
+        Draw.rect(r, x, y);
     }),
 
     indline = new Effect(30f, e -> {

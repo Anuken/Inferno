@@ -1,17 +1,15 @@
 package inferno.entity;
 
-import io.anuke.arc.Core;
-import io.anuke.arc.collection.Array;
-import io.anuke.arc.function.Consumer;
-import io.anuke.arc.function.Predicate;
-import io.anuke.arc.graphics.Camera;
-import io.anuke.arc.math.geom.QuadTree;
-import io.anuke.arc.math.geom.Rectangle;
+import io.anuke.arc.*;
+import io.anuke.arc.collection.*;
+import io.anuke.arc.function.*;
+import io.anuke.arc.graphics.*;
+import io.anuke.arc.math.geom.*;
 
 @SuppressWarnings("unchecked")
 public class EntityGroup<T extends Entity>{
     private final boolean useTree;
-    private final Array<T> entityArray = new Array<>(false, 16);
+    private final Array<T> entityArray = new Array(false, 16);
     private final Array<T> entitiesToRemove = new Array<>(false, 16);
     private final Array<T> entitiesToAdd = new Array<>(false, 16);
     private boolean clip = false;

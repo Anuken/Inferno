@@ -1,11 +1,10 @@
 package inferno.entity;
 
-import io.anuke.arc.collection.Array;
-import io.anuke.arc.math.Mathf;
+import io.anuke.arc.collection.*;
+import io.anuke.arc.math.*;
 import io.anuke.arc.math.geom.*;
 
-import static inferno.Inferno.tilesize;
-import static inferno.Inferno.world;
+import static inferno.Inferno.*;
 
 @SuppressWarnings("unchecked")
 public class EntityCollisions{
@@ -116,6 +115,7 @@ public class EntityCollisions{
     private static void checkCollide(Entity entity, Entity other){
         SolidEntity a = (SolidEntity)entity;
         SolidEntity b = (SolidEntity)other;
+        /*
 
         a.hitbox(EntityCollisions.r1);
         b.hitbox(EntityCollisions.r2);
@@ -128,16 +128,16 @@ public class EntityCollisions{
         float vax = a.x - a.lastPosition.x;
         float vay = a.y - a.lastPosition.y;
         float vbx = b.x - b.lastPosition.x;
-        float vby = b.y - b.lastPosition.y;
+        float vby = b.y - b.lastPosition.y;*/
 
         if(a != b && a.collides(b) && b.collides(a)){
-            l1.set(a.x, a.y);
-            boolean collide = r1.overlaps(r2) || collide(r1.x, r1.y, r1.width, r1.height, vax, vay,
-            r2.x, r2.y, r2.width, r2.height, vbx, vby, l1);
-            if(collide){
-                a.collision(b, l1.x, l1.y);
-                b.collision(a, l1.x, l1.y);
-            }
+            //l1.set(a.x, a.y);
+            //boolean collide = r1.overlaps(r2) || collide(r1.x, r1.y, r1.width, r1.height, vax, vay,
+            //r2.x, r2.y, r2.width, r2.height, vbx, vby, l1);
+            //if(collide){
+            a.collision(b, l1.x, l1.y);
+            b.collision(a, l1.x, l1.y);
+            //}
         }
     }
 
@@ -200,8 +200,8 @@ public class EntityCollisions{
             SolidEntity solid = (SolidEntity)entity;
 
             solid.hitbox(r1);
-            r1.x += (solid.lastPosition.x - solid.x);
-            r1.y += (solid.lastPosition.y - solid.y);
+            //r1.x += (solid.lastPosition.x - solid.x);
+            //r1.y += (solid.lastPosition.y - solid.y);
 
             solid.hitbox(r2);
             r2.merge(r1);
@@ -209,7 +209,8 @@ public class EntityCollisions{
             arrOut.clear();
             groupb.tree().getIntersect(arrOut, r2);
 
-            for(SolidEntity sc : arrOut){
+            for(Entity sce : groupb.all()){
+                SolidEntity sc = (SolidEntity)sce;
                 sc.hitbox(r1);
                 if(r2.overlaps(r1)){
                     checkCollide(entity, sc);

@@ -3,8 +3,10 @@ package inferno.type;
 import inferno.*;
 import inferno.entity.*;
 import inferno.graphics.*;
+import io.anuke.arc.*;
 import io.anuke.arc.collection.*;
 import io.anuke.arc.function.*;
+import io.anuke.arc.graphics.g2d.*;
 import io.anuke.arc.math.*;
 import io.anuke.arc.math.geom.*;
 import io.anuke.arc.util.*;
@@ -558,6 +560,15 @@ public class Phases{
                 loop(7, i -> run(i * 3f, () -> shotgun(2 + i %10, 4f + (i + 5) % 10, 0f, f -> boss.shoot(Bullets.breath2, s.x, s.y, f + boss.aim()))));
             });
         },
+        () -> {
+            every(60f*0.9f, () -> {
+                Vector2 s = world.statue();
+                loop(9, i -> shotgun(2, 80f - i*6f, 0f, c -> run(i * 3f, () -> shotgun(2, 4f + (i + 5) % 10, c, f -> boss.shoot(Bullets.breath2, s.x, s.y, f + boss.aim())))));
+                run(30f, () -> {
+                    boss.laser(Bullets.laser, boss.aim() + range(30));
+                });
+            });
+        },
 
         () -> {
             every(60f*2f, () -> {
@@ -579,8 +590,23 @@ public class Phases{
             if(time.get(60f * 10f)){
                 int current = (special++) % cycle.size;
                 if(current == 0){
-                    seq(3, 45f, i -> {
-                        cycle.get(3).run();
+                    TextureRegion r = Core.atlas.find("statue-eyes");
+                    float x = 40.5f * tilesize, y = (world.height() - 10.5f) * tilesize + r.getHeight()/2f;
+                    //blast thing
+                    Fx.lspiral.at(x, y);
+                    Fx.blastind.at(x, y);
+                    Fx.eyes.at(x, y);
+
+                    run(Fx.lspiral.lifetime, () -> {
+                        control.slowmo(3f);
+                        Fx.blast.at(x, y);
+                        Fx.blastspark.at(x, y);
+                        renderer.shake(30f);
+
+                        //instakill player if within blast radius
+                        if(player.withinDst(x, y, 200)){
+                            player.damage(player.health + 1);
+                        }
                     });
                 }else{
                     cycle.get(current).run();
@@ -590,8 +616,10 @@ public class Phases{
             boss.set(world.statue().x, world.statue().y);
 
             if(time.get(6, 60f * 9f)){
-                seq(5, 23f, i -> {
-                    boss.laser(Bullets.laser, boss.aim());
+                run(60f * 5, () -> {
+                    seq(5, 23f, i -> {
+                        boss.laser(Bullets.laser, boss.aim());
+                    });
                 });
             }
 
