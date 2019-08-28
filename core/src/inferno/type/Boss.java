@@ -64,6 +64,10 @@ public class Boss extends Char{
     public void reset(){
         world.wallUndetonate();
         phase = Phases.phases.get(Inferno.debug ? 4 : 0);
+        if(debug){
+            world.wallDetonate();
+            world.wallExtinguish();
+        }
         phase.reset();
         phase.begin();
     }
