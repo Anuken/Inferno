@@ -304,9 +304,9 @@ public class Bullets{
     },
     laser = new BulletType(){
         {
-            damage = 20;
+            damage = 15;
             lifetime = 30f;
-            shake = 10f;
+            shake = 5f;
         }
 
         @Override
