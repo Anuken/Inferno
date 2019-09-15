@@ -29,7 +29,7 @@ public class Bullets{
         public void draw(Bullet bullet){
             Draw.color(Pal.player);
             Fill.circle(bullet.x, bullet.y, 5f);
-            Draw.color(Color.WHITE);
+            Draw.color(Color.white);
             Fill.circle(bullet.x, bullet.y, 2f);
         }
 
@@ -45,7 +45,7 @@ public class Bullets{
         public void draw(Bullet bullet){
             Draw.color(Pal.lucine);
             Fill.circle(bullet.x, bullet.y, 5f);
-            Draw.color(Color.WHITE);
+            Draw.color(Color.white);
             Fill.circle(bullet.x, bullet.y, 2f);
         }
     },
@@ -63,7 +63,7 @@ public class Bullets{
 
             Draw.color(Pal.lucine);
             Fill.circle(bullet.x, bullet.y, 5f * sizemult);
-            Draw.color(Color.WHITE);
+            Draw.color(Color.white);
             Fill.circle(bullet.x, bullet.y, 2f * sizemult);
         }
 
@@ -85,7 +85,7 @@ public class Bullets{
         public void draw(Bullet bullet){
             Draw.color(Pal.lucine);
             Draw.rect("circle", bullet.x, bullet.y, 14f, 9f, bullet.angle());
-            Draw.color(Color.WHITE);
+            Draw.color(Color.white);
             Draw.rect("circle", bullet.x, bullet.y, 6f, 3.5f, bullet.angle());
         }
     },
@@ -105,14 +105,14 @@ public class Bullets{
 
             float glow = Mathf.absin(Time.time(), 5f, 0.5f);
 
-            Draw.color(Pal.fireball, Color.WHITE, glow);
+            Draw.color(Pal.fireball, Color.white, glow);
             Draw.alpha(0.3f);
             Fill.circle(bullet.x, bullet.y, 10f + Mathf.absin(Time.time(), 6f, 4f));
 
-            Draw.color(Pal.fireball, Color.WHITE, glow);
+            Draw.color(Pal.fireball, Color.white, glow);
             Fill.circle(bullet.x, bullet.y, 7f);
 
-            Draw.color(Color.WHITE);
+            Draw.color(Color.white);
             Fill.circle(bullet.x, bullet.y, 4f);
         }
 
@@ -142,7 +142,7 @@ public class Bullets{
         public void draw(Bullet bullet){
             Draw.color(Pal.candle);
             Fill.circle(bullet.x, bullet.y, 5f);
-            Draw.color(Color.WHITE);
+            Draw.color(Color.white);
             Fill.circle(bullet.x, bullet.y, 2f);
         }
 
@@ -168,7 +168,7 @@ public class Bullets{
             Drawf.z(bullet.y - tilesize*4f);
             Draw.color(Pal.candle);
             Fill.circle(bullet.x, bullet.y, 5f);
-            Draw.color(Color.WHITE);
+            Draw.color(Color.white);
             Fill.circle(bullet.x, bullet.y, 2f);
         }
     },
@@ -185,14 +185,14 @@ public class Bullets{
             Drawf.z(bullet.y - tilesize*4f);
             Draw.color(Pal.candle);
             Draw.rect("circle", bullet.x, bullet.y, 14f, 9f, bullet.angle());
-            Draw.color(Color.WHITE);
+            Draw.color(Color.white);
             Draw.rect("circle", bullet.x, bullet.y, 6f, 3.5f, bullet.angle());
         }
     },
     fireball = new BulletType(){
         {
             speed = 3f;
-            lightColor = Color.ORANGE;
+            lightColor = Color.orange;
             light = 120f;
             size = 10f;
             lifetime = 1000f;
@@ -211,7 +211,7 @@ public class Bullets{
             super.update(bullet);
 
             if(Mathf.chance(0.3 * Time.delta())){
-                Fx.fireballtrail.at(bullet.x, bullet.y, Tmp.c1.set(Pal.fireball).lerp(Color.WHITE, 0.1f + bullet.fin() * 0.6f));
+                Fx.fireballtrail.at(bullet.x, bullet.y, Tmp.c1.set(Pal.fireball).lerp(Color.white, 0.1f + bullet.fin() * 0.6f));
             }
         }
 
@@ -241,14 +241,14 @@ public class Bullets{
             Drawf.z(bullet.y - tilesize*4f);
             float glow = 0.1f + bullet.fin() * 0.6f;//Mathf.absin(Time.time(), 5f, 0.5f);
 
-            Draw.color(Pal.fireball, Color.WHITE, glow);
+            Draw.color(Pal.fireball, Color.white, glow);
             Draw.alpha(0.3f);
             Fill.circle(bullet.x, bullet.y, 20f + Mathf.absin(Time.time(), 6f, 4f) + bullet.fin() * 4f);
 
-            Draw.color(Pal.fireball, Color.WHITE, glow);
+            Draw.color(Pal.fireball, Color.white, glow);
             Fill.circle(bullet.x, bullet.y, 14f);
 
-            Draw.color(Color.WHITE, Color.WHITE, glow);
+            Draw.color(Color.white, Color.white, glow);
             Fill.circle(bullet.x, bullet.y, 8f);
         }
     },
@@ -264,7 +264,7 @@ public class Bullets{
         public void draw(Bullet bullet){
             Draw.color(Pal.candle);
             Fill.circle(bullet.x, bullet.y, 5f);
-            Draw.color(Color.WHITE);
+            Draw.color(Color.white);
             Fill.circle(bullet.x, bullet.y, 2f);
         }
     },
@@ -290,10 +290,10 @@ public class Bullets{
         @Override
         public void draw(Bullet b){
             Drawf.z(100000f);
-            Draw.color(Color.WHITE, Pal.lucine, b.fin());
+            Draw.color(Color.white, Pal.lucine, b.fin());
             Lines.circle(b.x, b.y, 40f * b.fin());
 
-            Draw.color(Color.WHITE);
+            Draw.color(Color.white);
             Draw.alpha(b.fout());
             Fill.circle(b.x, b.y, b.fout() * 40f);
 
@@ -320,12 +320,12 @@ public class Bullets{
             Lines.stroke(14f * f, Pal.fireball);
             Lines.lineAngle(laser.x, laser.y, laser.angle, Laser.length);
 
-            Lines.stroke(6f * f, Color.WHITE);
+            Lines.stroke(6f * f, Color.white);
             Lines.lineAngle(laser.x, laser.y, laser.angle, Laser.length);
 
             Tmp.v1.trns(laser.angle, Laser.length);
 
-            Drawf.light(Color.WHITE, 1f, () -> {
+            Drawf.light(Color.white, 1f, () -> {
                 Lines.stroke(20f * f);
                 Lines.lineAngle(laser.x, laser.y, laser.angle, Laser.length, CapStyle.round);
             });

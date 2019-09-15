@@ -48,13 +48,13 @@ public class Boss extends Char{
 
     public void nextPhase(Phases.Phase phase){
         heal();
-        player.heal();
         phase.reset();
         dead = false;
         this.phase = phase;
         dialogged = false;
         phase.begin();
-        player.heal();
+        player.health += player.maxHealth()/2f;
+        player.health = Mathf.clamp(player.health, 0, player.maxHealth());
         effectGroup.clear();
         bulletGroup.all().each(b -> Fx.spark.at(b.x, b.y, b.type.lightColor));
         Time.clear();
@@ -63,7 +63,7 @@ public class Boss extends Char{
 
     public void reset(){
         world.wallUndetonate();
-        phase = Phases.phases.get(Inferno.debug ? 4 : 0);
+        phase = Phases.phases.get(Inferno.debug ? 3 : 0);
         if(debug){
             world.wallDetonate();
             world.wallExtinguish();
@@ -118,15 +118,15 @@ public class Boss extends Char{
             drawStatue();
         }else{
 
-            Draw.mixcol(Color.WHITE, Mathf.clamp(hitTime));
+            Draw.mixcol(Color.white, Mathf.clamp(hitTime));
             TextureRegion region = anim == null ? Core.atlas.find("lucine-side") : anim.frame(animtime);
             Draw.rect(region, x, y + region.getHeight() / 2f + Mathf.absin(Time.time(), 6f, 2f), region.getWidth() * -Mathf.sign(direction.flipped), region.getHeight());
 
-            Drawf.light(x, y + height(), 160f, Color.SCARLET);
+            Drawf.light(x, y + height(), 160f, Color.scarlet);
 
             Draw.mixcol();
 
-            Draw.color(Pal.lucine, Color.WHITE, Mathf.clamp(hitTime));
+            Draw.color(Pal.lucine, Color.white, Mathf.clamp(hitTime));
             Drawf.z(y + 600f);
             Lines.stroke(2f);
             Lines.swirl(x, y, 20f, health / maxHealth(), Time.time() * 2f);
@@ -142,10 +142,10 @@ public class Boss extends Char{
         float x = 40.5f * tilesize, y = (world.height() - 10.5f) * tilesize;
         Drawf.z(y - 1f);
         TextureRegion r = Core.atlas.find("statue-enraged");
-        Draw.mixcol(Color.WHITE, hitTime /2f);
+        Draw.mixcol(Color.white, hitTime /2f);
         Draw.rect(r, x, y + r.getHeight()/2f);
         Draw.reset();
-        Drawf.light(x, y + r.getHeight()/2f, 150f + Mathf.absin(Time.time(), 6f, 10f), Color.RED, 0.9f);
+        Drawf.light(x, y + r.getHeight()/2f, 150f + Mathf.absin(Time.time(), 6f, 10f), Color.red, 0.9f);
     }
 
     @Override

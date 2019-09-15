@@ -350,6 +350,8 @@ public class Phases{
                 float aim = boss.aim();
                 int length = 15;
                 loop(length - 1, i -> loop(2, sp -> run(i * 2 + sp * 5, () -> circle(5, f -> shotgun(2, 360f / 16 * i / (float)length, f + aim + sp * 180f, a -> boss.shoot(a, v -> v(0, cos(v, 20f, 2f))))))));
+
+                wave();
             });
         },
 
@@ -361,6 +363,8 @@ public class Phases{
                     run(20f + i * 4, () -> circle(10, f -> boss.shoot(f + 18 + aim)));
                     run(i * 4, () -> circle(10, f -> boss.shoot(f + aim)));
                 });
+
+                wave();
             });
         },
 
@@ -370,6 +374,8 @@ public class Phases{
                 float aim = 0;
                 int d = data++;
                 seq(5, 3f, l -> shotgun(3, 360f / 3, aim + d * 20f, f -> boss.shoot(f, v -> v(0, cos(v, 9f, 2f)))));
+
+                wave();
             });
         },
 
@@ -381,6 +387,8 @@ public class Phases{
 
                 float aim = boss.aim() + space / 2f;
                 shotgun(shots, space, aim, f -> seq(4 + healthi(2), 3, i -> shotgun(1 + i + healthi(2), 8f - i, f, boss::shoot)));
+
+                wave();
             });
         }
         );
@@ -393,6 +401,7 @@ public class Phases{
                 detonating = true;
                 Fx.lspiral.at(boss.x, boss.y + 10f);
                 Fx.blastind.at(boss.x, boss.y);
+                boss.anim(Boss.awave, Fx.lspiral.lifetime);
 
                 run(Fx.lspiral.lifetime, () -> {
                     control.slowmo(3f);
@@ -473,8 +482,9 @@ public class Phases{
                             Tmp.v1.trns(ang, dst + j * 8f);
                             boss.shoot(Bullets.lbasicslow, x + Tmp.v1.x, y + Tmp.v1.y, ang + 180f, v -> v(0, 0));
                         });
-
                     });
+                    Tmp.v1.trns(ang, dst + 7 * 8f);
+                    Fx.ghost.at(x + Tmp.v1.x, y + Tmp.v1.y, Direction.fromAngle(180f + player.angleTo(x + Tmp.v1.x, y + Tmp.v1.y)));
                 });
             });
         },

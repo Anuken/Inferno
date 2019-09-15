@@ -39,7 +39,7 @@ public class Player extends Char{
             y = (int)y;
         }
 
-        Draw.mixcol(Color.SCARLET, Mathf.clamp(hitTime));
+        Draw.mixcol(Color.scarlet, Mathf.clamp(hitTime));
         TextureRegion region = movetime > 0 ? direction.frames[(int)(movetime / 6) % direction.frames.length] : direction.region;
         TextureRegion scythe = Core.atlas.find("scythe");
 
@@ -62,7 +62,7 @@ public class Player extends Char{
             Draw.rect("scytheglow", x + Tmp.v1.x, y + 7 + scythe.getHeight()/2f + Tmp.v1.y, scythe.getWidth() * sdir, scythe.getHeight(), scythe.getWidth()/2f * sdir, 4f, rot);
             Draw.color();
 
-            Drawf.light(x + Tmp.v1.x - dir*7f, y + 13 + Tmp.v1.y, 50f * glowtime, Color.WHITE);
+            Drawf.light(x + Tmp.v1.x - dir*7f, y + 13 + Tmp.v1.y, 50f * glowtime, Color.white);
         }
 
         //hands
@@ -75,7 +75,7 @@ public class Player extends Char{
 
         if(slashes.size > 0){
             removals.clear();
-            Color startColor = Color.WHITE, endColor = Color.CYAN;
+            Color startColor = Color.white, endColor = Color.cyan;
             float basethick = 30f;
 
             for(int i = 0; i < slashes.size; i ++){
@@ -107,7 +107,7 @@ public class Player extends Char{
         Draw.color();
         Draw.mixcol();
 
-        Drawf.light(x, y + 10f, 150f, Color.CYAN, 0.75f);
+        Drawf.light(x, y + 10f, 150f, Color.cyan, 0.75f);
 
         if(snap){
             x = px;

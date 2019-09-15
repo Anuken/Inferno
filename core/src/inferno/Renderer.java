@@ -85,11 +85,11 @@ public class Renderer implements ApplicationListener{
         Core.batch = zbatch;
         Draw.proj(Core.camera.projection());
 
-        shadow.beginDraw(Color.CLEAR);
+        shadow.beginDraw(Color.clear);
         drawShadows();
         shadow.endDraw();
 
-        buffer.beginDraw(Color.BLACK);
+        buffer.beginDraw(Color.black);
 
         drawWorld();
 
@@ -106,7 +106,7 @@ public class Renderer implements ApplicationListener{
         buffer.endDraw();
 
         Draw.color();
-        lights.beginDraw(Color.CLEAR);
+        lights.beginDraw(Color.clear);
         lbatch.blend(Blending.additive);
         lbatch.flush();
         lights.endDraw();
@@ -339,7 +339,7 @@ public class Renderer implements ApplicationListener{
 
         Draw.proj().setOrtho(0, 0, fogs.getWidth(), fogs.getHeight());
 
-        fogs.beginDraw(Color.WHITE);
+        fogs.beginDraw(Color.white);
 
         for(int x = 0; x < world.width(); x++){
             for(int y = 0; y < world.height(); y++){

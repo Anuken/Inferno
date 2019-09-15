@@ -1,22 +1,19 @@
 package inferno;
 
-import inferno.entity.Entity;
-import inferno.graphics.HealthBar;
-import inferno.graphics.Drawf;
-import io.anuke.arc.ApplicationListener;
-import io.anuke.arc.Core;
-import io.anuke.arc.collection.Array;
-import io.anuke.arc.graphics.Color;
-import io.anuke.arc.input.KeyCode;
-import io.anuke.arc.scene.Scene;
-import io.anuke.arc.scene.Skin;
-import io.anuke.arc.scene.ui.Image;
-import io.anuke.arc.typelabel.TypeLabel;
-import io.anuke.arc.typelabel.TypingListener;
+import inferno.entity.*;
+import inferno.graphics.*;
+import inferno.ui.*;
+import io.anuke.arc.*;
+import io.anuke.arc.collection.*;
+import io.anuke.arc.graphics.*;
+import io.anuke.arc.input.*;
+import io.anuke.arc.scene.*;
+import io.anuke.arc.scene.ui.*;
+import io.anuke.arc.typelabel.*;
 import io.anuke.arc.util.*;
 
-import static inferno.Inferno.boss;
-import static inferno.Inferno.player;
+import static inferno.Inferno.*;
+import static inferno.ui.Styles.dim;
 
 public class UI implements ApplicationListener{
     private TypeLabel label;
@@ -26,18 +23,19 @@ public class UI implements ApplicationListener{
     private String displayName = "";
     private int textIndex;
     private float dialogueTime;
-	
+
 	@Override
 	public void init(){
-        Core.scene = new Scene(new Skin(Core.files.internal("sprites/uiskin.json"), Core.atlas));
+        Core.scene = new Scene();
         Core.input.addProcessor(Core.scene);
-        image = new Image("dialogDim");
+        Styles.load();
+        image = new Image(dim);
         label = new TypeLabel("");
         label.setTypingListener(new TypingListener(){
             @Override
             public void event(String event){
                 if(event.startsWith("face:")){
-                    image.setDrawable(event.substring("face:".length()));
+                    image.setDrawable(Core.atlas.drawable(event.substring("face:".length())));
                 }else{
                     displayName = event;
                 }
@@ -85,14 +83,14 @@ public class UI implements ApplicationListener{
 
 	    Core.scene.table(t -> {
 	        t.bottom();
-	        t.table("dialogDim", c -> {
+	        t.table(dim, c -> {
 	            c.visible(() -> label.getText().length() != 0);
 	            c.margin(14f).top().left().defaults().top().left();
 
                 c.add(image).size(128f).padRight(8f);
                 c.table(text -> {
                     text.left();
-                    text.label(() -> displayName).color(Color.CORAL).padBottom(3).left();
+                    text.label(() -> displayName).color(Color.coral).padBottom(3).left();
                     text.row();
                     text.add(label).growX().wrap();
                 }).growX();
@@ -105,7 +103,7 @@ public class UI implements ApplicationListener{
                                 label.restart(text.get(++textIndex));
                                 label.act(0.01f);
                             }else{
-                                image.setDrawable("dialogDim");
+                                image.setDrawable(dim);
                                 label.setText("");
                             }
                         }else{
@@ -117,15 +115,15 @@ public class UI implements ApplicationListener{
         });
 
 	    Core.scene.table(t -> {
-	        t.top().left().table("dialogDim", b -> {
-	            //b.setColor(Color.BLACK);
+	        t.top().left().table(dim, b -> {
+	            //b.setColor(Color.black);
 	            b.margin(8f).add(new HealthBar(player)).size(340f, 20f);
             });
         });
 
         Core.scene.table(t -> {
-            t.top().right().table("dialogDim", b -> {
-                //b.setColor(Color.BLACK);
+            t.top().right().table(dim, b -> {
+                //b.setColor(Color.black);
                 b.margin(8f).add(new HealthBar(boss)).size(340f, 20f);
             });
         });

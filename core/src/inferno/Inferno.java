@@ -2,7 +2,7 @@ package inferno;
 
 import inferno.entity.*;
 import inferno.type.*;
-import io.anuke.arc.ApplicationCore;
+import io.anuke.arc.*;
 
 public class Inferno extends ApplicationCore {
 	public static final int scale = 4;
@@ -32,5 +32,4 @@ public class Inferno extends ApplicationCore {
 		add(world = new World());
 		add(ui = new UI());
 	}
-	
 }

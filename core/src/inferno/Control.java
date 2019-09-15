@@ -56,7 +56,7 @@ public class Control implements ApplicationListener{
 
     @Override
     public void update(){
-        Color.WHITE.set(1f, 1f, 1f, 1f);
+        Color.white.set(1f, 1f, 1f, 1f);
         Draw.mixcol();
 
         if(Core.input.keyTap(KeyCode.ESCAPE)){

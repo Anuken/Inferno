@@ -20,7 +20,7 @@ public class Effects{
     }
 
     public static void effect(Effect effect, float x, float y, float rotation){
-        effect(effect, Color.WHITE, x, y, rotation, null);
+        effect(effect, Color.white, x, y, rotation, null);
     }
 
     public static void effect(Effect effect, float x, float y){
@@ -32,7 +32,7 @@ public class Effects{
     }
 
     public static void effect(Effect effect, Position loc){
-       effect(effect, Color.WHITE, loc.getX(), loc.getY(), 0f, null);
+       effect(effect, Color.white, loc.getX(), loc.getY(), 0f, null);
     }
 
     public static void effect(Effect effect, Color color, float x, float y, float rotation){
@@ -50,7 +50,7 @@ public class Effects{
     }
 
     public static void effect(Effect effect, float x, float y, float rotation, Object data){
-        effect(effect, Color.WHITE, x, y, rotation, data);
+        effect(effect, Color.white, x, y, rotation, data);
     }
 
     public static class Effect{
@@ -82,6 +82,10 @@ public class Effects{
 
         public void at(float x, float y, float rotation){
             effect(this, x, y, rotation);
+        }
+
+        public void at(float x, float y, Object data){
+            effect(this, x, y, 0, data);
         }
 
         public void at(float x, float y, float rotation, Color color){

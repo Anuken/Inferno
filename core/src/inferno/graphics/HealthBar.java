@@ -31,10 +31,10 @@ public class HealthBar extends Element{
 
         Draw.colorl(0f);
         Fill.crect(x, y, width, height);
-        Draw.color(color, Color.SCARLET, hit * 0.8f);
+        Draw.color(color, Color.scarlet, hit * 0.8f);
         Fill.crect(x, y, width * fract, height);
 
-        Draw.color(Tmp.c1.set(color).lerp(Color.SCARLET, hit * 0.8f).shiftHue(0.1f).mul(0.7f));
+        Draw.color(Tmp.c1.set(color).lerp(Color.scarlet, hit * 0.8f).shiftHue(0.1f).mul(0.7f));
         Fill.crect(x, y, width * fract, height* 0.3f);
 
         hit = Mathf.lerpDelta(hit, 0f, 0.3f);

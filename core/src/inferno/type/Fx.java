@@ -16,7 +16,7 @@ public class Fx{
     public static final Effect
 
     spark = new Effect(20, e -> {
-        Draw.color(Color.WHITE, e.color, e.fout());
+        Draw.color(Color.white, e.color, e.fout());
         Angles.randLenVectors(e.id, 7, 30f * e.fin(), (x, y) -> {
             Fill.circle(e.x + x, e.y + y, e.fout() * 4f);
             //Layer.light(e.x + x, e.y + y, 18f * e.fout(), e.color);
@@ -36,7 +36,7 @@ public class Fx{
         });
     }),
     dash = new Effect(30, e -> {
-        Draw.color(Color.WHITE, e.color, e.fout());
+        Draw.color(Color.white, e.color, e.fout());
         Lines.stroke(2f * e.fout() + 1f);
         Angles.randLenVectors(e.id, 5, 70f * e.fin(), e.rotation, 30f, (x, y) -> {
             Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), 5f * e.fout() + 1f);
@@ -44,7 +44,7 @@ public class Fx{
     }),
     wave = new Effect(8, e -> {
         Lines.stroke(4f * e.fout());
-        Draw.color(Color.WHITE, Pal.lucine, e.fout());
+        Draw.color(Color.white, Pal.lucine, e.fout());
         Lines.circle(e.x, e.y, e.fin() * 70f);
     }),
     tpwave = new Effect(50, e -> {
@@ -58,7 +58,7 @@ public class Fx{
         Drawf.z(e.y - 40f);
         int amount = 100;
         float length = e.fout() * 200f;
-        Draw.color(Pal.lucine, Color.WHITE, e.fin());
+        Draw.color(Pal.lucine, Color.white, e.fin());
 
         random.setSeed(e.id);
         for(int i = 0; i < amount; i++){
@@ -98,7 +98,7 @@ public class Fx{
     }),
     blastspark = new Effect(200f, e -> {
         Drawf.z(e.y - tilesize*5);
-        Draw.color(Color.WHITE, Pal.fireball, e.fout());
+        Draw.color(Color.white, Pal.fireball, e.fout());
         Lines.stroke(2f * e.fout() + 1f);
 
         Angles.randLenVectors(e.id, 100, 300f * e.fin(), (x, y) -> {
@@ -125,7 +125,7 @@ public class Fx{
         Draw.color();
         Fill.circle(e.x, e.y, e.fin() * 4f + 1f);
 
-        Drawf.light(e.x, e.y, e.fin() * 70f, Color.ORANGE, e.fin());
+        Drawf.light(e.x, e.y, e.fin() * 70f, Color.orange, e.fin());
     }),
     candleinwave = new Effect(30f, e -> {
         Drawf.z(e.y - 20f);
@@ -136,7 +136,7 @@ public class Fx{
     candlefire  = new Effect(10f, e -> {
         Drawf.z(e.y - 30f);
 
-        Draw.color(Color.WHITE, Pal.candle, e.fin());
+        Draw.color(Color.white, Pal.candle, e.fin());
         Fill.circle(e.x, e.y, 20f * e.fout());
         Angles.randLenVectors(e.id, 20, 50f * e.finpow(), (x, y) -> {
             Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), 6f * e.fout());
@@ -147,14 +147,14 @@ public class Fx{
     fireballfire  = new Effect(10f, e -> {
         Drawf.z(e.y - 30f);
 
-        Draw.color(Color.WHITE, Pal.fireball, e.fin());
+        Draw.color(Color.white, Pal.fireball, e.fin());
         Fill.circle(e.x, e.y, 50f * e.fout());
         Lines.stroke(e.fout() * 2f);
         Lines.circle(e.x, e.y, e.fin() * 50f);
         Drawf.light(e.x, e.y, 200f, Pal.fireball, e.fout());
     }),
     fire = new Effect(70f, e -> {
-        Draw.color(Color.YELLOW, Color.SCARLET, e.fin());
+        Draw.color(Color.yellow, Color.scarlet, e.fin());
 
         Angles.randLenVectors(e.id, 2, 2f + e.fin() * 30f, 90f, 120f, (x, y) -> {
             Fill.circle(e.x + x, e.y + y, 0.2f + e.fslope() * 2.5f);
@@ -162,6 +162,13 @@ public class Fx{
         });
 
         Draw.color();
+    }),
+    ghost = new Effect(50f, e -> {
+        Drawf.z(e.y);
+        Direction dir = (Direction)e.data;
+        TextureRegion region = Core.atlas.find("lucine-" + dir.name);
+        Draw.alpha(e.fout() * 1f);
+        Draw.rect(region, e.x, e.y + region.getHeight()/2f, region.getWidth() * (dir.flipped ? -1 : 1), region.getHeight());
     }),
     meteorpre = new Effect(60f, e -> {
         Drawf.z(100000f);
@@ -200,7 +207,7 @@ public class Fx{
             float height = 130f + 50f * f.fout();
 
             Drawf.z(e.y - 10f);
-            Draw.color(Color.WHITE);
+            Draw.color(Color.white);
 
             Lines.stroke(15f * f.fout());
             Lines.line(e.x, e.y, e.x, e.y + height, CapStyle.round);
@@ -210,16 +217,16 @@ public class Fx{
         Drawf.z(e.y - 10f);
 
         Lines.stroke(1.1f * e.fout() + 1f);
-        Draw.color(Color.WHITE, Pal.lucine, e.fin());
+        Draw.color(Color.white, Pal.lucine, e.fin());
         Angles.randLenVectors(e.id, 14, 70f * e.finpow(), (x, y) -> {
             Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), 6f * e.fout() + 1f);
         });
     }),
     playershoot = new Effect(10, e -> {
-        Draw.color(Color.WHITE, Color.CYAN, e.fout());
+        Draw.color(Color.white, Color.cyan, e.fout());
         Angles.randLenVectors(e.id, 3, 40f * e.fin(), e.rotation, 20f, (x, y) -> {
             Fill.circle(e.x + x, e.y + y, e.fout() * 6f);
-            Drawf.light(e.x + x, e.y + y, 8f * e.fout(), Color.CYAN);
+            Drawf.light(e.x + x, e.y + y, 8f * e.fout(), Color.cyan);
         });
     }),
     eyes = new Effect(blastind.lifetime, e -> {

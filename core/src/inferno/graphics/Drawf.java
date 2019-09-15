@@ -30,7 +30,7 @@ public class Drawf{
     }
 
     public static void light(float x, float y, float rad){
-        light(x, y, rad, Color.WHITE);
+        light(x, y, rad, Color.white);
     }
 
     public static void light(float x, float y, float rad, Color color){

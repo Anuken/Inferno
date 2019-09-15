@@ -13,7 +13,7 @@ import static inferno.Inferno.effectGroup;
 
 public class EffectEntity extends Entity implements Poolable, ScaleTrait{
     public Effect effect;
-    public Color color = new Color(Color.WHITE);
+    public Color color = new Color(Color.white);
     public Object data;
     public float rotation = 0f;
     public float time;
@@ -73,7 +73,7 @@ public class EffectEntity extends Entity implements Poolable, ScaleTrait{
     @Override
     public void reset(){
         effect = null;
-        color.set(Color.WHITE);
+        color.set(Color.white);
         rotation = time = poffsetx = poffsety = 0f;
         parent = null;
         data = null;

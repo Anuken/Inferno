@@ -29,11 +29,11 @@ public class Blocks{
                 float offset = 14f;
 
                 Drawf.light(x * tilesize, y * tilesize + offset, 50f + Mathf.absin(Time.time(), 10f, 10f),
-                        Color.ORANGE, 0.7f);
+                        Color.orange, 0.7f);
 
                 float rad = 1.8f + Mathf.absin(Time.time(), 5f, 1.1f);
 
-                Draw.color(Color.ORANGE);
+                Draw.color(Color.orange);
                 Fill.circle(x * tilesize, y * tilesize + offset, rad);
                 Draw.color();
                 Fill.circle(x * tilesize, y * tilesize + offset, rad * 0.5f);
@@ -70,7 +70,7 @@ public class Blocks{
                 Drawf.z(y*tilesize + tilesize);
 
                 Draw.rect(region, x * tilesize , y * tilesize - tilesize / 2f + region.getHeight() / 2f);
-                Drawf.light(x * tilesize, y * tilesize + tilesize/2f, 60f + Mathf.absin(Time.time(), 5f, 7f), Color.ORANGE, 0.7f);
+                Drawf.light(x * tilesize, y * tilesize + tilesize/2f, 60f + Mathf.absin(Time.time(), 5f, 7f), Color.orange, 0.7f);
                 if(!control.isPaused() && Mathf.chance(0.13 * Time.delta())){
                     Fx.fire.at(x * tilesize + Mathf.range(tilesize), y * tilesize + Mathf.range(tilesize) + tilesize/2f);
                 }

@@ -51,7 +51,7 @@ public class Block{
     }
 
     public void draw(int x, int y){
-        if(y == 0) Draw.color(Color.BLACK);
+        if(y == 0) Draw.color(Color.black);
 
         if(solid){
             TextureRegion region = regions[rand(x, y, variants) - 1];
