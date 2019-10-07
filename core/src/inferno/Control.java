@@ -16,7 +16,7 @@ public class Control implements ApplicationListener{
     private float slowmo;
 
     public Control(){
-        Time.setDeltaProvider(() -> slowmo <= 0f ? 1f : Mathf.lerp(1f, 0.6f, Mathf.clamp(slowmo)));
+        Time.setDeltaProvider(() -> (slowmo <= 0f ? 1f : Mathf.lerp(1f, 0.6f, Mathf.clamp(slowmo))) * Math.min(Core.graphics.getDeltaTime() * 60f, 1f));
         Core.keybinds.setDefaults(Binding.values());
         Core.settings.setAppName("Inferno");
         Core.settings.load();

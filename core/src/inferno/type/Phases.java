@@ -200,7 +200,7 @@ public class Phases{
                 wave();
             });
 
-            boss.toward(player, 0.6f);
+            boss.toward(player, 0.6f * Time.delta());
         },
 
         //dash with basic shotgun
@@ -629,8 +629,10 @@ public class Phases{
 
             if(time.get(6, 60f * 9f)){
                 run(60f * 5, () -> {
-                    seq(5, 23f, i -> {
-                        boss.laser(Bullets.laser, boss.aim());
+                    seq(5, 26f, i -> {
+                        float range = 45f;
+                        float aim = Mathf.clamp(boss.angleTo(player), 270f - range, 270f + range);
+                        boss.laser(Bullets.laser, aim + Mathf.random(20f));
                     });
                 });
             }

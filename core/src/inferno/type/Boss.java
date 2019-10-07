@@ -63,7 +63,7 @@ public class Boss extends Char{
 
     public void reset(){
         world.wallUndetonate();
-        phase = Phases.phases.get(Inferno.debug ? 3 : 0);
+        phase = Phases.phases.get(Inferno.debug ? 4 : 0);
         if(debug){
             world.wallDetonate();
             world.wallExtinguish();
@@ -91,7 +91,7 @@ public class Boss extends Char{
             dialogged = true;
         }
 
-        hitTime -= 1f/hitdur;
+        hitTime -= 1f/hitdur*Time.delta();
         if(!midSpeech){
             phase.update();
         }

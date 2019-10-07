@@ -2,7 +2,7 @@ package inferno.entity;
 
 import io.anuke.arc.math.geom.*;
 import io.anuke.arc.math.geom.QuadTree.QuadTreeObject;
-import io.anuke.arc.util.Tmp;
+import io.anuke.arc.util.*;
 
 public abstract class SolidEntity extends Entity implements QuadTreeObject{
     public Vector2 lastPosition = new Vector2();
