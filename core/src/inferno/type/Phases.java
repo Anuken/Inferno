@@ -599,7 +599,7 @@ public class Phases{
         @Override
         public void update(){
 
-            if(time.get(60f * 10f)){
+            if(time.get(60f * 15f)){
                 int current = (special++) % cycle.size;
                 if(current == 0){
                     TextureRegion r = Core.atlas.find("statue-eyes");
@@ -642,6 +642,14 @@ public class Phases{
             }
 
             currentAttack.run();
+        }
+    },
+
+    new Phase(Text.phase4){
+
+        @Override
+        public void update(){
+
         }
     }
 
