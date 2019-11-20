@@ -2,7 +2,7 @@ package inferno.graphics;
 
 import inferno.entity.ScaleTrait;
 import inferno.type.EffectEntity;
-import io.anuke.arc.function.Consumer;
+import io.anuke.arc.func.*;
 import io.anuke.arc.graphics.Color;
 import io.anuke.arc.graphics.g2d.Draw;
 import io.anuke.arc.math.geom.Position;
@@ -15,7 +15,7 @@ public class Effects{
     public static void renderEffect(int id, Effect render, Color color, float life, float rotation, float x, float y, Object data){
         Drawf.z(y - 10f);
         container.set(id, color, life, render.lifetime, rotation, x, y, data);
-        render.draw.accept(container);
+        render.draw.get(container);
         Draw.reset();
     }
 
@@ -56,19 +56,19 @@ public class Effects{
     public static class Effect{
         private static int lastid = 0;
         public final int id;
-        public final Consumer<EffectContainer> draw;
+        public final Cons<EffectContainer> draw;
         public final float lifetime;
         /** Clip size. */
         public float size;
 
-        public Effect(float life, float clipsize, Consumer<EffectContainer> draw){
+        public Effect(float life, float clipsize, Cons<EffectContainer> draw){
             this.id = lastid++;
             this.lifetime = life;
             this.draw = draw;
             this.size = clipsize;
         }
 
-        public Effect(float life, Consumer<EffectContainer> draw){
+        public Effect(float life, Cons<EffectContainer> draw){
             this(life, 28f, draw);
         }
 
@@ -111,11 +111,11 @@ public class Effects{
             this.data = data;
         }
 
-        public void scaled(float lifetime, Consumer<EffectContainer> cons){
+        public void scaled(float lifetime, Cons<EffectContainer> cons){
             if(innerContainer == null) innerContainer = new EffectContainer();
             if(time <= lifetime){
                 innerContainer.set(id, color, time, lifetime, rotation, x, y, data);
-                cons.accept(innerContainer);
+                cons.get(innerContainer);
             }
         }
 

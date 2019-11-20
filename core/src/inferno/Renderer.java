@@ -4,7 +4,7 @@ import inferno.entity.*;
 import inferno.graphics.*;
 import inferno.world.*;
 import io.anuke.arc.*;
-import io.anuke.arc.function.*;
+import io.anuke.arc.func.*;
 import io.anuke.arc.graphics.*;
 import io.anuke.arc.graphics.Texture.*;
 import io.anuke.arc.graphics.g2d.*;
@@ -216,7 +216,7 @@ public class Renderer implements ApplicationListener{
         });
     }
 
-    void cull(IntPositionConsumer cons){
+    void cull(Intc2 cons){
         int xrange = (int)(Core.camera.width / tilesize / 2 + 3);
         int yrange = (int)(Core.camera.height / tilesize / 2 + 3);
         int wx = (int)(Core.camera.position.x / tilesize);
@@ -226,7 +226,7 @@ public class Renderer implements ApplicationListener{
             for(int y = -yrange; y < yrange; y++){
                 int cx = wx + x, cy = wy + y;
                 if(Structs.inBounds(cx, cy, world.width(), world.height())){
-                    cons.accept(cx, cy);
+                    cons.get(cx, cy);
                 }
             }
         }

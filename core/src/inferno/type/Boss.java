@@ -63,7 +63,7 @@ public class Boss extends Char{
 
     public void reset(){
         world.wallUndetonate();
-        phase = Phases.phases.get(Inferno.debug ? 4 : 0);
+        phase = Phases.phases.get(Inferno.debug ? 0 : 0);
         if(debug){
             world.wallDetonate();
             world.wallExtinguish();
@@ -129,7 +129,7 @@ public class Boss extends Char{
             Draw.color(Pal.lucine, Color.white, Mathf.clamp(hitTime));
             Drawf.z(y + 600f);
             Lines.stroke(2f);
-            Lines.swirl(x, y, 20f, health / maxHealth(), Time.time() * 2f);
+            //Lines.swirl(x, y, 20f, health / maxHealth(), Time.time() * 2f);
             Draw.reset();
         }
     }
@@ -206,6 +206,13 @@ public class Boss extends Char{
     }
 
     public void laser(BulletType type, float angle){
+        Fx.indlaser.at(x, y, angle);
+        Time.run(Fx.indlaser.lifetime + 1f, () -> {
+            new Laser(type, x, y, angle).add();
+        });
+    }
+
+    public void laser(BulletType type, float x, float y, float angle){
         Fx.indlaser.at(x, y, angle);
         Time.run(Fx.indlaser.lifetime + 1f, () -> {
             new Laser(type, x, y, angle).add();

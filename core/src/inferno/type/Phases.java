@@ -5,7 +5,7 @@ import inferno.entity.*;
 import inferno.graphics.*;
 import io.anuke.arc.*;
 import io.anuke.arc.collection.*;
-import io.anuke.arc.function.*;
+import io.anuke.arc.func.*;
 import io.anuke.arc.graphics.g2d.*;
 import io.anuke.arc.math.*;
 import io.anuke.arc.math.geom.*;
@@ -136,16 +136,16 @@ public class Phases{
 
         //meteors
         () -> {
-            PositionConsumer met = (x, y) -> {
+            Floatc2 met = (x, y) -> {
                 Fx.meteorpre.at(x, y);
                 run(Fx.meteorpre.lifetime, () -> boss.shoot(Bullets.meteor, x, y, 0f));
             };
 
             for(int i = 0; i < 50; i++){
-                run(Mathf.random(60f * 4), () -> met.accept(player.x + Mathf.range(400f), player.y + Mathf.range(400f)));
+                run(Mathf.random(60f * 4), () -> met.get(player.x + Mathf.range(400f), player.y + Mathf.range(400f)));
             }
 
-            met.accept(player.x, player.y);
+            met.get(player.x, player.y);
         },
 
 
@@ -650,6 +650,20 @@ public class Phases{
         @Override
         public void update(){
 
+            every(5f, () -> {
+                Tmp.v1.setToRandomDirection().scl(500f);
+                boss.laser(Bullets.laser, player.x + Tmp.v1.x, player.y + Tmp.v1.y, Tmp.v1.angle() + 180f);
+                /*
+                float x = player.x, y = player.y;
+                int ss = Mathf.sign(special++%2 - 0.5f);
+                float space = 20f;
+                seq(20, 4f, i -> {
+                    run(50f, () -> {
+                        int sign = Mathf.sign((i % 2) - 0.5f);
+                        boss.laser(Bullets.laser, x + 80f * sign, y + space*5*ss - i * space*ss, 90f + 90*sign);
+                    });
+                });*/
+            });
         }
     }
 
@@ -660,8 +674,8 @@ public class Phases{
         renderer.shake(4f, 4f);
     }
 
-    private static void seq(int amount, float space, IntConsumer run){
-        loop(amount, i -> run(i * space, () -> run.accept(i)));
+    private static void seq(int amount, float space, Intc run){
+        loop(amount, i -> run(i * space, () -> run.get(i)));
     }
 
     private static void every(float time, Runnable run){

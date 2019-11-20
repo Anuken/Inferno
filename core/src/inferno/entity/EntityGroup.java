@@ -2,7 +2,7 @@ package inferno.entity;
 
 import io.anuke.arc.*;
 import io.anuke.arc.collection.*;
-import io.anuke.arc.function.*;
+import io.anuke.arc.func.*;
 import io.anuke.arc.graphics.*;
 import io.anuke.arc.math.geom.*;
 
@@ -52,25 +52,25 @@ public class EntityGroup<T extends Entity>{
         draw(e -> true);
     }
 
-    public void draw(Predicate<T> toDraw){
+    public void draw(Boolf<T> toDraw){
         draw(toDraw, Entity::draw);
     }
 
-    public void draw(Consumer<T> cons){
+    public void draw(Cons<T> cons){
         draw(e -> true, cons);
     }
 
-    public void draw(Predicate<T> toDraw, Consumer<T> cons){
+    public void draw(Boolf<T> toDraw, Cons<T> cons){
         if(clip){
             Camera cam = Core.camera;
             viewport.set(cam.position.x - cam.width / 2, cam.position.y - cam.height / 2, cam.width, cam.height);
         }
 
         for(T e : entityArray){
-            if(!toDraw.test(e) || !e.isAdded()) continue;
+            if(!toDraw.get(e) || !e.isAdded()) continue;
 
             if(!clip || viewport.overlaps(e.x - e.drawSize()/2f, e.y - e.drawSize()/2f, e.drawSize(), e.drawSize())){
-                cons.accept((T)e);
+                cons.get((T)e);
             }
         }
     }
@@ -99,7 +99,7 @@ public class EntityGroup<T extends Entity>{
     }
 
     @SuppressWarnings("unchecked")
-    public void intersect(float x, float y, float width, float height, Consumer<? super T> out){
+    public void intersect(float x, float y, float width, float height, Cons<? super T> out){
         //don't waste time for empty groups
         if(isEmpty()) return;
         tree().getIntersect(out, x, y, width, height);
@@ -125,10 +125,10 @@ public class EntityGroup<T extends Entity>{
         return entityArray.size;
     }
 
-    public int count(Predicate<T> pred){
+    public int count(Boolf<T> pred){
         int count = 0;
         for(int i = 0; i < entityArray.size; i++){
-            if(pred.test(entityArray.get(i))) count++;
+            if(pred.get(entityArray.get(i))) count++;
         }
         return count;
     }
@@ -161,10 +161,10 @@ public class EntityGroup<T extends Entity>{
         entityArray.clear();
     }
 
-    public T find(Predicate<T> pred){
+    public T find(Boolf<T> pred){
 
         for(int i = 0; i < entityArray.size; i++){
-            if(pred.test(entityArray.get(i))) return entityArray.get(i);
+            if(pred.get(entityArray.get(i))) return entityArray.get(i);
         }
 
         return null;
