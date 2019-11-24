@@ -3,6 +3,7 @@ package inferno;
 import inferno.world.*;
 import io.anuke.arc.ApplicationListener;
 import io.anuke.arc.collection.*;
+import io.anuke.arc.func.*;
 import io.anuke.arc.graphics.g2d.TextureAtlas.AtlasRegion;
 import io.anuke.arc.maps.*;
 import io.anuke.arc.math.Mathf;
@@ -73,6 +74,14 @@ public class World implements ApplicationListener{
         charGroup.resize(0, 0, width() * tilesize, height() * tilesize);
 
         updateShadowed();
+    }
+
+    public void each(Cons<Tile> cons){
+        for(int x = 0; x < width(); x++){
+            for(int y = 0; y < height(); y++){
+                cons.get(tiles[x][y]);
+            }
+        }
     }
 
     public void updateShadowed(){

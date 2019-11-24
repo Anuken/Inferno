@@ -77,6 +77,26 @@ public class Blocks{
             }
         },
 
+        new Block("fire"){
+            {
+                damage = 0.1f;
+                solid = false;
+            }
+
+            @Override
+            public void drawShadow(int x, int y){
+
+            }
+
+            @Override
+            public void draw(int x, int y){
+                Drawf.light(x * tilesize, y * tilesize + tilesize/2f, 60f + Mathf.absin(Time.time(), 5f, 7f), Color.orange, 0.7f);
+                if(!control.isPaused() && Mathf.chance(0.03 * Time.delta())){
+                    Fx.fire.at(x * tilesize + Mathf.range(tilesize), y * tilesize + Mathf.range(tilesize));
+                }
+            }
+        },
+
         new Block("ashrubble"){
 
             @Override

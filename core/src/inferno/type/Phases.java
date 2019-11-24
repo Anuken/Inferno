@@ -3,6 +3,7 @@ package inferno.type;
 import inferno.*;
 import inferno.entity.*;
 import inferno.graphics.*;
+import inferno.world.*;
 import io.anuke.arc.*;
 import io.anuke.arc.collection.*;
 import io.anuke.arc.func.*;
@@ -650,10 +651,18 @@ public class Phases{
         @Override
         public void update(){
 
+            //spam randomized lasers
+            /*
             every(5f, () -> {
                 Tmp.v1.setToRandomDirection().scl(500f);
                 boss.laser(Bullets.laser, player.x + Tmp.v1.x, player.y + Tmp.v1.y, Tmp.v1.angle() + 180f);
-                /*
+
+            });*/
+
+
+            //laser wall
+            /*
+            every(100f, () -> {
                 float x = player.x, y = player.y;
                 int ss = Mathf.sign(special++%2 - 0.5f);
                 float space = 20f;
@@ -662,7 +671,30 @@ public class Phases{
                         int sign = Mathf.sign((i % 2) - 0.5f);
                         boss.laser(Bullets.laser, x + 80f * sign, y + space*5*ss - i * space*ss, 90f + 90*sign);
                     });
-                });*/
+                });
+            });
+
+             */
+        }
+
+        @Override
+        public void begin(){
+            Block fire = Blocks.blocks.find(b -> b.name.equals("fire"));
+
+            world.each(tile -> {
+
+                if(tile.overlay != null && tile.overlay.name.contains("carpet") && tile.wall == null){
+                    tile.wall = fire;
+                }
+            });
+        }
+
+        @Override
+        public void reset(){
+            world.each(tile -> {
+                if(tile.wall != null && tile.wall.name.equals("fire")){
+                    tile.wall = null;
+                }
             });
         }
     }

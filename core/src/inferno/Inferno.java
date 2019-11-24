@@ -7,6 +7,7 @@ import io.anuke.arc.*;
 public class Inferno extends ApplicationCore{
 	public static final int scale = 4;
 	public static final int tilesize = 16;
+	public static final int debugPhase = 5;
 	public static final boolean dobloom = true, debug = true;
 
 	public static EntityGroup<Bullet> bulletGroup;
