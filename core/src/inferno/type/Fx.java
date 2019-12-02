@@ -159,6 +159,9 @@ public class Fx{
         Angles.randLenVectors(e.id, 2, 2f + e.fin() * 30f, 90f, 120f, (x, y) -> {
             Fill.circle(e.x + x, e.y + y, 0.2f + e.fslope() * 2.5f);
             Fill.circle(e.x + x/2.f, e.y + y/2f, 0.1f + e.fslope() * 1.9f);
+
+            Drawf.light(e.x + x, e.y + y, 4f + e.fslope() * 10f, Color.orange, 0.7f);
+            Drawf.light(e.x + x/2f, e.y + y/2f, 2f + e.fslope() * 8f, Color.orange, 0.7f);
         });
 
         Draw.color();
