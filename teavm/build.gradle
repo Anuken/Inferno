@@ -37,16 +37,3 @@ teavmc{
 }
 
 teavmc.dependsOn(copyAssets)
-
-task webtest(dependsOn: teavmc){
-    doLast{
-        delete{
-            delete "/home/anuke/Web"
-        }
-
-        copy{
-            from outputdir
-            into "/home/anuke/Web"
-        }
-    }
-}

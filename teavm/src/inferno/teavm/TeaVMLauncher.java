@@ -9,10 +9,8 @@ import org.teavm.jso.dom.xml.*;
 
 public class TeaVMLauncher {
     public static void main(String[] args) {
-        Window window = Window.current();
-        Document document = window.getDocument();
         TeaApplicationConfig config = new TeaApplicationConfig();
-        config.canvas = (HTMLCanvasElement)document.getElementById("main-canvas");
+        config.canvas = (HTMLCanvasElement)Window.current().getDocument().getElementById("main-canvas");
         new TeaApplication(new Inferno(), config).start();
     }
 }
