@@ -439,7 +439,7 @@ public class Phases{
                         run(Mathf.range(60f * 5), () -> {
                             float cx = candle.x * tilesize, cy = candle.y * tilesize + 14f;
                             Fx.candlespiral.at(cx, cy);
-                            runTask(Fx.candlespiral.lifetime, () -> {
+                            run(Fx.candlespiral.lifetime, () -> {
                                 float angle = Angles.angle(cx, cy, player.x, player.y);
                                 seq(6, 4, i -> {
                                     boss.shoot(Bullets.candle, cx, cy, angle, v -> v(0, cos(v, 9f, 1.5f)));

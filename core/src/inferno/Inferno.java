@@ -3,12 +3,14 @@ package inferno;
 import inferno.entity.*;
 import inferno.type.*;
 import io.anuke.arc.*;
+import io.anuke.arc.util.*;
 
 public class Inferno extends ApplicationCore{
 	public static final int scale = 4;
 	public static final int tilesize = 16;
 	public static final int debugPhase = 5;
-	public static final boolean dobloom = true, debug = true;
+	public static final boolean dobloom = true, debug = false;
+    public static final boolean prof = false;
 
 	public static EntityGroup<Bullet> bulletGroup;
 	public static EntityGroup<Char> charGroup;

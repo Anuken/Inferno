@@ -56,6 +56,7 @@ public class Control implements ApplicationListener{
 
     @Override
     public void update(){
+        if(prof) Time.mark();
         Color.white.set(1f, 1f, 1f, 1f);
         Draw.mixcol();
 
@@ -78,6 +79,7 @@ public class Control implements ApplicationListener{
 
             charGroup.collide(bulletGroup);
         }
+        if(prof) Log.info("Update: " + Time.elapsed());
     }
 
     public boolean isPaused(){

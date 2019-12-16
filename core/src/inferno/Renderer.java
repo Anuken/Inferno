@@ -14,6 +14,7 @@ import io.anuke.arc.maps.objects.*;
 import io.anuke.arc.math.*;
 import io.anuke.arc.math.geom.*;
 import io.anuke.arc.util.*;
+import io.anuke.arc.util.Log.*;
 import io.anuke.arc.util.noise.*;
 
 import static inferno.Inferno.*;
@@ -61,6 +62,7 @@ public class Renderer implements ApplicationListener{
 
     @Override
     public void update(){
+        if(prof) Time.mark();
         Drawf.sort(true);
 
         Entity target = ui.hasDialogue() ? ui.getDialogueFace() : player;
@@ -85,20 +87,27 @@ public class Renderer implements ApplicationListener{
         Core.batch = zbatch;
         Draw.proj(Core.camera.projection());
 
+        if(prof) Time.mark();
         shadow.beginDraw(Color.clear);
         drawShadows();
         shadow.endDraw();
+        if(prof) Log.info("| Shadows: " + Time.elapsed());
 
         buffer.beginDraw(Color.black);
 
+        if(prof) Time.mark();
         drawWorld();
+        if(prof) Log.info("| World: " + Time.elapsed());
 
+        if(prof) Time.mark();
         charGroup.draw(this::draw);
         bulletGroup.draw(this::draw);
         effectGroup.draw(this::draw);
+        if(prof) Log.info("| Bullets/chars/effects: " + Time.elapsed());
 
         Drawf.sort(false);
 
+        if(prof) Time.mark();
         Draw.shader(fog);
         Draw.fbo(fogs.getTexture(), world.width(), world.height(), tilesize);
         Draw.shader();
@@ -119,7 +128,9 @@ public class Renderer implements ApplicationListener{
         Draw.shader();
 
         buffer.endDraw();
+        if(prof) Log.info("| Lights & stuff: " + Time.elapsed());
 
+        if(prof) Time.mark();
         if(dobloom) bloom.capture();
         Draw.color();
         Draw.blend(Blending.disabled);
@@ -128,8 +139,12 @@ public class Renderer implements ApplicationListener{
         if(dobloom) bloom.render();
 
         Core.camera.position.set(px, py);
+        if(prof) Log.info("| Bloom: " + Time.elapsed());
 
         ScreenRecorder.record();
+        if(prof) Log.info("Draw: " + Time.elapsed());
+
+        if(prof) Log.info("---END---");
     }
 
     @Override
@@ -184,14 +199,17 @@ public class Renderer implements ApplicationListener{
 
         //draw cached floor
         Draw.flush();
+        if(prof) Time.mark();
         cache.setProjectionMatrix(Core.camera.projection());
         cache.begin();
         cache.draw(0);
         cache.end();
+        if(prof) Log.info("| | Cached floor: " + Time.elapsed());
 
         //do not sort base layer for efficiency
         Drawf.sort(false);
 
+        if(prof) Time.mark();
         //overlays
         cull((x, y) -> {
             Tile tile = world.tile(x, y);
@@ -199,7 +217,9 @@ public class Renderer implements ApplicationListener{
                 tile.overlay.draw(x, y);
             }
         });
+        if(prof) Log.info("| | Overlay: " + Time.elapsed());
 
+        if(prof) Time.mark();
         Draw.color(0f, 0f, 0f, 0.3f);
         Draw.rect(Draw.wrap(shadow.getTexture()), Core.camera.position.x, Core.camera.position.y, Core.camera.width, -Core.camera.height);
         Draw.color();
@@ -214,6 +234,8 @@ public class Renderer implements ApplicationListener{
                 tile.wall.draw(x, y);
             }
         });
+
+        if(prof) Log.info("| | Walls: " + Time.elapsed());
     }
 
     void cull(Intc2 cons){
