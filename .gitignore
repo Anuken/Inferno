@@ -3,6 +3,7 @@
 /deploy/
 /desktop/packr-out/
 /desktop/packr-export/
+teavm/build
 .gifimages/
 *.gif
 
