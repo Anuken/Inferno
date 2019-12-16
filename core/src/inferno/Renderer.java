@@ -31,8 +31,8 @@ public class Renderer implements ApplicationListener{
     private float shakeIntensity, shaketime;
     private Color ambient = new Color(0.2f, 0.06f, 0.02f, 0.5f);
 
-    private Shader fog = new Shader(Core.files.local("dshaders/default.vertex.glsl"), Core.files.local("dshaders/fog.fragment.glsl"));
-    private Shader light = new Shader(Core.files.local("dshaders/default.vertex.glsl"), Core.files.local("dshaders/light.fragment.glsl")){
+    private Shader fog = new Shader(Core.files.internal("dshaders/default.vertex.glsl"), Core.files.internal("dshaders/fog.fragment.glsl"));
+    private Shader light = new Shader(Core.files.internal("dshaders/default.vertex.glsl"), Core.files.internal("dshaders/light.fragment.glsl")){
         @Override
         public void apply(){
             light.setUniformf("u_ambient", ambient);
@@ -233,7 +233,7 @@ public class Renderer implements ApplicationListener{
     }
 
     void makeFloor(){
-        cache = new SpriteCache(world.width() * world.height() + world.getObjects().size*2 + 200, true);
+        cache = new SpriteCache(world.width() * world.height() + world.getObjects().size*2 + 500, false);
         CacheBatch batch = new CacheBatch(cache);
         Core.batch = batch;
 

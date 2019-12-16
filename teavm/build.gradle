@@ -1,0 +1,52 @@
+apply plugin: "com.edibleday.teavm"
+
+sourceCompatibility = 1.8
+sourceSets.main.java.srcDirs = [ "src/" ]
+
+mainClassName = "inferno.teavm.TeaVMLauncher"
+def outputdir = "${project.buildDir}/teavm"
+
+task cleanTeavm(){
+    doLast{
+        delete{
+            delete outputdir
+        }
+    }
+}
+
+task copyAssets(dependsOn: cleanTeavm){
+    doLast{
+        copy{
+            from "../core/assets"
+            into "$outputdir/assets"
+        }
+
+        copy{
+            from "webapp/"
+            into "$outputdir"
+        }
+    }
+}
+
+teavmc{ 
+    installDirectory outputdir
+    targetFileName "app.js"
+    copySources false
+    generateSourceMap false
+    minified false
+}
+
+teavmc.dependsOn(copyAssets)
+
+task webtest(dependsOn: teavmc){
+    doLast{
+        delete{
+            delete "/home/anuke/Web"
+        }
+
+        copy{
+            from outputdir
+            into "/home/anuke/Web"
+        }
+    }
+}
