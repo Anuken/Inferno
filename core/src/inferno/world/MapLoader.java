@@ -16,14 +16,14 @@ public class MapLoader extends TmxMapLoader{
     public TiledMap load(String fileName, Parameters parameters){
         this.convertObjectToTileSpace = parameters.convertObjectToTileSpace;
         this.flipY = parameters.flipY;
-        FileHandle tmxFile = resolve(fileName);
+        Fi tmxFile = resolve(fileName);
         root = xml.parse(tmxFile);
 
         return loadTilemap(root, tmxFile, null);
     }
 
     @Override
-    protected TiledMap loadTilemap(Element root, FileHandle tmxFile, ImageResolver imageResolver){
+    protected TiledMap loadTilemap(Element root, Fi tmxFile, ImageResolver imageResolver){
         TiledMap map = new TiledMap();
 
         String mapOrientation = root.getAttribute("orientation", null);
@@ -90,7 +90,7 @@ public class MapLoader extends TmxMapLoader{
     }
 
     @Override
-    protected void loadTileSet(TiledMap map, Element element, FileHandle tmxFile, ImageResolver imageResolver){
+    protected void loadTileSet(TiledMap map, Element element, Fi tmxFile, ImageResolver imageResolver){
         if(element.getName().equals("tileset")){
             String name = element.get("name", null);
             int firstgid = element.getIntAttribute("firstgid", 1);
@@ -106,9 +106,9 @@ public class MapLoader extends TmxMapLoader{
             String imageSource = "";
             int imageWidth = 0, imageHeight = 0;
 
-            FileHandle image = null;
+            Fi image = null;
             if(source != null){
-                FileHandle tsx = getRelativeFileHandle(tmxFile, source);
+                Fi tsx = getRelativeFileHandle(tmxFile, source);
                 try{
                     element = xml.parse(tsx);
                     name = element.get("name", null);
