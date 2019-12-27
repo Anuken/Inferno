@@ -2,8 +2,8 @@ package inferno;
 
 import inferno.entity.*;
 import inferno.type.*;
-import io.anuke.arc.*;
-import io.anuke.arc.util.*;
+import arc.*;
+import arc.util.*;
 
 public class Inferno extends ApplicationCore{
 	public static final int scale = 4;

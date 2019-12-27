@@ -1,11 +1,11 @@
 package inferno.graphics;
 
-import io.anuke.arc.Core;
-import io.anuke.arc.graphics.Color;
-import io.anuke.arc.graphics.g2d.Draw;
-import io.anuke.arc.graphics.g2d.TextureRegion;
-import io.anuke.arc.math.Angles;
-import io.anuke.arc.math.Mathf;
+import arc.Core;
+import arc.graphics.Color;
+import arc.graphics.g2d.Draw;
+import arc.graphics.g2d.TextureRegion;
+import arc.math.Angles;
+import arc.math.Mathf;
 
 import static inferno.Inferno.renderer;
 

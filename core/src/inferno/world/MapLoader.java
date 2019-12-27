@@ -1,14 +1,14 @@
 package inferno.world;
 
-import io.anuke.arc.*;
-import io.anuke.arc.collection.*;
-import io.anuke.arc.files.*;
-import io.anuke.arc.graphics.g2d.TextureAtlas.*;
-import io.anuke.arc.maps.*;
-import io.anuke.arc.maps.loaders.*;
-import io.anuke.arc.util.*;
-import io.anuke.arc.util.serialization.*;
-import io.anuke.arc.util.serialization.XmlReader.*;
+import arc.*;
+import arc.struct.*;
+import arc.files.*;
+import arc.graphics.g2d.TextureAtlas.*;
+import arc.maps.*;
+import arc.maps.loaders.*;
+import arc.util.*;
+import arc.util.serialization.*;
+import arc.util.serialization.XmlReader.*;
 
 public class MapLoader extends TmxMapLoader{
 

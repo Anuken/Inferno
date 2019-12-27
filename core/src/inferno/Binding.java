@@ -1,8 +1,8 @@
 package inferno;
 
-import io.anuke.arc.KeyBinds.*;
-import io.anuke.arc.input.InputDevice.DeviceType;
-import io.anuke.arc.input.KeyCode;
+import arc.KeyBinds.*;
+import arc.input.InputDevice.DeviceType;
+import arc.input.KeyCode;
 
 public enum Binding implements KeyBind{
     move_x(new Axis(KeyCode.A, KeyCode.D)),

@@ -1,7 +1,7 @@
 package inferno.type;
 
-import io.anuke.arc.Core;
-import io.anuke.arc.graphics.g2d.TextureRegion;
+import arc.Core;
+import arc.graphics.g2d.TextureRegion;
 
 public enum Direction{
     left("side", true, 2, 1, 0, 1),

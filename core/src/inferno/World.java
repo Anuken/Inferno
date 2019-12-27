@@ -1,14 +1,14 @@
 package inferno;
 
 import inferno.world.*;
-import io.anuke.arc.ApplicationListener;
-import io.anuke.arc.collection.*;
-import io.anuke.arc.func.*;
-import io.anuke.arc.graphics.g2d.TextureAtlas.AtlasRegion;
-import io.anuke.arc.maps.*;
-import io.anuke.arc.math.Mathf;
-import io.anuke.arc.math.geom.*;
-import io.anuke.arc.util.*;
+import arc.ApplicationListener;
+import arc.struct.*;
+import arc.func.*;
+import arc.graphics.g2d.TextureAtlas.AtlasRegion;
+import arc.maps.*;
+import arc.math.Mathf;
+import arc.math.geom.*;
+import arc.util.*;
 
 import static inferno.Inferno.*;
 
@@ -21,7 +21,7 @@ public class World implements ApplicationListener{
     TiledMap map;
     TileLayer floorLayer, wallLayer, overLayer;
     MapLayer objectLayer;
-    Vector2 statue = new Vector2();
+    Vec2 statue = new Vec2();
 
     public World(){
         map = new MapLoader().load("maps/map.tmx");
@@ -170,7 +170,7 @@ public class World implements ApplicationListener{
         renderer.updateShadows();
     }
 
-    public Vector2 statue(){
+    public Vec2 statue(){
         return statue;
     }
 

@@ -2,9 +2,9 @@ package inferno.type;
 
 import inferno.entity.*;
 import inferno.graphics.*;
-import io.anuke.arc.math.*;
-import io.anuke.arc.math.geom.*;
-import io.anuke.arc.util.*;
+import arc.math.*;
+import arc.math.geom.*;
+import arc.util.*;
 
 import static inferno.Inferno.*;
 

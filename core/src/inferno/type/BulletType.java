@@ -3,8 +3,8 @@ package inferno.type;
 import inferno.graphics.*;
 import inferno.graphics.Effects.*;
 import inferno.world.*;
-import io.anuke.arc.graphics.*;
-import io.anuke.arc.graphics.g2d.*;
+import arc.graphics.*;
+import arc.graphics.g2d.*;
 
 import static inferno.Inferno.*;
 

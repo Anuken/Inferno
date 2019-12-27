@@ -1,6 +1,6 @@
 package inferno.graphics;
 
-import io.anuke.arc.graphics.Color;
+import arc.graphics.Color;
 
 public class Pal{
     public static final Color

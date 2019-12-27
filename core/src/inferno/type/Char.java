@@ -3,8 +3,8 @@ package inferno.type;
 import inferno.entity.EntityGroup;
 import inferno.entity.SolidEntity;
 import inferno.type.Bullet.*;
-import io.anuke.arc.math.Angles;
-import io.anuke.arc.math.geom.Rectangle;
+import arc.math.Angles;
+import arc.math.geom.Rect;
 
 import static inferno.Inferno.charGroup;
 
@@ -70,7 +70,7 @@ public abstract class Char extends SolidEntity{
     }
 
     @Override
-    public void hitboxTile(Rectangle rectangle){
+    public void hitboxTile(Rect rectangle){
         float w = 6f, h = 6f;
         rectangle.set(x - w / 2f, y - 1, w, h);
     }

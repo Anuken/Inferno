@@ -1,15 +1,15 @@
 package inferno.entity;
 
-import io.anuke.arc.math.geom.*;
-import io.anuke.arc.math.geom.QuadTree.QuadTreeObject;
-import io.anuke.arc.util.*;
+import arc.math.geom.*;
+import arc.math.geom.QuadTree.QuadTreeObject;
+import arc.util.*;
 
 public abstract class SolidEntity extends Entity implements QuadTreeObject{
-    public Vector2 lastPosition = new Vector2();
+    public Vec2 lastPosition = new Vec2();
 
-    public abstract void hitbox(Rectangle rectangle);
+    public abstract void hitbox(Rect rectangle);
 
-    public abstract void hitboxTile(Rectangle rectangle);
+    public abstract void hitboxTile(Rect rectangle);
 
     public boolean collides(SolidEntity other){
         return true;
@@ -22,8 +22,8 @@ public abstract class SolidEntity extends Entity implements QuadTreeObject{
         move(Tmp.v1.set(other).sub(x, y).limit(speed).rotate(speed < 0 ? 180f : 0));
     }
 
-    public void move(Vector2 vector2){
-        move(vector2.x, vector2.y);
+    public void move(Vec2 Vec2){
+        move(Vec2.x, Vec2.y);
     }
 
     public void move(float x, float y){

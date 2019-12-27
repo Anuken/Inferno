@@ -4,15 +4,15 @@ import inferno.*;
 import inferno.entity.*;
 import inferno.graphics.*;
 import inferno.type.Bullet.*;
-import io.anuke.arc.*;
-import io.anuke.arc.graphics.*;
-import io.anuke.arc.graphics.g2d.*;
-import io.anuke.arc.math.*;
-import io.anuke.arc.math.geom.*;
-import io.anuke.arc.util.*;
+import arc.*;
+import arc.graphics.*;
+import arc.graphics.g2d.*;
+import arc.math.*;
+import arc.math.geom.*;
+import arc.util.*;
 
 import static inferno.Inferno.*;
-import static io.anuke.arc.math.Angles.circle;
+import static arc.math.Angles.circle;
 
 public class Boss extends Char{
     public static final Anim adash = new Anim("lucine-sprint"), awave = new Anim("lucine-wave-1", "lucine-wave-2");
@@ -154,13 +154,13 @@ public class Boss extends Char{
     }
 
     @Override
-    public void hitbox(Rectangle rectangle){
+    public void hitbox(Rect rectangle){
         float w = isStatue() ? tilesize * 6f : 12f, h = isStatue() ? tilesize * 5 : 24f;
         rectangle.set(x - w / 2f, y - (isStatue() ? h /2f : 0), w, h);
     }
 
     @Override
-    public void hitboxTile(Rectangle rectangle){
+    public void hitboxTile(Rect rectangle){
         float w = 7, h = 12f;
         rectangle.set(x - w / 2f, y, w, h);
     }

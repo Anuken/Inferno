@@ -3,16 +3,16 @@ package inferno.type;
 import inferno.graphics.Drawf;
 import inferno.graphics.Pal;
 import inferno.world.Tile;
-import io.anuke.arc.graphics.Color;
-import io.anuke.arc.graphics.g2d.*;
-import io.anuke.arc.math.*;
-import io.anuke.arc.util.Time;
-import io.anuke.arc.util.Tmp;
+import arc.graphics.Color;
+import arc.graphics.g2d.*;
+import arc.math.*;
+import arc.util.Time;
+import arc.util.Tmp;
 
 import static inferno.Inferno.*;
-import static io.anuke.arc.math.Angles.circle;
-import static io.anuke.arc.math.Angles.loop;
-import static io.anuke.arc.util.Time.run;
+import static arc.math.Angles.circle;
+import static arc.math.Angles.loop;
+import static arc.util.Time.run;
 
 public class Bullets{
     public static final BulletType

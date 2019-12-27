@@ -2,11 +2,11 @@ package inferno.type;
 
 import inferno.graphics.*;
 import inferno.graphics.Effects.*;
-import io.anuke.arc.*;
-import io.anuke.arc.graphics.*;
-import io.anuke.arc.graphics.g2d.*;
-import io.anuke.arc.math.*;
-import io.anuke.arc.util.*;
+import arc.*;
+import arc.graphics.*;
+import arc.graphics.g2d.*;
+import arc.math.*;
+import arc.util.*;
 
 import static inferno.Inferno.*;
 

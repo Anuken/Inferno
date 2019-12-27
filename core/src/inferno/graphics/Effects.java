@@ -2,11 +2,11 @@ package inferno.graphics;
 
 import inferno.entity.ScaleTrait;
 import inferno.type.EffectEntity;
-import io.anuke.arc.func.*;
-import io.anuke.arc.graphics.Color;
-import io.anuke.arc.graphics.g2d.Draw;
-import io.anuke.arc.math.geom.Position;
-import io.anuke.arc.util.pooling.Pools;
+import arc.func.*;
+import arc.graphics.Color;
+import arc.graphics.g2d.Draw;
+import arc.math.geom.Position;
+import arc.util.pooling.Pools;
 
 public class Effects{
     private static final EffectContainer container = new EffectContainer();

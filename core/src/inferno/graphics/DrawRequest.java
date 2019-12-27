@@ -1,8 +1,8 @@
 package inferno.graphics;
 
-import io.anuke.arc.graphics.Texture;
-import io.anuke.arc.graphics.g2d.TextureRegion;
-import io.anuke.arc.util.pooling.Pool.Poolable;
+import arc.graphics.Texture;
+import arc.graphics.g2d.TextureRegion;
+import arc.util.pooling.Pool.Poolable;
 
 class DrawRequest implements Comparable<DrawRequest>, Poolable{
     TextureRegion region;

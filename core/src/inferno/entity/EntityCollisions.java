@@ -1,8 +1,8 @@
 package inferno.entity;
 
-import io.anuke.arc.collection.*;
-import io.anuke.arc.math.*;
-import io.anuke.arc.math.geom.*;
+import arc.struct.*;
+import arc.math.*;
+import arc.math.geom.*;
 
 import static inferno.Inferno.*;
 
@@ -14,11 +14,11 @@ public class EntityCollisions{
     private static final float seg = 1f;
 
     //tile collisions
-    private static Rectangle tmp = new Rectangle();
-    private static Vector2 vector = new Vector2();
-    private static Vector2 l1 = new Vector2();
-    private static Rectangle r1 = new Rectangle();
-    private static Rectangle r2 = new Rectangle();
+    private static Rect tmp = new Rect();
+    private static Vec2 vector = new Vec2();
+    private static Vec2 l1 = new Vec2();
+    private static Rect r1 = new Rect();
+    private static Rect r2 = new Rect();
 
     //entity collisions
     private static Array<SolidEntity> arrOut = new Array<>();
@@ -54,7 +54,7 @@ public class EntityCollisions{
 
     public static void moveDelta(SolidEntity entity, float deltax, float deltay, boolean x){
 
-        Rectangle rect = r1;
+        Rect rect = r1;
         entity.hitboxTile(rect);
         entity.hitboxTile(r2);
         rect.x += deltax;
@@ -69,7 +69,7 @@ public class EntityCollisions{
                     tmp.setSize(tilesize).setCenter(wx * tilesize, wy * tilesize);
 
                     if(tmp.overlaps(rect)){
-                        Vector2 v = Geometry.overlap(rect, tmp, x);
+                        Vec2 v = Geometry.overlap(rect, tmp, x);
                         rect.x += v.x;
                         rect.y += v.y;
                     }
@@ -81,11 +81,11 @@ public class EntityCollisions{
         entity.y = (entity.y + rect.y - r2.y);
     }
 
-    public static boolean overlapsTile(Rectangle rect){
+    public static boolean overlapsTile(Rect rect){
         return overlapsTile(rect, EntityCollisions::solid);
     }
 
-    public static boolean overlapsTile(Rectangle rect, SolidChecker solid){
+    public static boolean overlapsTile(Rect rect, SolidChecker solid){
         rect.getCenter(vector);
         int r = 1;
 
@@ -142,7 +142,7 @@ public class EntityCollisions{
     }
 
     private static boolean collide(float x1, float y1, float w1, float h1, float vx1, float vy1,
-                            float x2, float y2, float w2, float h2, float vx2, float vy2, Vector2 out){
+                            float x2, float y2, float w2, float h2, float vx2, float vy2, Vec2 out){
         float px = vx1, py = vy1;
 
         vx1 -= vx2;

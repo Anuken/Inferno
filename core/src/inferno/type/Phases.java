@@ -4,26 +4,26 @@ import inferno.*;
 import inferno.entity.*;
 import inferno.graphics.*;
 import inferno.world.*;
-import io.anuke.arc.*;
-import io.anuke.arc.collection.*;
-import io.anuke.arc.func.*;
-import io.anuke.arc.graphics.g2d.*;
-import io.anuke.arc.math.*;
-import io.anuke.arc.math.geom.*;
-import io.anuke.arc.util.*;
+import arc.*;
+import arc.struct.*;
+import arc.func.*;
+import arc.graphics.g2d.*;
+import arc.math.*;
+import arc.math.geom.*;
+import arc.util.*;
 
 import java.util.*;
 
 import static inferno.Inferno.*;
-import static io.anuke.arc.math.Angles.*;
-import static io.anuke.arc.math.Mathf.*;
-import static io.anuke.arc.util.Time.*;
+import static arc.math.Angles.*;
+import static arc.math.Mathf.*;
+import static arc.util.Time.*;
 
 public class Phases{
 
     //fun dragonfire attack
     /*
-    Vector2 s = world.statue();
+    Vec2 s = world.statue();
     loop(60, i -> run(i * 3f, () -> shotgun(2 + i %10, 4f + (i + 5) % 10, 270f, f -> boss.shoot(Bullets.firebreath, s.x, s.y, f))));
      */
     private static final Interval in = new Interval(20);
@@ -173,7 +173,7 @@ public class Phases{
 
         //dragonfire
         () -> {
-            Vector2 s = world.statue();
+            Vec2 s = world.statue();
             loop(80, i -> run(i * 8f, () -> boss.shoot(Bullets.firebreath, s.x, s.y, 270f + Mathf.range(7f))));
         }
     );
@@ -569,13 +569,13 @@ public class Phases{
         Array<Runnable> attacks = Array.with(
         () -> {
             every(60f*0.6f, () -> {
-                Vector2 s = world.statue();
+                Vec2 s = world.statue();
                 loop(7, i -> run(i * 3f, () -> shotgun(2 + i %10, 4f + (i + 5) % 10, 0f, f -> boss.shoot(Bullets.breath2, s.x, s.y, f + boss.aim()))));
             });
         },
         () -> {
             every(60f*0.9f, () -> {
-                Vector2 s = world.statue();
+                Vec2 s = world.statue();
                 loop(9, i -> shotgun(2, 80f - i*6f, 0f, c -> run(i * 3f, () -> shotgun(2, 4f + (i + 5) % 10, c, f -> boss.shoot(Bullets.breath2, s.x, s.y, f + boss.aim())))));
                 run(30f, () -> {
                     boss.laser(Bullets.laser, boss.aim() + range(30));
@@ -720,7 +720,7 @@ public class Phases{
         return (int)((1f - boss.health / boss.maxHealth()) * max);
     }
 
-    private static Vector2 v(float x, float y){
+    private static Vec2 v(float x, float y){
         return Tmp.v1.set(x / 10f, y / 10f);
     }
 

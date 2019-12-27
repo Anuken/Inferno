@@ -3,22 +3,22 @@ package inferno;
 import inferno.entity.*;
 import inferno.graphics.*;
 import inferno.world.*;
-import io.anuke.arc.*;
-import io.anuke.arc.func.*;
-import io.anuke.arc.graphics.*;
-import io.anuke.arc.graphics.Texture.*;
-import io.anuke.arc.graphics.g2d.*;
-import io.anuke.arc.graphics.glutils.*;
-import io.anuke.arc.maps.*;
-import io.anuke.arc.maps.objects.*;
-import io.anuke.arc.math.*;
-import io.anuke.arc.math.geom.*;
-import io.anuke.arc.util.*;
-import io.anuke.arc.util.Log.*;
-import io.anuke.arc.util.noise.*;
+import arc.*;
+import arc.func.*;
+import arc.graphics.*;
+import arc.graphics.Texture.*;
+import arc.graphics.g2d.*;
+import arc.graphics.gl.*;
+import arc.maps.*;
+import arc.maps.objects.*;
+import arc.math.*;
+import arc.math.geom.*;
+import arc.util.*;
+import arc.util.Log.*;
+import arc.util.noise.*;
 
 import static inferno.Inferno.*;
-import static io.anuke.arc.Core.*;
+import static arc.Core.*;
 
 public class Renderer implements ApplicationListener{
     public LayerBatch zbatch;

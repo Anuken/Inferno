@@ -1,12 +1,12 @@
 package inferno.graphics;
 
 import inferno.type.Char;
-import io.anuke.arc.graphics.Color;
-import io.anuke.arc.graphics.g2d.Draw;
-import io.anuke.arc.graphics.g2d.Fill;
-import io.anuke.arc.math.*;
-import io.anuke.arc.scene.Element;
-import io.anuke.arc.util.Tmp;
+import arc.graphics.Color;
+import arc.graphics.g2d.Draw;
+import arc.graphics.g2d.Fill;
+import arc.math.*;
+import arc.scene.Element;
+import arc.util.Tmp;
 
 import static inferno.Inferno.boss;
 

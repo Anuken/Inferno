@@ -1,6 +1,6 @@
 package inferno.entity;
 
-import io.anuke.arc.math.geom.Position;
+import arc.math.geom.Position;
 
 @SuppressWarnings("unchecked")
 public abstract class Entity implements Position{

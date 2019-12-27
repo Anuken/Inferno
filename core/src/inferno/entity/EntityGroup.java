@@ -1,10 +1,10 @@
 package inferno.entity;
 
-import io.anuke.arc.*;
-import io.anuke.arc.collection.*;
-import io.anuke.arc.func.*;
-import io.anuke.arc.graphics.*;
-import io.anuke.arc.math.geom.*;
+import arc.*;
+import arc.struct.*;
+import arc.func.*;
+import arc.graphics.*;
+import arc.math.geom.*;
 
 @SuppressWarnings("unchecked")
 public class EntityGroup<T extends Entity>{
@@ -13,14 +13,14 @@ public class EntityGroup<T extends Entity>{
     private final Array<T> entitiesToRemove = new Array<>(false, 16);
     private final Array<T> entitiesToAdd = new Array<>(false, 16);
     private boolean clip = false;
-    private Rectangle viewport = new Rectangle();
+    private Rect viewport = new Rect();
     private QuadTree tree;
 
     public EntityGroup(boolean useTree){
         this.useTree = useTree;
 
         if(useTree){
-            tree = new QuadTree<>(new Rectangle(0, 0, 0, 0));
+            tree = new QuadTree<>(new Rect(0, 0, 0, 0));
         }
     }
 
@@ -113,7 +113,7 @@ public class EntityGroup<T extends Entity>{
     /** Resizes the internal quadtree, if it is enabled.*/
     public void resize(float x, float y, float w, float h){
         if(useTree){
-            tree = new QuadTree<>(new Rectangle(x, y, w, h));
+            tree = new QuadTree<>(new Rect(x, y, w, h));
         }
     }
 

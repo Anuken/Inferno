@@ -1,7 +1,7 @@
 package inferno.desktop;
 
+import arc.backend.sdl.*;
 import inferno.*;
-import io.anuke.arc.backends.sdl.*;
 
 public class DesktopLauncher{
 	public static void main(String[] arg){

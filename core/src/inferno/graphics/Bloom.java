@@ -1,10 +1,10 @@
 package inferno.graphics;
 
-import io.anuke.arc.*;
-import io.anuke.arc.graphics.*;
-import io.anuke.arc.graphics.Pixmap.*;
-import io.anuke.arc.graphics.VertexAttributes.*;
-import io.anuke.arc.graphics.glutils.*;
+import arc.*;
+import arc.graphics.*;
+import arc.graphics.Pixmap.*;
+import arc.graphics.VertexAttributes.*;
+import arc.graphics.gl.*;
 
 /**
  * Bloomlib allow easy but efficient way to add bloom effect as post process

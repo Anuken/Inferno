@@ -3,11 +3,11 @@ package inferno.type;
 import inferno.entity.*;
 import inferno.graphics.Effects;
 import inferno.graphics.Effects.Effect;
-import io.anuke.arc.graphics.Color;
-import io.anuke.arc.math.Mathf;
-import io.anuke.arc.util.Time;
-import io.anuke.arc.util.pooling.Pool.Poolable;
-import io.anuke.arc.util.pooling.Pools;
+import arc.graphics.Color;
+import arc.math.Mathf;
+import arc.util.Time;
+import arc.util.pooling.Pool.Poolable;
+import arc.util.pooling.Pools;
 
 import static inferno.Inferno.effectGroup;
 

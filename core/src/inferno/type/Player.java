@@ -4,13 +4,13 @@ import inferno.*;
 import inferno.entity.*;
 import inferno.graphics.*;
 import inferno.world.*;
-import io.anuke.arc.*;
-import io.anuke.arc.collection.*;
-import io.anuke.arc.graphics.*;
-import io.anuke.arc.graphics.g2d.*;
-import io.anuke.arc.math.*;
-import io.anuke.arc.math.geom.*;
-import io.anuke.arc.util.*;
+import arc.*;
+import arc.struct.*;
+import arc.graphics.*;
+import arc.graphics.g2d.*;
+import arc.math.*;
+import arc.math.geom.*;
+import arc.util.*;
 
 import static inferno.Inferno.*;
 
@@ -20,14 +20,14 @@ public class Player extends Char{
     private final static float speed = 3f, reload = 12f, rotspeed = 18f, slashdur = 6f, slasharc = 210f, slashreload = 100f, scytheJump = 24f;
     private final static Color hand = Color.valueOf("202334").mul(2f);
 
-    private Vector2 movement = new Vector2();
+    private Vec2 movement = new Vec2();
     private Direction direction = Direction.right;
     private Interval timer = new Interval();
     private float scytherot, movetime, glowtime, slashtime = -100f, slashrot;
     private boolean slashdir, hitBoss;
 
-    private Array<Vector3> removals = new Array<>();
-    private Array<Vector3> slashes = new Array<>();
+    private Array<Vec3> removals = new Array<>();
+    private Array<Vec3> slashes = new Array<>();
     private float px, py;
 
     @Override
@@ -79,13 +79,13 @@ public class Player extends Char{
             float basethick = 30f;
 
             for(int i = 0; i < slashes.size; i ++){
-                Vector3 cur = slashes.get(i);
+                Vec3 cur = slashes.get(i);
                 float offsetx = x, offsety = y;
                 float thick = (1f - cur.z) * basethick * Mathf.lerp((float)i / (slashes.size-1), 1f, 0.4f);
                 Draw.color(startColor, endColor, cur.z);
 
                 if(i != slashes.size-1) {
-                    Vector3 next = slashes.get(i + 1);
+                    Vec3 next = slashes.get(i + 1);
 
                     Lines.stroke(thick);
                     Lines.line(offsetx + cur.x, offsety + cur.y, offsetx + next.x, offsety + next.y, i == 0 ? CapStyle.round : CapStyle.none, 1f);
@@ -125,7 +125,7 @@ public class Player extends Char{
         float rot = mouseAngle() + slasharc/2f * sdir + (slashtime > 0 ? (slasharc * Mathf.clamp(1f - slashtime)) * -sdir : 0) - 20*sdir;
 
         Tmp.v2.trns(rot, 26f);
-        slashes.add(new Vector3(Tmp.v2.x, 7 + Tmp.v2.y, offset));
+        slashes.add(new Vec3(Tmp.v2.x, 7 + Tmp.v2.y, offset));
     }
 
     @Override
@@ -213,7 +213,7 @@ public class Player extends Char{
                     b.velocity.setAngle(b.angleTo(player.x, player.y + 7f) + 180f).scl(1.1f);
                     Fx.spark.at(b.x, b.y, Pal.player);
                     b.shooter = this;
-                    b.mover = f -> Vector2.ZERO;
+                    b.mover = f -> Vec2.ZERO;
                     b.velocity.setLength(b.type.speed);
                     //control.slowmo();
                 }
@@ -279,7 +279,7 @@ public class Player extends Char{
     }
 
     @Override
-    public void hitbox(Rectangle rectangle){
+    public void hitbox(Rect rectangle){
         float w = 6f, h = 8f;
         rectangle.set(x - w / 2f, y, w, h);
     }

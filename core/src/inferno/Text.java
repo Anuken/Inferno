@@ -1,6 +1,6 @@
 package inferno;
 
-import io.anuke.arc.collection.Array;
+import arc.struct.Array;
 
 public class Text{
     public static final Array<String> 

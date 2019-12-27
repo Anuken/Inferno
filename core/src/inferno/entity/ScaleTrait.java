@@ -1,6 +1,6 @@
 package inferno.entity;
 
-import io.anuke.arc.math.Interpolation;
+import arc.math.Interpolation;
 
 public interface ScaleTrait{
     /** 0 to 1. */

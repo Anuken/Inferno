@@ -1,9 +1,9 @@
 package inferno.graphics;
 
-import io.anuke.arc.collection.*;
-import io.anuke.arc.graphics.*;
-import io.anuke.arc.graphics.g2d.*;
-import io.anuke.arc.util.pooling.*;
+import arc.struct.*;
+import arc.graphics.*;
+import arc.graphics.g2d.*;
+import arc.util.pooling.*;
 
 public class QueueBatch extends SpriteBatch{
     private Array<DrawRequest> requests = new Array<>();

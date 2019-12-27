@@ -1,10 +1,10 @@
 package inferno.graphics;
 
-import io.anuke.arc.collection.Array;
-import io.anuke.arc.graphics.Texture;
-import io.anuke.arc.graphics.g2d.SpriteBatch;
-import io.anuke.arc.graphics.g2d.TextureRegion;
-import io.anuke.arc.util.pooling.Pools;
+import arc.struct.Array;
+import arc.graphics.Texture;
+import arc.graphics.g2d.SpriteBatch;
+import arc.graphics.g2d.TextureRegion;
+import arc.util.pooling.Pools;
 
 public class LayerBatch extends SpriteBatch{
     private Array<DrawRequest> requests = new Array<>();

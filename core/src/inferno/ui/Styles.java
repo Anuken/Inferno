@@ -1,10 +1,10 @@
 package inferno.ui;
 
-import io.anuke.arc.*;
-import io.anuke.arc.graphics.*;
-import io.anuke.arc.graphics.g2d.*;
-import io.anuke.arc.scene.style.*;
-import io.anuke.arc.scene.ui.Label.*;
+import arc.*;
+import arc.graphics.*;
+import arc.graphics.g2d.*;
+import arc.scene.style.*;
+import arc.scene.ui.Label.*;
 
 public class Styles{
     public static BitmapFont font = new BitmapFont(Core.files.internal("sprites/default.fnt"));

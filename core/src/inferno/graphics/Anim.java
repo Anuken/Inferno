@@ -1,8 +1,8 @@
 package inferno.graphics;
 
-import io.anuke.arc.*;
-import io.anuke.arc.graphics.g2d.*;
-import io.anuke.arc.math.*;
+import arc.*;
+import arc.graphics.g2d.*;
+import arc.math.*;
 
 public class Anim{
     private final TextureRegion[] frames;
