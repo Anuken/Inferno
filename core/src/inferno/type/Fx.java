@@ -11,7 +11,7 @@ import arc.util.*;
 import static inferno.Inferno.*;
 
 public class Fx{
-    private static final RandomXS128 random = new RandomXS128();
+    private static final Rand random = new Rand();
 
     public static final Effect
 

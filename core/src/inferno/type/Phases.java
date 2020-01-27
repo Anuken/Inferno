@@ -1,23 +1,24 @@
 package inferno.type;
 
+import arc.*;
+import arc.func.*;
+import arc.graphics.*;
+import arc.graphics.g2d.*;
+import arc.math.*;
+import arc.math.geom.*;
+import arc.struct.*;
+import arc.util.*;
 import inferno.*;
 import inferno.entity.*;
 import inferno.graphics.*;
 import inferno.world.*;
-import arc.*;
-import arc.struct.*;
-import arc.func.*;
-import arc.graphics.g2d.*;
-import arc.math.*;
-import arc.math.geom.*;
-import arc.util.*;
 
 import java.util.*;
 
-import static inferno.Inferno.*;
 import static arc.math.Angles.*;
 import static arc.math.Mathf.*;
-import static arc.util.Time.*;
+import static arc.util.Time.run;
+import static inferno.Inferno.*;
 
 public class Phases{
 
@@ -647,6 +648,9 @@ public class Phases{
     },
 
     new Phase(Text.phase4){
+        {
+            ambient = new Color(0.03f, 0.06f, 0.02f, 0.9f);
+        }
 
         @Override
         public void update(){
@@ -725,11 +729,13 @@ public class Phases{
     }
 
     public abstract static class Phase{
+        static int special = 0;
+
         public final Interval time = new Interval(10);
         public final Array<String> startText;
 
-        static int special = 0;
-        Runnable currentAttack = null;
+        public Runnable currentAttack = null;
+        public Color ambient = new Color(0.2f, 0.06f, 0.02f, 0.5f);
 
         public Phase(Array<String> text){
             this.startText = text;

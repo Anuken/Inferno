@@ -1,8 +1,5 @@
 package inferno;
 
-import inferno.entity.*;
-import inferno.graphics.*;
-import inferno.world.*;
 import arc.*;
 import arc.func.*;
 import arc.graphics.*;
@@ -14,15 +11,18 @@ import arc.maps.objects.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.util.*;
-import arc.util.Log.*;
 import arc.util.noise.*;
+import inferno.entity.*;
+import inferno.graphics.*;
+import inferno.world.*;
 
-import static inferno.Inferno.*;
 import static arc.Core.*;
+import static inferno.Inferno.*;
 
 public class Renderer implements ApplicationListener{
     public LayerBatch zbatch;
     public QueueBatch lbatch;
+    public Color ambient = new Color(0.2f, 0.06f, 0.02f, 0.5f);
 
     private FrameBuffer buffer = new FrameBuffer(2, 2);
     private FrameBuffer shadow = new FrameBuffer(2, 2);
@@ -30,7 +30,6 @@ public class Renderer implements ApplicationListener{
     private FrameBuffer fogs;
     private float lim = 10f;
     private float shakeIntensity, shaketime;
-    private Color ambient = new Color(0.2f, 0.06f, 0.02f, 0.5f);
 
     private Shader fog = new Shader(Core.files.internal("dshaders/default.vertex.glsl"), Core.files.internal("dshaders/fog.fragment.glsl"));
     private Shader light = new Shader(Core.files.internal("dshaders/default.vertex.glsl"), Core.files.internal("dshaders/light.fragment.glsl")){

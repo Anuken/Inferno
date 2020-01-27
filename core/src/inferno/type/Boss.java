@@ -94,6 +94,7 @@ public class Boss extends Char{
         hitTime -= 1f/hitdur*Time.delta();
         if(!midSpeech){
             phase.update();
+            renderer.ambient.lerp(phase.ambient, 0.1f);
         }
         direction = player.x < x ? Direction.left : Direction.right;
 
