@@ -91,7 +91,7 @@ public class EntityGroup<T extends Entity>{
         entitiesToAdd.clear();
 
         for(T e : entitiesToRemove){
-            entityArray.removeValue(e, true);
+            entityArray.remove(e, true);
             e.removed();
         }
 

@@ -649,7 +649,7 @@ public class Phases{
 
     new Phase(Text.phase4){
         {
-            ambient = new Color(0.03f, 0.06f, 0.02f, 0.9f);
+            ambient = new Color(0.1f, 0.01f, 0.02f, 0.7f);
         }
 
         @Override

@@ -299,7 +299,7 @@ public class Renderer implements ApplicationListener{
         outer:
         for(int i = 0; i < vertices; i++){
             Tmp.v1.trns(i*step, radius);
-            if(Noise.nnoise((int)(Tmp.v1.x + x), (int)(Tmp.v1.y + y), 2f, 1f) + Noise.nnoise((int)(Tmp.v1.x + x), (int)(Tmp.v1.y + y), 20f, 1f)*2 < -0.04){
+            if(Noise.noise((int)(Tmp.v1.x + x), (int)(Tmp.v1.y + y), 2f, 1f) + Noise.noise((int)(Tmp.v1.x + x), (int)(Tmp.v1.y + y), 20f, 1f)*2 < -0.04){
                 continue;
             }
 
@@ -311,7 +311,7 @@ public class Renderer implements ApplicationListener{
                 }
             }
 
-            float rand = Noise.nnoise((int)Tmp.v1.x, -(int)Tmp.v1.y, 20f, 5f);
+            float rand = Noise.noise((int)Tmp.v1.x, -(int)Tmp.v1.y, 20f, 5f);
 
             Tmp.v2.trns((i+1)*step, radius);
             Tmp.v1.add(Mathf.range(rand), Mathf.range(rand));
