@@ -185,7 +185,7 @@ public class Player extends Char{
         }
 
         if(Core.input.keyDown(Binding.shoot) && !boss.midSpeech){
-            scytherot -= Time.delta() * rotspeed * Mathf.lerp(2f, 0.2f, Mathf.clamp(Angles.angleDist(scytherot, 60f) / 180f));
+            scytherot -= Time.delta() * rotspeed * 1.2f;
 
             if(timer.get(reload) && slashtime <= -1f){
                 shoot(Bullets.basic, angle);

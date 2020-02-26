@@ -2,6 +2,7 @@ package inferno;
 
 import arc.*;
 import arc.func.*;
+import arc.fx.*;
 import arc.graphics.*;
 import arc.graphics.Texture.*;
 import arc.graphics.g2d.*;
@@ -30,6 +31,7 @@ public class Renderer implements ApplicationListener{
     private FrameBuffer fogs;
     private float lim = 10f;
     private float shakeIntensity, shaketime;
+    private FxProcessor fx;
 
     private Shader fog = new Shader(Core.files.internal("dshaders/default.vertex.glsl"), Core.files.internal("dshaders/fog.fragment.glsl"));
     private Shader light = new Shader(Core.files.internal("dshaders/default.vertex.glsl"), Core.files.internal("dshaders/light.fragment.glsl")){
@@ -46,11 +48,15 @@ public class Renderer implements ApplicationListener{
         Core.atlas = new TextureAtlas(Core.files.internal("sprites/sprites.atlas"));
         Core.batch = zbatch = new LayerBatch();
         Core.camera = new Camera();
+        fx = new FxProcessor(graphics.getWidth()/scale, graphics.getHeight()/scale);
+        fx.setBufferTextureParams(TextureWrap.ClampToEdge, TextureWrap.ClampToEdge, TextureFilter.Nearest, TextureFilter.Nearest);
 
         lbatch = new QueueBatch();
 
         buffer.getTexture().setFilter(TextureFilter.Nearest);
         bloom = new Bloom();
+
+        fx.setBlendingEnabled(true);
     }
 
     @Override
@@ -94,6 +100,9 @@ public class Renderer implements ApplicationListener{
 
         buffer.beginDraw(Color.black);
 
+        //fx.clear(Color.clear);
+        //fx.begin();
+
         if(prof) Time.mark();
         drawWorld();
         if(prof) Log.info("| World: " + Time.elapsed());
@@ -110,6 +119,10 @@ public class Renderer implements ApplicationListener{
         Draw.shader(fog);
         Draw.fbo(fogs.getTexture(), world.width(), world.height(), tilesize);
         Draw.shader();
+
+        //fx.end();
+        //fx.applyEffects();
+        //fx.render(0, 0, graphics.getWidth()/scale, graphics.getHeight()/scale);
 
         buffer.endDraw();
 
@@ -151,6 +164,7 @@ public class Renderer implements ApplicationListener{
         buffer.resize(width / scale, height / scale);
         shadow.resize(width / scale, height / scale);
         lights.resize(width / scale, height / scale);
+        fx.resize(width / scale, height / scale);
         bloom.dispose();
         bloom = new Bloom();
         Core.camera.resize(width / scale, height / scale);
