@@ -11,7 +11,7 @@ import arc.util.*;
 import static inferno.Inferno.*;
 
 public class Blocks{
-    public static final Array<Block> blocks = Array.with(
+    public static final Seq<Block> blocks = Seq.with(
 
         new Block("candle"){
             {

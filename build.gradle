@@ -11,7 +11,7 @@ buildscript{
 
     dependencies{
         classpath "com.badlogicgames.gdx:gdx-tools:1.9.10"
-        classpath 'com.github.Anuken:teavm-gradle-plugin:d11d927197'
+        classpath 'com.github.Anuken:teavm-gradle-plugin:756b055ea3e8f9ee9c1878e6277a01f11d61d90a'
     }
 }
 
@@ -67,6 +67,7 @@ project(":desktop"){
     dependencies{
         compile project(":core")
 		compile arcModule("backends:backend-sdl")
+        compile arcModule("natives:natives-desktop")
 		compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
     }
 }

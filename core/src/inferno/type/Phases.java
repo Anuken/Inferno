@@ -29,7 +29,7 @@ public class Phases{
      */
     private static final Interval in = new Interval(20);
 
-    private static final Array<Runnable> allAttacks = Array.with(
+    private static final Seq<Runnable> allAttacks = Seq.with(
     //rays
     () -> {
         float aim =  boss.aim();
@@ -119,7 +119,7 @@ public class Phases{
     }
     );
 
-    private static final Array<Runnable> cycle = Array.with(
+    private static final Seq<Runnable> cycle = Seq.with(
         //teleport
 
         () -> {
@@ -153,7 +153,7 @@ public class Phases{
 
         //candles
         () -> {
-            for(Point2 tile : world.candles()){
+            for(Point2 tile : world.candles){
                 float x = tile.x * tilesize, y = tile.y * tilesize + 14f;
 
                 Fx.candlespiral.at(x, y);
@@ -174,7 +174,7 @@ public class Phases{
 
         //dragonfire
         () -> {
-            Vec2 s = world.statue();
+            Vec2 s = world.statue;
             loop(80, i -> run(i * 8f, () -> boss.shoot(Bullets.firebreath, s.x, s.y, 270f + Mathf.range(7f))));
         }
     );
@@ -187,11 +187,11 @@ public class Phases{
 
     static int data = 0;
 
-    public static final Array<Phase> phases = Array.with(
+    public static final Seq<Phase> phases = Seq.with(
 
     //first phase, basics
     new Phase(Text.start){
-        Array<Runnable> attacks = Array.with(
+        Seq<Runnable> attacks = Seq.with(
 
         //oscillating circle of bullets
         () -> {
@@ -269,7 +269,7 @@ public class Phases{
     },
     //phase 1 mid
     new Phase(null){
-        Array<Runnable> attacks = Array.with(
+        Seq<Runnable> attacks = Seq.with(
 
         //oscillating circle of bullets
         () -> {
@@ -345,7 +345,7 @@ public class Phases{
     new Phase(Text.phase1){
         boolean detonated = false, detonating = false;
 
-        Array<Runnable> attacks = Array.with(
+        Seq<Runnable> attacks = Seq.with(
         //double flower attack
         () -> {
             every(60f * 4f - healthi(60), () -> {
@@ -417,7 +417,7 @@ public class Phases{
                     });
 
                     //instakill player if within blast radius
-                    if(player.withinDst(boss.x, boss.y, 200)){
+                    if(player.within(boss.x, boss.y, 200)){
                         player.damage(player.health + 1);
                     }
                 });
@@ -434,7 +434,7 @@ public class Phases{
                 currentAttack.run();
 
                 if(time.get(5, 60f * 17f)){
-                    for(Point2 candle : world.candles()){
+                    for(Point2 candle : world.candles){
                         if(Mathf.chance(0.4)) continue;
 
                         run(Mathf.range(60f * 5), () -> {
@@ -463,7 +463,7 @@ public class Phases{
 
     new Phase(Text.phase2){
         float windup;
-        Array<Runnable> attacks = Array.with(
+        Seq<Runnable> attacks = Seq.with(
         () -> {
             every(30f, () -> {
                 float f = (data++ % 2 - 0.5f) * 50f;
@@ -567,16 +567,16 @@ public class Phases{
     },
 
     new Phase(Text.phase3){
-        Array<Runnable> attacks = Array.with(
+        Seq<Runnable> attacks = Seq.with(
         () -> {
             every(60f*0.6f, () -> {
-                Vec2 s = world.statue();
+                Vec2 s = world.statue;
                 loop(7, i -> run(i * 3f, () -> shotgun(2 + i %10, 4f + (i + 5) % 10, 0f, f -> boss.shoot(Bullets.breath2, s.x, s.y, f + boss.aim()))));
             });
         },
         () -> {
             every(60f*0.9f, () -> {
-                Vec2 s = world.statue();
+                Vec2 s = world.statue;
                 loop(9, i -> shotgun(2, 80f - i*6f, 0f, c -> run(i * 3f, () -> shotgun(2, 4f + (i + 5) % 10, c, f -> boss.shoot(Bullets.breath2, s.x, s.y, f + boss.aim())))));
                 run(30f, () -> {
                     boss.laser(Bullets.laser, boss.aim() + range(30));
@@ -618,7 +618,7 @@ public class Phases{
                         renderer.shake(30f);
 
                         //instakill player if within blast radius
-                        if(player.withinDst(x, y, 200)){
+                        if(player.within(x, y, 200)){
                             player.damage(player.health + 1);
                         }
                     });
@@ -627,7 +627,7 @@ public class Phases{
                 }
             }
 
-            boss.set(world.statue().x, world.statue().y);
+            boss.set(world.statue.x, world.statue.y);
 
             if(time.get(6, 60f * 9f)){
                 run(60f * 5, () -> {
@@ -732,12 +732,12 @@ public class Phases{
         static int special = 0;
 
         public final Interval time = new Interval(10);
-        public final Array<String> startText;
+        public final Seq<String> startText;
 
         public Runnable currentAttack = null;
         public Color ambient = new Color(0.2f, 0.06f, 0.02f, 0.5f);
 
-        public Phase(Array<String> text){
+        public Phase(Seq<String> text){
             this.startText = text;
         }
 

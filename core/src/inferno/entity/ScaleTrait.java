@@ -1,6 +1,6 @@
 package inferno.entity;
 
-import arc.math.Interpolation;
+import arc.math.Interp;
 
 public interface ScaleTrait{
     /** 0 to 1. */
@@ -12,7 +12,7 @@ public interface ScaleTrait{
     }
 
     /** 1 to 0 */
-    default float fout(Interpolation i){
+    default float fout(Interp i){
         return i.apply(fout());
     }
 
@@ -27,13 +27,13 @@ public interface ScaleTrait{
     }
 
     /** 0 to 1 **/
-    default float fin(Interpolation i){
+    default float fin(Interp i){
         return i.apply(fin());
     }
 
     /** 0 to 1 */
     default float finpow(){
-        return Interpolation.pow3Out.apply(fin());
+        return Interp.pow3Out.apply(fin());
     }
 
     /** 0 to 1 to 0 */

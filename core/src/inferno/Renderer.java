@@ -67,6 +67,7 @@ public class Renderer implements ApplicationListener{
 
     @Override
     public void update(){
+        Draw.reset();
         if(prof) Time.mark();
         Drawf.sort(true);
 
@@ -88,17 +89,17 @@ public class Renderer implements ApplicationListener{
         Core.camera.update();
 
         Core.batch = lbatch;
-        Draw.proj(Core.camera.projection());
+        Draw.proj(Core.camera);
         Core.batch = zbatch;
-        Draw.proj(Core.camera.projection());
+        Draw.proj(Core.camera);
 
         if(prof) Time.mark();
-        shadow.beginDraw(Color.clear);
+        shadow.begin(Color.clear);
         drawShadows();
-        shadow.endDraw();
+        shadow.end();
         if(prof) Log.info("| Shadows: " + Time.elapsed());
 
-        buffer.beginDraw(Color.black);
+        buffer.begin(Color.black);
 
         //fx.clear(Color.clear);
         //fx.begin();
@@ -124,13 +125,13 @@ public class Renderer implements ApplicationListener{
         //fx.applyEffects();
         //fx.render(0, 0, graphics.getWidth()/scale, graphics.getHeight()/scale);
 
-        buffer.endDraw();
+        buffer.end();
 
         Draw.color();
-        lights.beginDraw(Color.clear);
-        lbatch.blend(Blending.additive);
+        lights.begin(Color.clear);
+        lbatch.setBlending(Blending.additive);
         lbatch.flush();
-        lights.endDraw();
+        lights.end();
 
         buffer.begin();
 
@@ -139,7 +140,7 @@ public class Renderer implements ApplicationListener{
         Draw.rect(Draw.wrap(lights.getTexture()), Core.camera.position.x, Core.camera.position.y, Core.camera.width, -Core.camera.height);
         Draw.shader();
 
-        buffer.endDraw();
+        buffer.end();
         if(prof) Log.info("| Lights & stuff: " + Time.elapsed());
 
         if(prof) Time.mark();
@@ -213,7 +214,7 @@ public class Renderer implements ApplicationListener{
         //draw cached floor
         Draw.flush();
         if(prof) Time.mark();
-        cache.setProjectionMatrix(Core.camera.projection());
+        cache.setProjectionMatrix(camera.mat);
         cache.begin();
         cache.draw(0);
         cache.end();
@@ -374,7 +375,7 @@ public class Renderer implements ApplicationListener{
 
         Draw.proj().setOrtho(0, 0, fogs.getWidth(), fogs.getHeight());
 
-        fogs.beginDraw(Color.white);
+        fogs.begin(Color.white);
 
         for(int x = 0; x < world.width(); x++){
             for(int y = 0; y < world.height(); y++){
@@ -385,7 +386,7 @@ public class Renderer implements ApplicationListener{
             }
         }
 
-        fogs.endDraw();
+        fogs.end();
 
         Draw.color();
     }

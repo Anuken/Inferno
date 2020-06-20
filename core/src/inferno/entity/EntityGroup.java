@@ -9,9 +9,9 @@ import arc.math.geom.*;
 @SuppressWarnings("unchecked")
 public class EntityGroup<T extends Entity>{
     private final boolean useTree;
-    private final Array<T> entityArray = new Array(false, 16);
-    private final Array<T> entitiesToRemove = new Array<>(false, 16);
-    private final Array<T> entitiesToAdd = new Array<>(false, 16);
+    private final Seq<T> entityArray = new Seq<>(false, 16);
+    private final Seq<T> entitiesToRemove = new Seq<>(false, 16);
+    private final Seq<T> entitiesToAdd = new Seq<>(false, 16);
     private boolean clip = false;
     private Rect viewport = new Rect();
     private QuadTree tree;
@@ -102,7 +102,7 @@ public class EntityGroup<T extends Entity>{
     public void intersect(float x, float y, float width, float height, Cons<? super T> out){
         //don't waste time for empty groups
         if(isEmpty()) return;
-        tree().getIntersect(out, x, y, width, height);
+        tree().intersect(x, y, width, height, out);
     }
 
     public QuadTree tree(){
@@ -171,7 +171,7 @@ public class EntityGroup<T extends Entity>{
     }
 
     /** Returns the logic-only array for iteration. */
-    public Array<T> all(){
+    public Seq<T> all(){
         return entityArray;
     }
 }

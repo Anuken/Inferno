@@ -21,7 +21,7 @@ public class EntityCollisions{
     private static Rect r2 = new Rect();
 
     //entity collisions
-    private static Array<SolidEntity> arrOut = new Array<>();
+    private static Seq<SolidEntity> arrOut = new Seq<>();
 
     public static void move(SolidEntity entity, float deltax, float deltay){
 
@@ -207,7 +207,7 @@ public class EntityCollisions{
             r2.merge(r1);
 
             arrOut.clear();
-            groupb.tree().getIntersect(arrOut, r2);
+            groupb.tree().intersect(r2, arrOut);
 
             for(SolidEntity sc : arrOut){
                 sc.hitbox(r1);

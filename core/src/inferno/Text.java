@@ -1,27 +1,27 @@
 package inferno;
 
-import arc.struct.Array;
+import arc.struct.*;
 
 public class Text{
-    public static final Array<String> 
+    public static final Seq<String> 
     
-    start = Array.with(
+    start = Seq.with(
     "{Lucine}{face:lucine frown}You're late."
     ),
     
-    phase1 = Array.with(
+    phase1 = Seq.with(
     "{Asmus}{face:asmus lookdown}Haven't you had enough?",
     "{Lucine}{face:lucine frown}Not while I'm still breathing."
     ),
 
-    phase2 = Array.with(
+    phase2 = Seq.with(
     "{Lucine}{face:lucine frown}This is what you wanted, right?",
     "{Asmus}{face:asmus lookleft}You're delusional.",
     "{Lucine}{face:lucine annoyed}Good one.",
     "{Lucine}{face:lucine smug}Hey, I'm not the one with a mask."
     ),
 
-    phase3 = Array.with(
+    phase3 = Seq.with(
     "{Asmus}{face:asmus lookahead}Do I have to remind you that you tried to have me killed?",
     "{Lucine}{face:lucine smug}I'm still trying.",
     "{Asmus}{face:asmus lookleft}Go figure.",
@@ -30,7 +30,7 @@ public class Text{
     "{Lucine}{face:lucine frustrated}Well, how's this for some perspective?"
     ),
 
-    phase4 = Array.with(
+    phase4 = Seq.with(
     "{Asmus}{face:asmus lookdown}He's not coming back, Lucine.",
     "{Lucine}{face:lucine upset}Because you killed him.",
     "{Asmus}{face:asmus lookleft}Because you had him attack me. What were you expecting?",
@@ -38,7 +38,7 @@ public class Text{
     "{Lucine}{face:lucine frown}And what about your attitude?"
     ),
 
-    phase5 = Array.with(
+    phase5 = Seq.with(
     "{Lucine}{face:lucine concerned}All your life, you've wanted to become someone you're not.",
     "{Lucine}{face:lucine concerned}You've been chasing after a crown that's too big for your head.",
     "{Lucine}{face:lucine concerned}You crave the throne your father sits on.",
@@ -47,7 +47,7 @@ public class Text{
     "{Lucine}{face:lucine sad}You've come to kill me, haven't you?"
     ),
     
-    phase6 = Array.with(
+    phase6 = Seq.with(
     "{Lucine}{face:lucine frustrated}You want perspective? Fine.",
     "{Lucine}{face:lucine frown}You're a selfish, ignorant egoist.",
     "{Lucine}{face:lucine frown}Trust me, I know what that's like.",
@@ -55,7 +55,7 @@ public class Text{
     "{Lucine}{face:lucine anger}Go now, pray to whatever cursed God spawned you."
     ),
     
-    phase7 = Array.with(
+    phase7 = Seq.with(
     "{Asmus}{face:asmus lookdown}I'm sorry.",
     "{Lucine}{face:lucine concerned}No... you're not.",
     "{Lucine}{face:lucine concerned}Hey...",

@@ -19,7 +19,7 @@ public class UI implements ApplicationListener{
     private TypeLabel label;
     private Image image;
 
-    private Array<String> text = new Array<>();
+    private Seq<String> text = new Seq<>();
     private String displayName = "";
     private int textIndex;
     private float dialogueTime;
@@ -72,7 +72,7 @@ public class UI implements ApplicationListener{
 	    return label.getText().length() > 0 || dialogueTime > 0f;
     }
 
-    public void displayText(Array<String> text){
+    public void displayText(Seq<String> text){
 	    this.text = text;
 	    this.textIndex = 0;
 	    label.restart(text.first());
@@ -97,7 +97,7 @@ public class UI implements ApplicationListener{
 
                 label.setAlignment(Align.topLeft);
                 label.update(() -> {
-                    if(Core.input.keyTap(KeyCode.SPACE)){
+                    if(Core.input.keyTap(KeyCode.space)){
                         if(label.hasEnded()){
                             if(textIndex < text.size - 1){
                                 label.restart(text.get(++textIndex));

@@ -316,7 +316,7 @@ public class Bullets{
 
         @Override
         public void draw(Laser laser){
-            float f = laser.fout(Interpolation.exp5Out);
+            float f = laser.fout(Interp.exp5Out);
             Lines.stroke(14f * f, Pal.fireball);
             Lines.lineAngle(laser.x, laser.y, laser.angle, Laser.length);
 

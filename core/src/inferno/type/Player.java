@@ -26,8 +26,8 @@ public class Player extends Char{
     private float scytherot, movetime, glowtime, slashtime = -100f, slashrot;
     private boolean slashdir, hitBoss;
 
-    private Array<Vec3> removals = new Array<>();
-    private Array<Vec3> slashes = new Array<>();
+    private Seq<Vec3> removals = new Seq<>();
+    private Seq<Vec3> slashes = new Seq<>();
     private float px, py;
 
     @Override
@@ -56,7 +56,7 @@ public class Player extends Char{
         Draw.rect("scythe", x + Tmp.v1.x, y + 7 + scythe.getHeight()/2f + Tmp.v1.y, scythe.getWidth() * sdir, scythe.getHeight(), scythe.getWidth()/2f * sdir, 4f, rot);
 
         if(slashtime > -slashreload/slashdur){
-            float fract = (1f - Interpolation.pow10In.apply(-slashtime / (slashreload/slashdur)));
+            float fract = (1f - Interp.pow10In.apply(-slashtime / (slashreload/slashdur)));
 
             Draw.alpha(fract);
             Draw.rect("scytheglow", x + Tmp.v1.x, y + 7 + scythe.getHeight()/2f + Tmp.v1.y, scythe.getWidth() * sdir, scythe.getHeight(), scythe.getWidth()/2f * sdir, 4f, rot);
@@ -104,8 +104,7 @@ public class Player extends Char{
             removals.clear();
         }
 
-        Draw.color();
-        Draw.mixcol();
+        Draw.reset();
 
         Drawf.light(x, y + 10f, 150f, Color.cyan, 0.75f);
 
@@ -209,7 +208,7 @@ public class Player extends Char{
                 if(b.shooter.isPlayer() || !b.type.deflect) return;
                 b.hitbox(Tmp.r2);
 
-                if(b.withinDst(player.x, player.y + 7, length) && Angles.angleDist(angle, Angles.angle(player.x, player.y + 7f, b.x, b.y)) <= slasharc/2f){
+                if(b.within(player.x, player.y + 7, length) && Angles.angleDist(angle, Angles.angle(player.x, player.y + 7f, b.x, b.y)) <= slasharc/2f){
                     b.velocity.setAngle(b.angleTo(player.x, player.y + 7f) + 180f).scl(1.1f);
                     Fx.spark.at(b.x, b.y, Pal.player);
                     b.shooter = this;
@@ -219,7 +218,7 @@ public class Player extends Char{
                 }
             });
 
-            boolean hitsBoss = boss.withinDst(player.x, player.y + 7f, length) && Angles.angleDist(angle, Angles.angle(player.x, player.y + 7f, boss.x, boss.y + 7f)) <= slasharc/2f;
+            boolean hitsBoss = boss.within(player.x, player.y + 7f, length) && Angles.angleDist(angle, Angles.angle(player.x, player.y + 7f, boss.x, boss.y + 7f)) <= slasharc/2f;
             boss.hitbox(Tmp.r2);
             hitsBoss |= boss.isStatue() && Intersector.overlaps(Tmp.cr1.set(player.x, player.y + 7f, length), Tmp.r2) && Angles.angleDist(angle, Angles.angle(player.x, player.y + 7f, boss.x, boss.y + 7f)) <= slasharc/2f;
 
@@ -286,6 +285,6 @@ public class Player extends Char{
 
     public float angleOffset(){
         int sdir = Mathf.sign(slashdir);
-        return mouseAngle() - 90 + scytherot * sdir + (slashtime > 0 ? (slasharc * Mathf.clamp(1f - Interpolation.pow3In.apply(slashtime))) * -sdir : 0);
+        return mouseAngle() - 90 + scytherot * sdir + (slashtime > 0 ? (slasharc * Mathf.clamp(1f - Interp.pow3In.apply(slashtime))) * -sdir : 0);
     }
 }

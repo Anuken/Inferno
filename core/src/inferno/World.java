@@ -16,12 +16,12 @@ public class World implements ApplicationListener{
     Tile[][] tiles;
     ObjectMap<MapTile, Block> blocks = new ObjectMap<>();
     ObjectMap<String, Block> blockNames = new ObjectMap<>();
-    Array<Point2> brokenWalls = new Array<>();
-    Array<Point2> candles = new Array<>();
     TiledMap map;
     TileLayer floorLayer, wallLayer, overLayer;
     MapLayer objectLayer;
-    Vec2 statue = new Vec2();
+    public Seq<Point2> brokenWalls = new Seq<>();
+    public Seq<Point2> candles = new Seq<>();
+    public Vec2 statue = new Vec2();
 
     public World(){
         map = new MapLoader().load("maps/map.tmx");
@@ -170,15 +170,7 @@ public class World implements ApplicationListener{
         renderer.updateShadows();
     }
 
-    public Vec2 statue(){
-        return statue;
-    }
-
-    public Array<Point2> candles(){
-        return candles;
-    }
-
-    public Array<MapObject> getObjects(){
+    public Seq<MapObject> getObjects(){
         return objectLayer.objects;
     }
 

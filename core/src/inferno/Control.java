@@ -60,11 +60,11 @@ public class Control implements ApplicationListener{
         Color.white.set(1f, 1f, 1f, 1f);
         Draw.mixcol();
 
-        if(Core.input.keyTap(KeyCode.ESCAPE)){
+        if(Core.input.keyTap(KeyCode.escape)){
             Core.app.exit();
         }
 
-        if(Core.input.keyTap(KeyCode.SPACE)){
+        if(Core.input.keyTap(KeyCode.space)){
             setPaused(!isPaused());
         }
 

@@ -1,9 +1,11 @@
+import org.teavm.vm.TeaVMOptimizationLevel
+
 apply plugin: "com.edibleday.teavm"
 
 sourceCompatibility = 1.8
 sourceSets.main.java.srcDirs = [ "src/" ]
 
-mainClassName = "inferno.teavm.TeaVMLauncher"
+ext.mainClassName = "inferno.teavm.TeaVMLauncher"
 def outputdir = "${project.buildDir}/teavm"
 
 task cleanTeavm(){
@@ -34,6 +36,7 @@ teavmc{
     copySources false
     generateSourceMap false
     minified true
+    optimization TeaVMOptimizationLevel.ADVANCED
 }
 
 teavmc.dependsOn(copyAssets)

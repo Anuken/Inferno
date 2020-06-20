@@ -72,7 +72,7 @@ public class MapLoader extends TmxMapLoader{
         if(properties != null){
             loadProperties(map.properties, properties);
         }
-        Array<Element> tilesets = root.getChildrenByName("tileset");
+        Seq<Element> tilesets = root.getChildrenByName("tileset");
         for(Element element : tilesets){
             loadTileSet(map, element, tmxFile, imageResolver);
             root.removeChild(element);
@@ -150,7 +150,7 @@ public class MapLoader extends TmxMapLoader{
             tileset.name = name;
             tileset.getProperties().put("firstgid", firstgid);
 
-            Array<Element> tileElements = element.getChildrenByName("tile");
+            Seq<Element> tileElements = element.getChildrenByName("tile");
             for(Element tileElement : tileElements){
                 Element imageElement = tileElement.getChildByName("image");
                 if(imageElement != null){

@@ -92,7 +92,7 @@ public class Fx{
     }),
     blast = new Effect(30f, e -> {
         Drawf.z(0f);
-        Draw.alpha(Interpolation.exp5Out.apply(e.fout()));
+        Draw.alpha(Interp.exp5Out.apply(e.fout()));
         Fill.circle(e.x, e.y, 200f);
         Drawf.light(e.x, e.y, 250f*2, Pal.fireball, 1f);
     }),
@@ -186,23 +186,23 @@ public class Fx{
 
         /*
         //lines
-                float length = e.fout(Interpolation.exp5Out) * 240f;
+                float length = e.fout(Interp.exp5Out) * 240f;
         Tmp.v1.trns(75f, length);
 
         Drawf.z(e.y);
         Draw.color(Pal.lucine);
         //Draw.alpha(e.fin());
-        Lines.stroke(e.fin(Interpolation.exp5In) * 4f);
-        Lines.lineAngle(e.x + Tmp.v1.x, e.y + Tmp.v1.y, 75f, e.fin(Interpolation.exp5In) * 24f, CapStyle.round);
+        Lines.stroke(e.fin(Interp.exp5In) * 4f);
+        Lines.lineAngle(e.x + Tmp.v1.x, e.y + Tmp.v1.y, 75f, e.fin(Interp.exp5In) * 24f, CapStyle.round);
          */
 
-        float length = e.fout(Interpolation.exp5Out) * 200f;
+        float length = e.fout(Interp.exp5Out) * 200f;
         Tmp.v1.trns(75f, length);
 
         Drawf.z(e.y);
         Draw.color(Pal.lucine);
-        Draw.alpha(e.fin(Interpolation.exp5In));
-        Fill.circle(e.x + Tmp.v1.x, e.y + Tmp.v1.y, e.fin(Interpolation.exp5In) * 13f);
+        Draw.alpha(e.fin(Interp.exp5In));
+        Fill.circle(e.x + Tmp.v1.x, e.y + Tmp.v1.y, e.fin(Interp.exp5In) * 13f);
     }),
     meteorpost = new Effect(40f, e -> {
         /*

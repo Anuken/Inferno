@@ -1,8 +1,3 @@
-#ifdef GL_ES
-precision mediump float;
-precision mediump int;
-#endif
-
 #define steprad 0.13
 
 uniform sampler2D u_texture;

@@ -5,10 +5,10 @@ import arc.input.InputDevice.DeviceType;
 import arc.input.KeyCode;
 
 public enum Binding implements KeyBind{
-    move_x(new Axis(KeyCode.A, KeyCode.D)),
-    move_y(new Axis(KeyCode.S, KeyCode.W)),
-    shoot(KeyCode.MOUSE_LEFT),
-    alt(KeyCode.MOUSE_RIGHT);
+    move_x(new Axis(KeyCode.a, KeyCode.d)),
+    move_y(new Axis(KeyCode.s, KeyCode.w)),
+    shoot(KeyCode.mouseLeft),
+    alt(KeyCode.mouseRight);
 
     private final KeybindValue code;
 

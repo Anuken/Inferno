@@ -1,13 +1,12 @@
 package inferno.graphics;
 
-import arc.struct.Array;
-import arc.graphics.Texture;
-import arc.graphics.g2d.SpriteBatch;
-import arc.graphics.g2d.TextureRegion;
-import arc.util.pooling.Pools;
+import arc.graphics.*;
+import arc.graphics.g2d.*;
+import arc.struct.*;
+import arc.util.pooling.*;
 
 public class LayerBatch extends SpriteBatch{
-    private Array<DrawRequest> requests = new Array<>();
+    private Seq<DrawRequest> requests = new Seq<>();
     private boolean sort;
     private boolean flushing;
 
