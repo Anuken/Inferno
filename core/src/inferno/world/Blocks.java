@@ -23,15 +23,15 @@ public class Blocks{
                 TextureRegion region = regions[0];
 
                 Drawf.z(y * tilesize);
-                Draw.rect(region, x * tilesize, y * tilesize + region.getHeight() / 2f - 1,
-                    region.getWidth() * Mathf.sign(Mathf.randomSeed(y * world.width() +x) - 0.5f), region.getHeight());
+                Draw.rect(region, x * tilesize, y * tilesize + region.height / 2f - 1,
+                    region.width * Mathf.sign(Mathf.randomSeed(y * world.width() +x) - 0.5f), region.height);
 
                 float offset = 14f;
 
-                Drawf.light(x * tilesize, y * tilesize + offset, 50f + Mathf.absin(Time.time(), 10f, 10f),
+                Drawf.light(x * tilesize, y * tilesize + offset, 50f + Mathf.absin(Time.time, 10f, 10f),
                         Color.orange, 0.7f);
 
-                float rad = 1.8f + Mathf.absin(Time.time(), 5f, 1.1f);
+                float rad = 1.8f + Mathf.absin(Time.time, 5f, 1.1f);
 
                 Draw.color(Color.orange);
                 Fill.circle(x * tilesize, y * tilesize + offset, rad);
@@ -53,7 +53,7 @@ public class Blocks{
             public void draw(int x, int y){
                 TextureRegion region = regions[0];
 
-                Draw.rect(region, x * tilesize + tilesize/2f, y * tilesize - tilesize / 2f + region.getHeight() / 2f);
+                Draw.rect(region, x * tilesize + tilesize/2f, y * tilesize - tilesize / 2f + region.height / 2f);
 
             }
         },
@@ -69,9 +69,9 @@ public class Blocks{
 
                 Drawf.z(y*tilesize + tilesize);
 
-                Draw.rect(region, x * tilesize , y * tilesize - tilesize / 2f + region.getHeight() / 2f);
-                Drawf.light(x * tilesize, y * tilesize + tilesize/2f, 60f + Mathf.absin(Time.time(), 5f, 7f), Color.orange, 0.7f);
-                if(!control.isPaused() && Mathf.chance(0.13 * Time.delta())){
+                Draw.rect(region, x * tilesize , y * tilesize - tilesize / 2f + region.height / 2f);
+                Drawf.light(x * tilesize, y * tilesize + tilesize/2f, 60f + Mathf.absin(Time.time, 5f, 7f), Color.orange, 0.7f);
+                if(!control.isPaused() && Mathf.chance(0.13 * Time.delta)){
                     Fx.fire.at(x * tilesize + Mathf.range(tilesize), y * tilesize + Mathf.range(tilesize) + tilesize/2f);
                 }
             }
@@ -91,7 +91,7 @@ public class Blocks{
             @Override
             public void draw(int x, int y){
 
-                if(!control.isPaused() && Mathf.chance(0.03 * Time.delta())){
+                if(!control.isPaused() && Mathf.chance(0.03 * Time.delta)){
                     Fx.fire.at(x * tilesize + Mathf.range(tilesize), y * tilesize + Mathf.range(tilesize));
                 }
             }
@@ -103,7 +103,7 @@ public class Blocks{
             public void draw(int x, int y){
                 TextureRegion region = regions[rand(x, y, regions.length - 1)];
                 Drawf.z(y*tilesize + tilesize);
-                Draw.rect(region, x * tilesize , y * tilesize - tilesize / 2f + region.getHeight() / 2f);
+                Draw.rect(region, x * tilesize , y * tilesize - tilesize / 2f + region.height / 2f);
             }
         },
 

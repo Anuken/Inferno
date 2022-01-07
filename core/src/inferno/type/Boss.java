@@ -91,7 +91,7 @@ public class Boss extends Char{
             dialogged = true;
         }
 
-        hitTime -= 1f/hitdur*Time.delta();
+        hitTime -= 1f/hitdur*Time.delta;
         if(!midSpeech){
             phase.update();
             renderer.ambient.lerp(phase.ambient, 0.1f);
@@ -99,7 +99,7 @@ public class Boss extends Char{
         direction = player.x < x ? Direction.left : Direction.right;
 
         if(anim != null){
-            animtime += Time.delta() / animdur;
+            animtime += Time.delta / animdur;
 
             if(animtime >= 1f){
                 anim = null;
@@ -121,7 +121,7 @@ public class Boss extends Char{
 
             Draw.mixcol(Color.white, Mathf.clamp(hitTime));
             TextureRegion region = anim == null ? Core.atlas.find("lucine-side") : anim.frame(animtime);
-            Draw.rect(region, x, y + region.getHeight() / 2f + Mathf.absin(Time.time(), 6f, 2f), region.getWidth() * -Mathf.sign(direction.flipped), region.getHeight());
+            Draw.rect(region, x, y + region.height / 2f + Mathf.absin(Time.time, 6f, 2f), region.width * -Mathf.sign(direction.flipped), region.height);
 
             Drawf.light(x, y + height(), 160f, Color.scarlet);
 
@@ -130,7 +130,7 @@ public class Boss extends Char{
             Draw.color(Pal.lucine, Color.white, Mathf.clamp(hitTime));
             Drawf.z(y + 600f);
             Lines.stroke(2f);
-            //Lines.swirl(x, y, 20f, health / maxHealth(), Time.time() * 2f);
+            //Lines.swirl(x, y, 20f, health / maxHealth(), Time.time * 2f);
             Draw.reset();
         }
     }
@@ -144,9 +144,9 @@ public class Boss extends Char{
         Drawf.z(y - 1f);
         TextureRegion r = Core.atlas.find("statue-enraged");
         Draw.mixcol(Color.white, hitTime /2f);
-        Draw.rect(r, x, y + r.getHeight()/2f);
+        Draw.rect(r, x, y + r.height/2f);
         Draw.reset();
-        Drawf.light(x, y + r.getHeight()/2f, 150f + Mathf.absin(Time.time(), 6f, 10f), Color.red, 0.9f);
+        Drawf.light(x, y + r.height/2f, 150f + Mathf.absin(Time.time, 6f, 10f), Color.red, 0.9f);
     }
 
     @Override

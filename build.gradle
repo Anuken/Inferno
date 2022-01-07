@@ -3,15 +3,17 @@ buildscript{
         mavenLocal()
         mavenCentral()
         google()
-        maven{ url "https://dl.bintray.com/konsoletyper/teavm"}
         maven{ url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven{ url "https://jitpack.io" }
-        jcenter()
+    }
+
+    ext{
+        arcHash = "3bd873b8b7"
     }
 
     dependencies{
-        classpath "com.badlogicgames.gdx:gdx-tools:1.9.10"
-        classpath 'com.github.Anuken:teavm-gradle-plugin:756b055ea3e8f9ee9c1878e6277a01f11d61d90a'
+        classpath "com.github.Anuken.Arc:packer:$arcHash"
+        classpath "com.github.Anuken.Arc:arc-core:$arcHash"
     }
 }
 
@@ -20,7 +22,6 @@ allprojects{
 
     ext{
         appName = "Inferno"
-        gdxVersion = '1.9.10'
         
         arcModule = { String name -> return project(":Arc:$name") }
     }
@@ -29,7 +30,6 @@ allprojects{
         mavenLocal()
         mavenCentral()
         google()
-        jcenter()
         maven{ url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven{ url "https://oss.sonatype.org/content/repositories/releases/" }
         maven{ url 'https://jitpack.io' }
@@ -37,15 +37,18 @@ allprojects{
 }
 
 project(":core"){
-    apply plugin: "java"
+    apply plugin: "java-library"
 
     dependencies{
-        compile arcModule("arc-core")
-        compile arcModule("extensions:fx")
-        compile arcModule("extensions:recorder")
-        compile arcModule("extensions:typelabel")
+        api arcModule("arc-core")
+        api arcModule("extensions:fx")
+        api arcModule("extensions:recorder")
+        api arcModule("extensions:flabel")
+        api arcModule("extensions:tiled")
     }
 }
+
+/*
 
 project(":teavm"){
     apply plugin: "java"
@@ -55,19 +58,18 @@ project(":teavm"){
     }
 
     dependencies{
-        compile project(":core")
-        compile arcModule("arc-core")
-        compile arcModule("backends:backend-teavm")
+        implementation project(":core")
+        implementation arcModule("arc-core")
+        implementation arcModule("backends:backend-teavm")
     }
-}
+}*/
 
 project(":desktop"){
     apply plugin: "java"
 
     dependencies{
-        compile project(":core")
-		compile arcModule("backends:backend-sdl")
-        compile arcModule("natives:natives-desktop")
-		compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+        implementation project(":core")
+        implementation arcModule("backends:backend-sdl")
+        implementation arcModule("natives:natives-desktop")
     }
 }

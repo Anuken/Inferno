@@ -2,14 +2,15 @@ package inferno.graphics;
 
 import arc.Core;
 import arc.graphics.Color;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.TextureRegion;
+import arc.graphics.g2d.*;
 import arc.math.Angles;
 import arc.math.Mathf;
+import arc.math.geom.*;
 
 import static inferno.Inferno.renderer;
 
 public class Drawf{
+    static Vec2 vector = new Vec2();
     static TextureRegion[] symbols;
 
     public static void symbols(int seed, float x, float y, float radius){
@@ -64,5 +65,41 @@ public class Drawf{
 
     public static void sort(boolean sort){
         renderer.zbatch.sort(sort);
+    }
+
+    public static void lineAngle(float x, float y, float angle, float length, CapStyle style){
+        vector.set(1, 1).setLength(length).setAngle(angle);
+
+        line(x, y, x + vector.x, y + vector.y, style);
+    }
+
+    public static void line(float x, float y, float x2, float y2, CapStyle cap){
+        line(x, y, x2, y2, cap, 0f);
+    }
+
+    public static void line(float x, float y, float x2, float y2, CapStyle cap, float padding){
+        line(Core.atlas.white(), x, y, x2, y2, cap, padding);
+    }
+
+    public static void line(TextureRegion region, float x, float y, float x2, float y2, CapStyle cap, float padding){
+        float stroke = Lines.getStroke();
+        boolean precise = false;
+        float length = Mathf.dst(x, y, x2, y2) + (cap == CapStyle.none || cap == CapStyle.round ? padding * 2f : stroke + padding * 2);
+        float angle = (precise ? (float)Math.atan2(y2 - y, x2 - x) : Mathf.atan2(x2 - x, y2 - y)) * Mathf.radDeg;
+
+        if(cap == CapStyle.square){
+            Draw.rect(region, x - stroke / 2 - padding + length/2f, y, length, stroke, stroke / 2 + padding, stroke / 2, angle);
+        }else if(cap == CapStyle.none){
+            Draw.rect(region, x - padding + length/2f, y, length, stroke, padding, stroke / 2, angle);
+        }else if(cap == CapStyle.round){ //TODO remove or fix
+            TextureRegion cir = Core.atlas.has("hcircle") ? Core.atlas.find("hcircle") : Core.atlas.find("circle");
+            Draw.rect(region, x - padding + length/2f, y, length, stroke, padding, stroke / 2, angle);
+            Draw.rect(cir, x, y, stroke, stroke, angle + 180f);
+            Draw.rect(cir, x2, y2, stroke, stroke, angle);
+        }
+    }
+
+    public enum CapStyle{
+        none, round, square
     }
 }

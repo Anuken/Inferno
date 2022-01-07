@@ -1,16 +1,17 @@
 package inferno.type;
 
-import inferno.*;
-import inferno.entity.*;
-import inferno.graphics.*;
-import inferno.world.*;
 import arc.*;
-import arc.struct.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
+import arc.struct.*;
 import arc.util.*;
+import inferno.*;
+import inferno.entity.*;
+import inferno.graphics.*;
+import inferno.graphics.Drawf.*;
+import inferno.world.*;
 
 import static inferno.Inferno.*;
 
@@ -47,19 +48,19 @@ public class Player extends Char{
         Tmp.v1.set(Core.input.mouseWorld()).sub(x, y + 13f).limit(len);
         int dir = Mathf.sign(direction.flipped);
 
-        Draw.rect(region, x, y + 13, region.getWidth() * -dir, region.getHeight());
+        Draw.rect(region, x, y + 13, region.width * -dir, region.height);
         Drawf.z(y + Tmp.v1.y);
         int sdir = Mathf.sign(slashdir);
 
         float rot = angleOffset();
 
-        Draw.rect("scythe", x + Tmp.v1.x, y + 7 + scythe.getHeight()/2f + Tmp.v1.y, scythe.getWidth() * sdir, scythe.getHeight(), scythe.getWidth()/2f * sdir, 4f, rot);
+        Draw.rect("scythe", x + Tmp.v1.x, y + 7 + scythe.height/2f + Tmp.v1.y, scythe.width * sdir, scythe.height, scythe.width/2f * sdir, 4f, rot);
 
         if(slashtime > -slashreload/slashdur){
             float fract = (1f - Interp.pow10In.apply(-slashtime / (slashreload/slashdur)));
 
             Draw.alpha(fract);
-            Draw.rect("scytheglow", x + Tmp.v1.x, y + 7 + scythe.getHeight()/2f + Tmp.v1.y, scythe.getWidth() * sdir, scythe.getHeight(), scythe.getWidth()/2f * sdir, 4f, rot);
+            Draw.rect("scytheglow", x + Tmp.v1.x, y + 7 + scythe.height/2f + Tmp.v1.y, scythe.width * sdir, scythe.height, scythe.width/2f * sdir, 4f, rot);
             Draw.color();
 
             Drawf.light(x + Tmp.v1.x - dir*7f, y + 13 + Tmp.v1.y, 50f * glowtime, Color.white);
@@ -88,11 +89,11 @@ public class Player extends Char{
                     Vec3 next = slashes.get(i + 1);
 
                     Lines.stroke(thick);
-                    Lines.line(offsetx + cur.x, offsety + cur.y, offsetx + next.x, offsety + next.y, i == 0 ? CapStyle.round : CapStyle.none, 1f);
+                    Drawf.line(offsetx + cur.x, offsety + cur.y, offsetx + next.x, offsety + next.y, i == 0 ? CapStyle.round : CapStyle.none, 1f);
                 }
 
                 if(!control.isPaused()){
-                    cur.z += 1f/slashdur * Time.delta();
+                    cur.z += 1f/slashdur * Time.delta;
                 }
 
                 if(cur.z > 1f){
@@ -152,18 +153,18 @@ public class Player extends Char{
         //apply fire damage
         Tile tile = world.tileOpt((int)((x + tilesize/2f) / tilesize), (int)((y + tilesize/2f) / tilesize));
         if(tile.wall != null && tile.wall.damage > 0){
-            damage(tile.wall.damage * Time.delta());
-            if(Mathf.chance(0.5 * Time.delta())){
+            damage(tile.wall.damage * Time.delta);
+            if(Mathf.chance(0.5 * Time.delta)){
                 Fx.spark.at(player.x + Mathf.range(4f), player.y + height() + Mathf.range(5f), Pal.player);
             }
         }
 
         hitTime -= 1f/hitdur;
-        movement.set(Core.input.axis(Binding.move_x), Core.input.axis(Binding.move_y)).nor().scl(speed).scl(Time.delta());
+        movement.set(Core.input.axis(Binding.move_x), Core.input.axis(Binding.move_y)).nor().scl(speed).scl(Time.delta);
 
         if(!movement.isZero()){
             direction = Direction.fromAngle(movement.angle());
-            movetime += Time.delta();
+            movetime += Time.delta;
         }else{
             movetime = 0f;
         }
@@ -184,7 +185,7 @@ public class Player extends Char{
         }
 
         if(Core.input.keyDown(Binding.shoot) && !boss.midSpeech){
-            scytherot -= Time.delta() * rotspeed * 1.2f;
+            scytherot -= Time.delta * rotspeed * 1.2f;
 
             if(timer.get(reload) && slashtime <= -1f){
                 shoot(Bullets.basic, angle);
@@ -238,7 +239,7 @@ public class Player extends Char{
 
         if(slashtime > 0){
             float increment = 1f / slashdur * 0.01f;
-            float toMove = Time.delta() / slashdur;
+            float toMove = Time.delta / slashdur;
             for(float f = 0; f < toMove && slashtime > 0; f += increment){
                 addSlashPoint(toMove - f);
                 slashtime -= increment;
@@ -254,7 +255,7 @@ public class Player extends Char{
                 slashdir = !slashdir;
             }
         }else{
-            slashtime -= Time.delta() / slashdur;
+            slashtime -= Time.delta / slashdur;
         }
 
         direction = Direction.fromAngle(angle);
@@ -268,7 +269,7 @@ public class Player extends Char{
         float rotation = (0f + scytherot) * dir + (direction.flipped ? 180 : 0);
         float offsetx = 0;
 
-        Tmp.v2.trns(rotation, scythe.getHeight()/2f);
+        Tmp.v2.trns(rotation, scythe.height/2f);
 
         float fx = x + Tmp.v1.x - dir*7f + offsetx + Tmp.v2.x, fy = y + 13 + Tmp.v1.y + Tmp.v2.y;
         float angle = Angles.mouseAngle(fx, fy);

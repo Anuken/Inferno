@@ -55,7 +55,7 @@ public class Block{
 
         if(solid){
             TextureRegion region = regions[rand(x, y, variants) - 1];
-            Draw.rect(region, x * tilesize, y * tilesize - tilesize / 2f + region.getHeight() / 2f);
+            Draw.rect(region, x * tilesize, y * tilesize - tilesize / 2f + region.height / 2f);
 
             if(edge != null){
                 Drawf.z(y * tilesize - tilesize / 2f - 0.0001f);
@@ -69,7 +69,7 @@ public class Block{
             }
         }else{
             Drawf.z(y * tilesize);
-            Draw.rect(regions[0], x * tilesize, y * tilesize + regions[0].getHeight() / 2f);
+            Draw.rect(regions[0], x * tilesize, y * tilesize + regions[0].height / 2f);
         }
         Draw.color();
     }

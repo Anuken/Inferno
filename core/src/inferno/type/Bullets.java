@@ -1,18 +1,16 @@
 package inferno.type;
 
-import inferno.graphics.Drawf;
-import inferno.graphics.Pal;
-import inferno.world.Tile;
-import arc.graphics.Color;
+import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
-import arc.util.Time;
-import arc.util.Tmp;
+import arc.util.*;
+import inferno.graphics.*;
+import inferno.graphics.Drawf.*;
+import inferno.world.*;
 
+import static arc.math.Angles.*;
+import static arc.util.Time.*;
 import static inferno.Inferno.*;
-import static arc.math.Angles.circle;
-import static arc.math.Angles.loop;
-import static arc.util.Time.run;
 
 public class Bullets{
     public static final BulletType
@@ -103,11 +101,11 @@ public class Bullets{
         public void draw(Bullet bullet){
             Drawf.z(bullet.y - tilesize*4f);
 
-            float glow = Mathf.absin(Time.time(), 5f, 0.5f);
+            float glow = Mathf.absin(Time.time, 5f, 0.5f);
 
             Draw.color(Pal.fireball, Color.white, glow);
             Draw.alpha(0.3f);
-            Fill.circle(bullet.x, bullet.y, 10f + Mathf.absin(Time.time(), 6f, 4f));
+            Fill.circle(bullet.x, bullet.y, 10f + Mathf.absin(Time.time, 6f, 4f));
 
             Draw.color(Pal.fireball, Color.white, glow);
             Fill.circle(bullet.x, bullet.y, 7f);
@@ -118,11 +116,11 @@ public class Bullets{
 
         @Override
         public void update(Bullet bullet){
-            if(Mathf.chance(0.15 * Time.delta())){
+            if(Mathf.chance(0.15 * Time.delta)){
                 Fx.fireballtrail.at(bullet.x, bullet.y, Pal.fireball);
             }
 
-            if(Mathf.chance(0.02 * Time.delta())){
+            if(Mathf.chance(0.02 * Time.delta)){
                 float s = 0f;
                 float aimc = 0.2f;
                 bullet.shooter.shoot(breathsmall, bullet.x, bullet.y, Mathf.chance(aimc) ? bullet.angleTo(player) : bullet.angle() + 110f - s);
@@ -210,7 +208,7 @@ public class Bullets{
         public void update(Bullet bullet){
             super.update(bullet);
 
-            if(Mathf.chance(0.3 * Time.delta())){
+            if(Mathf.chance(0.3 * Time.delta)){
                 Fx.fireballtrail.at(bullet.x, bullet.y, Tmp.c1.set(Pal.fireball).lerp(Color.white, 0.1f + bullet.fin() * 0.6f));
             }
         }
@@ -239,11 +237,11 @@ public class Bullets{
         @Override
         public void draw(Bullet bullet){
             Drawf.z(bullet.y - tilesize*4f);
-            float glow = 0.1f + bullet.fin() * 0.6f;//Mathf.absin(Time.time(), 5f, 0.5f);
+            float glow = 0.1f + bullet.fin() * 0.6f;//Mathf.absin(Time.time, 5f, 0.5f);
 
             Draw.color(Pal.fireball, Color.white, glow);
             Draw.alpha(0.3f);
-            Fill.circle(bullet.x, bullet.y, 20f + Mathf.absin(Time.time(), 6f, 4f) + bullet.fin() * 4f);
+            Fill.circle(bullet.x, bullet.y, 20f + Mathf.absin(Time.time, 6f, 4f) + bullet.fin() * 4f);
 
             Draw.color(Pal.fireball, Color.white, glow);
             Fill.circle(bullet.x, bullet.y, 14f);
@@ -327,7 +325,7 @@ public class Bullets{
 
             Drawf.light(Color.white, 1f, () -> {
                 Lines.stroke(20f * f);
-                Lines.lineAngle(laser.x, laser.y, laser.angle, Laser.length, CapStyle.round);
+                Drawf.lineAngle(laser.x, laser.y, laser.angle, Laser.length, CapStyle.round);
             });
         }
 

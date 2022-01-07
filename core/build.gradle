@@ -5,10 +5,10 @@ sourceCompatibility = 1.8
 
 sourceSets.main.java.srcDirs = [ "src/" ]
 
-import com.badlogic.gdx.tools.texturepacker.TexturePacker
+import arc.packer.*
 
 task pack(){
 	doLast{
-		TexturePacker.process("core/assets-raw/sprites/", "core/assets/sprites/", "sprites.atlas")
+		TexturePacker.process("core/assets-raw/sprites/", "core/assets/sprites/", "sprites")
 	}
 }

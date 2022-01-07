@@ -58,7 +58,7 @@ public class EffectEntity extends Entity implements Poolable, ScaleTrait{
             return;
         }
 
-        time = Mathf.clamp(time + Time.delta(), 0, lifetime());
+        time = Mathf.clamp(time + Time.delta, 0, lifetime());
 
         if(time >= lifetime()){
             remove();

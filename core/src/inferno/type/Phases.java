@@ -202,7 +202,7 @@ public class Phases{
                 wave();
             });
 
-            boss.toward(player, 0.6f * Time.delta());
+            boss.toward(player, 0.6f * Time.delta);
         },
 
         //dash with basic shotgun
@@ -511,7 +511,7 @@ public class Phases{
             }
 
             currentAttack.run();
-            windup += Time.delta();
+            windup += Time.delta;
 
             if(windup >= 50f * 60f + healthi(70) & time.get(2, 40f)){
                 //circles
@@ -605,7 +605,7 @@ public class Phases{
                 int current = (special++) % cycle.size;
                 if(current == 0){
                     TextureRegion r = Core.atlas.find("statue-eyes");
-                    float x = 40.5f * tilesize, y = (world.height() - 10.5f) * tilesize + r.getHeight()/2f;
+                    float x = 40.5f * tilesize, y = (world.height() - 10.5f) * tilesize + r.height/2f;
                     //blast thing
                     Fx.lspiral.at(x, y);
                     Fx.blastind.at(x, y);
@@ -765,7 +765,7 @@ public class Phases{
             special = 0;
             currentAttack = null;
             time.clear();
-            Arrays.fill(time.getTimes(), Time.time());
+            Arrays.fill(time.getTimes(), Time.time);
         }
     }
 }

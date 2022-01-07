@@ -31,7 +31,7 @@ public class Laser extends Bullet implements ScaleTrait{
 
     @Override
     public void update(){
-        time = Mathf.clamp(time + Time.delta(), 0, type.lifetime);
+        time = Mathf.clamp(time + Time.delta, 0, type.lifetime);
 
         if(time >= lifetime){
             type.despawn(this);

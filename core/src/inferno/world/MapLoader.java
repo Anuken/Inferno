@@ -1,14 +1,14 @@
 package inferno.world;
 
 import arc.*;
-import arc.struct.*;
 import arc.files.*;
 import arc.graphics.g2d.TextureAtlas.*;
 import arc.maps.*;
 import arc.maps.loaders.*;
+import arc.maps.loaders.XmlReader.*;
+import arc.struct.*;
 import arc.util.*;
 import arc.util.serialization.*;
-import arc.util.serialization.XmlReader.*;
 
 public class MapLoader extends TmxMapLoader{
 
@@ -23,7 +23,7 @@ public class MapLoader extends TmxMapLoader{
     }
 
     @Override
-    protected TiledMap loadTilemap(Element root, Fi tmxFile, ImageResolver imageResolver){
+    protected TiledMap loadTilemap(Xml root, Fi tmxFile, ImageResolver imageResolver){
         TiledMap map = new TiledMap();
 
         String mapOrientation = root.getAttribute("orientation", null);
@@ -68,17 +68,17 @@ public class MapLoader extends TmxMapLoader{
             }
         }
 
-        Element properties = root.getChildByName("properties");
+        Xml properties = root.getChildByName("properties");
         if(properties != null){
             loadProperties(map.properties, properties);
         }
-        Seq<Element> tilesets = root.getChildrenByName("tileset");
-        for(Element element : tilesets){
+        Seq<Xml> tilesets = root.getChildrenByName("tileset");
+        for(Xml element : tilesets){
             loadTileSet(map, element, tmxFile, imageResolver);
             root.removeChild(element);
         }
         for(int i = 0, j = root.getChildCount(); i < j; i++){
-            Element element = root.getChild(i);
+            Xml element = root.getChild(i);
             String name = element.getName();
             if(name.equals("layer")){
                 loadTileLayer(map, map.layers, element);
@@ -90,7 +90,7 @@ public class MapLoader extends TmxMapLoader{
     }
 
     @Override
-    protected void loadTileSet(TiledMap map, Element element, Fi tmxFile, ImageResolver imageResolver){
+    protected void loadTileSet(TiledMap map, Xml element, Fi tmxFile, ImageResolver imageResolver){
         if(element.getName().equals("tileset")){
             String name = element.get("name", null);
             int firstgid = element.getIntAttribute("firstgid", 1);
@@ -116,12 +116,12 @@ public class MapLoader extends TmxMapLoader{
                     tileheight = element.getIntAttribute("tileheight", 0);
                     spacing = element.getIntAttribute("spacing", 0);
                     margin = element.getIntAttribute("margin", 0);
-                    Element offset = element.getChildByName("tileoffset");
+                    Xml offset = element.getChildByName("tileoffset");
                     if(offset != null){
                         offsetX = offset.getIntAttribute("x", 0);
                         offsetY = offset.getIntAttribute("y", 0);
                     }
-                    Element imageElement = element.getChildByName("image");
+                    Xml imageElement = element.getChildByName("image");
                     if(imageElement != null){
                         imageSource = imageElement.getAttribute("source");
                         imageWidth = imageElement.getIntAttribute("width", 0);
@@ -132,12 +132,12 @@ public class MapLoader extends TmxMapLoader{
                     throw new ArcRuntimeException("Error parsing external tileset.");
                 }
             }else{
-                Element offset = element.getChildByName("tileoffset");
+                Xml offset = element.getChildByName("tileoffset");
                 if(offset != null){
                     offsetX = offset.getIntAttribute("x", 0);
                     offsetY = offset.getIntAttribute("y", 0);
                 }
-                Element imageElement = element.getChildByName("image");
+                Xml imageElement = element.getChildByName("image");
                 if(imageElement != null){
                     imageSource = imageElement.getAttribute("source");
                     imageWidth = imageElement.getIntAttribute("width", 0);
@@ -150,9 +150,9 @@ public class MapLoader extends TmxMapLoader{
             tileset.name = name;
             tileset.getProperties().put("firstgid", firstgid);
 
-            Seq<Element> tileElements = element.getChildrenByName("tile");
-            for(Element tileElement : tileElements){
-                Element imageElement = tileElement.getChildByName("image");
+            Seq<Xml> tileElements = element.getChildrenByName("tile");
+            for(Xml tileElement : tileElements){
+                Xml imageElement = tileElement.getChildByName("image");
                 if(imageElement != null){
                     imageSource = imageElement.getAttribute("source");
                     imageWidth = imageElement.getIntAttribute("width", 0);
@@ -177,14 +177,14 @@ public class MapLoader extends TmxMapLoader{
                 tileset.put(tile.id, tile);
             }
 
-            for(Element tileElement : tileElements){
+            for(Xml tileElement : tileElements){
                 int localtid = tileElement.getIntAttribute("id", 0);
                 MapTile tile = tileset.get(firstgid + localtid);
                 if(tile != null){
-                    Element objectgroupElement = tileElement.getChildByName("objectgroup");
+                    Xml objectgroupElement = tileElement.getChildByName("objectgroup");
                     if(objectgroupElement != null){
 
-                        for(Element objectElement : objectgroupElement.getChildrenByName("object")){
+                        for(Xml objectElement : objectgroupElement.getChildrenByName("object")){
                             loadObject(map, tile, objectElement);
                         }
                     }
@@ -197,14 +197,14 @@ public class MapLoader extends TmxMapLoader{
                     if(probability != null){
                         tile.getProperties().put("probability", probability);
                     }
-                    Element properties = tileElement.getChildByName("properties");
+                    Xml properties = tileElement.getChildByName("properties");
                     if(properties != null){
                         loadProperties(tile.getProperties(), properties);
                     }
                 }
             }
 
-            Element properties = element.getChildByName("properties");
+            Xml properties = element.getChildByName("properties");
             if(properties != null){
                 loadProperties(tileset.getProperties(), properties);
             }

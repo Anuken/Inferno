@@ -7,7 +7,7 @@ import arc.scene.style.*;
 import arc.scene.ui.Label.*;
 
 public class Styles{
-    public static BitmapFont font = new BitmapFont(Core.files.internal("sprites/default.fnt"));
+    public static Font font = new Font(Core.files.internal("sprites/default.fnt"));
     public static Drawable dim = ((TextureRegionDrawable)Core.atlas.drawable("white")).tint(0f, 0f, 0f, 0.45f);
 
     public static void load(){

@@ -45,15 +45,15 @@ public class Renderer implements ApplicationListener{
     private Bloom bloom;
 
     public Renderer(){
-        Core.atlas = new TextureAtlas(Core.files.internal("sprites/sprites.atlas"));
+        Core.atlas = new TextureAtlas(Core.files.internal("sprites/sprites.aatls"));
         Core.batch = zbatch = new LayerBatch();
         Core.camera = new Camera();
         fx = new FxProcessor(graphics.getWidth()/scale, graphics.getHeight()/scale);
-        fx.setBufferTextureParams(TextureWrap.ClampToEdge, TextureWrap.ClampToEdge, TextureFilter.Nearest, TextureFilter.Nearest);
+        fx.setBufferTextureParams(TextureWrap.clampToEdge, TextureWrap.clampToEdge, TextureFilter.nearest, TextureFilter.nearest);
 
         lbatch = new QueueBatch();
 
-        buffer.getTexture().setFilter(TextureFilter.Nearest);
+        buffer.getTexture().setFilter(TextureFilter.nearest);
         bloom = new Bloom();
 
         fx.setBlendingEnabled(true);
@@ -188,8 +188,8 @@ public class Renderer implements ApplicationListener{
         if(shaketime > 0){
             float intensity = shakeIntensity * (settings.getInt("screenshake", 4) / 4f) * scale;
             camera.position.add(Mathf.range(intensity), Mathf.range(intensity));
-            shakeIntensity -= 0.25f * Time.delta();
-            shaketime -= Time.delta();
+            shakeIntensity -= 0.25f * Time.delta;
+            shaketime -= Time.delta;
             shakeIntensity = Mathf.clamp(shakeIntensity, 0f, 100f);
         }else{
             shakeIntensity = 0f;
@@ -295,7 +295,7 @@ public class Renderer implements ApplicationListener{
 
         for(MapObject object : world.getObjects()){
             TextureMapObject tex = (TextureMapObject)object;
-            Draw.rect(tex.textureRegion, tex.x + tex.textureRegion.getWidth()/2f, tex.y + tex.textureRegion.getHeight()/2f);
+            Draw.rect(tex.textureRegion, tex.x + tex.textureRegion.width/2f, tex.y + tex.textureRegion.height/2f);
         }
 
         batch.endCache();
@@ -320,8 +320,8 @@ public class Renderer implements ApplicationListener{
 
             for(MapObject object : world.getObjects()){
                 TextureMapObject tex = (TextureMapObject)object;
-                float w = tex.textureRegion.getWidth()/2f - 4f;
-                if(Tmp.v1.dst2(tex.x + tex.textureRegion.getWidth()/2f - x, tex.y + tex.textureRegion.getHeight()/2f - y) < w*w){
+                float w = tex.textureRegion.width/2f - 4f;
+                if(Tmp.v1.dst2(tex.x + tex.textureRegion.width/2f - x, tex.y + tex.textureRegion.height/2f - y) < w*w){
                     continue outer;
                 }
             }

@@ -1,5 +1,6 @@
 package inferno;
 
+import arc.flabel.*;
 import inferno.entity.*;
 import inferno.graphics.*;
 import inferno.ui.*;
@@ -9,14 +10,13 @@ import arc.graphics.*;
 import arc.input.*;
 import arc.scene.*;
 import arc.scene.ui.*;
-import arc.tlabel.*;
 import arc.util.*;
 
 import static inferno.Inferno.*;
 import static inferno.ui.Styles.dim;
 
 public class UI implements ApplicationListener{
-    private TypeLabel label;
+    private FLabel label;
     private Image image;
 
     private Seq<String> text = new Seq<>();
@@ -30,8 +30,8 @@ public class UI implements ApplicationListener{
         Core.input.addProcessor(Core.scene);
         Styles.load();
         image = new Image(dim);
-        label = new TypeLabel("");
-        label.setTypingListener(new TypingListener(){
+        label = new FLabel("");
+        label.setTypingListener(new FListener(){
             @Override
             public void event(String event){
                 if(event.startsWith("face:")){
@@ -57,7 +57,7 @@ public class UI implements ApplicationListener{
         if(label.getText().length() > 0){
             dialogueTime = 1f;
         }else{
-            dialogueTime -= Time.delta() / 30f;
+            dialogueTime -= Time.delta / 30f;
         }
 
         Core.scene.act();

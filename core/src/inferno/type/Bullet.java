@@ -53,7 +53,7 @@ public class Bullet extends SolidEntity implements ScaleTrait{
 
     @Override
     public void update(){
-        time = Mathf.clamp(time + Time.delta(), 0, type.lifetime);
+        time = Mathf.clamp(time + Time.delta, 0, type.lifetime);
 
         if(time >= lifetime){
             type.despawn(this);
@@ -61,11 +61,11 @@ public class Bullet extends SolidEntity implements ScaleTrait{
         }
 
         Vec2 v = mover.move(time);
-        v.rotate(velocity.angle()).scl(Time.delta());
+        v.rotate(velocity.angle()).scl(Time.delta);
         velocity.add(v).limit(type.speed);
 
-        x += (velocity.x) * Time.delta();
-        y += (velocity.y ) * Time.delta();
+        x += (velocity.x) * Time.delta;
+        y += (velocity.y ) * Time.delta;
 
         type.update(this);
 

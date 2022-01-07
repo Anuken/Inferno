@@ -25,7 +25,7 @@ public class Fx{
     ldash = new Effect(30f, e -> {
         TextureRegion region = Core.atlas.find("lucine-sprint");
         Draw.alpha(e.fout());
-        Draw.rect(region, e.x, e.y + region.getHeight()/2f + 1f, region.getWidth() * e.rotation, region.getHeight());
+        Draw.rect(region, e.x, e.y + region.height/2f + 1f, region.width * e.rotation, region.height);
     }),
     fireballtrail = new Effect(70, e -> {
         Drawf.z(e.y + 1f);
@@ -171,7 +171,7 @@ public class Fx{
         Direction dir = (Direction)e.data;
         TextureRegion region = Core.atlas.find("lucine-" + dir.name);
         Draw.alpha(e.fout() * 1f);
-        Draw.rect(region, e.x, e.y + region.getHeight()/2f, region.getWidth() * (dir.flipped ? -1 : 1), region.getHeight());
+        Draw.rect(region, e.x, e.y + region.height/2f, region.width * (dir.flipped ? -1 : 1), region.height);
     }),
     meteorpre = new Effect(60f, e -> {
         Drawf.z(100000f);
@@ -236,9 +236,9 @@ public class Fx{
 
         Drawf.z(-10f);
         TextureRegion r = Core.atlas.find("statue-eyes");
-        float x = 40.5f * tilesize, y = (world.height() - 10.5f) * tilesize + r.getHeight()/2f;
+        float x = 40.5f * tilesize, y = (world.height() - 10.5f) * tilesize + r.height/2f;
         Draw.alpha(e.fin()/2f*1.2f);
-        Draw.rect(r, x, y, r.getWidth() * (1.2f + e.fin()), r.getHeight() * (1.2f + e.fin()));
+        Draw.rect(r, x, y, r.width * (1.2f + e.fin()), r.height * (1.2f + e.fin()));
         Draw.alpha(e.fin()*1.2f);
         Draw.rect(r, x, y);
     }),
