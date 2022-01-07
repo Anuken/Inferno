@@ -1,4 +1,4 @@
-include 'core', 'desktop'//, 'teavm'
+include 'core', 'desktop'
 
 def use = { String name ->
     include(name)
@@ -14,6 +14,5 @@ use(':Arc:extensions:flabel')
 use(':Arc:extensions:tiled')
 use(':Arc:backends')
 use(':Arc:backends:backend-sdl')
-//use(':Arc:backends:backend-teavm')
 use(':Arc:natives')
 use(':Arc:natives:natives-desktop')

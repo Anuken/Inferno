@@ -48,22 +48,6 @@ project(":core"){
     }
 }
 
-/*
-
-project(":teavm"){
-    apply plugin: "java"
-
-    repositories{
-        maven{ url "https://dl.bintray.com/konsoletyper/teavm"}
-    }
-
-    dependencies{
-        implementation project(":core")
-        implementation arcModule("arc-core")
-        implementation arcModule("backends:backend-teavm")
-    }
-}*/
-
 project(":desktop"){
     apply plugin: "java"
 
